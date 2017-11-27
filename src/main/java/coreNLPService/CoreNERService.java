@@ -6,6 +6,7 @@ import edu.stanford.nlp.pipeline.StanfordCoreNLP;
 import edu.stanford.nlp.util.CoreMap;
 import org.json.simple.JSONObject;
 import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,8 +17,9 @@ import java.util.Properties;
 
 
 @Path("/ner")
+@Consumes(MediaType.APPLICATION_JSON)
 public class CoreNERService {
- 
+
 	@GET
 	@Path("/{param}")
 	public Response getMsg(@PathParam("param") String msg) {
@@ -33,7 +35,7 @@ public class CoreNERService {
 
 	}
 
-	@POST @Consumes("application/json")
+	@POST @Consumes(MediaType.APPLICATION_JSON)
 	@Path("/recognize")
 	public Response recognize(MessageDTO input) {
 
