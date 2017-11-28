@@ -1,5 +1,6 @@
-package de.tum.in.icm;
+package de.tum.in.icm.services;
 
+import de.tum.in.icm.dtos.MessageDTO;
 import edu.stanford.nlp.ling.CoreAnnotations;
 import edu.stanford.nlp.ling.CoreLabel;
 import edu.stanford.nlp.pipeline.Annotation;

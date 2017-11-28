@@ -1,6 +1,8 @@
 package de.tum.in.icm;
 
 
+import de.tum.in.icm.dtos.MessageDTO;
+import de.tum.in.icm.services.CoreNERService;
 import org.junit.Test;
 
 public class ServiceTest {
