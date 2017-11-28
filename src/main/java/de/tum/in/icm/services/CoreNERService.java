@@ -62,13 +62,11 @@ public class CoreNERService {
         List<CoreMap> sentences = document.get(CoreAnnotations.SentencesAnnotation.class);
 
         List result = new ArrayList<JSONObject>();
-
         for (CoreMap sentence : sentences) {
             JSONObject newSentence = new JSONObject();
             newSentence.put("value", sentence);
 
             List words = new ArrayList<JSONObject>();
-
             // traversing the words in the current sentence
             // a CoreLabel is a CoreMap with additional token-specific methods
             for (CoreLabel token : sentence.get(CoreAnnotations.TokensAnnotation.class)) {
@@ -81,7 +79,6 @@ public class CoreNERService {
                 String ne = token.get(CoreAnnotations.NamedEntityTagAnnotation.class);
 
                 int CharacterOffsetBegin = token.get(CoreAnnotations.CharacterOffsetBeginAnnotation.class);
-
                 int CharacterOffsetEnd = token.get(CoreAnnotations.CharacterOffsetEndAnnotation.class);
 
                 newWord.put("value", word);
@@ -94,14 +91,9 @@ public class CoreNERService {
 //                System.out.println("word: " + word + " pos: " + pos + " ne:" + ne +
 //                        "offset Begin:" +  CharacterOffsetBegin + "offsetEnd:" + CharacterOffsetEnd);
             }
-
             newSentence.put("words", words);
             result.add(newSentence);
         }
         return (ArrayList<JSONObject>) result;
-    }
-
-    private void initializeAnnotators() {
-
     }
 }
