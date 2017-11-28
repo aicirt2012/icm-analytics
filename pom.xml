@@ -39,10 +39,6 @@
 			<groupId>org.glassfish.jersey.containers</groupId>
 			<artifactId>jersey-container-servlet</artifactId>
 		</dependency>
-		<!--<dependency>-->
-			<!--<groupId>org.glassfish.jersey.core</groupId>-->
-			<!--<artifactId>jersey-server</artifactId>-->
-		<!--</dependency>-->
 		<dependency>
 			<groupId>org.glassfish.jersey.containers</groupId>
 			<artifactId>jersey-container-grizzly2-http</artifactId>
@@ -51,25 +47,17 @@
 			<groupId>org.glassfish.jersey.inject</groupId>
 			<artifactId>jersey-hk2</artifactId>
 		</dependency>
-		<!--<dependency>-->
-			<!--<groupId>org.glassfish.jersey.core</groupId>-->
-			<!--<artifactId>jersey-client</artifactId>-->
-		<!--</dependency>-->
+		<dependency>
+			<groupId>org.glassfish.jersey.media</groupId>
+			<artifactId>jersey-media-json-jackson</artifactId>
+		</dependency>
 
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.8.2</version>
-			<scope>test</scope>
+			<!--<scope>test</scope> FIXME move test classes and re-enable scope -->
 		</dependency>
-		<dependency>
-			<!-- TODO remove one of the junit dependencies -->
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.12</version>
-		</dependency>
-
-
 
 		<dependency>
 			<groupId>edu.stanford.nlp</groupId>
