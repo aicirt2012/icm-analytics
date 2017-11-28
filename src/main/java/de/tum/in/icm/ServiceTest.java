@@ -1,4 +1,4 @@
-package coreNLPService;
+package de.tum.in.icm;
 
 
 import org.junit.Test;

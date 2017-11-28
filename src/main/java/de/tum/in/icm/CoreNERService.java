@@ -1,4 +1,4 @@
-package coreNLPService;
+package de.tum.in.icm;
 
 import edu.stanford.nlp.ling.CoreAnnotations;
 import edu.stanford.nlp.ling.CoreLabel;
