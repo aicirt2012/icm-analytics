@@ -19,6 +19,15 @@ import java.util.Properties;
 @Consumes(MediaType.APPLICATION_JSON)
 public class CoreNERService {
 
+    private static StanfordCoreNLP pipeline;
+
+    static {
+        // creates a StanfordCoreNLP object, with POS tagging, lemmatization, NER, parsing, and coreference resolution
+        Properties props = new Properties();
+        props.put("annotators", "tokenize,ssplit, pos,lemma,ner");
+        pipeline = new StanfordCoreNLP(props);
+    }
+
     @GET
     @Path("/{param}")
     public Response getMsg(@PathParam("param") String msg) {
@@ -27,25 +36,20 @@ public class CoreNERService {
             output += item.toJSONString();
         }
         return Response.status(200).entity(output).build();
-//        return Response.status(200).entity(output).build();
-
     }
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/recognize")
     public Response recognize(MessageDTO input) {
-        return Response.status(200).entity("OK").build();
+        StringBuilder inputString = new StringBuilder();
+        for (String line : input.lines) {
+            inputString.append(line);
+        }
+        return getMsg(inputString.toString());
     }
 
     public List<JSONObject> Recognize(String input) {
-        // creates a StanfordCoreNLP object, with POS tagging, lemmatization, NER, parsing, and coreference resolution
-        Properties props = new Properties();
-
-        props.put("annotators", "tokenize,ssplit, pos,lemma,ner");
-
-        StanfordCoreNLP pipeline = new StanfordCoreNLP(props);
-
         // create an empty Annotation just with the given text
         Annotation document = new Annotation(input);
 
