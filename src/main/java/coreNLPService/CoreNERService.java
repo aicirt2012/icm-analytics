@@ -1,56 +1,48 @@
 package coreNLPService;
+
 import edu.stanford.nlp.ling.CoreAnnotations;
 import edu.stanford.nlp.ling.CoreLabel;
 import edu.stanford.nlp.pipeline.Annotation;
 import edu.stanford.nlp.pipeline.StanfordCoreNLP;
 import edu.stanford.nlp.util.CoreMap;
 import org.json.simple.JSONObject;
+
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.List;
-
 import java.util.Properties;
-
-
 
 
 @Path("/ner")
 @Consumes(MediaType.APPLICATION_JSON)
 public class CoreNERService {
 
-	@GET
-	@Path("/{param}")
-	public Response getMsg(@PathParam("param") String msg) {
-
-
-		String output ="";
-        for (JSONObject item:Recognize(msg))
-        {
+    @GET
+    @Path("/{param}")
+    public Response getMsg(@PathParam("param") String msg) {
+        String output = "";
+        for (JSONObject item : Recognize(msg)) {
             output += item.toJSONString();
         }
         return Response.status(200).entity(output).build();
 //        return Response.status(200).entity(output).build();
 
-	}
+    }
 
-	@POST @Consumes(MediaType.APPLICATION_JSON)
-	@Path("/recognize")
-	public Response recognize(MessageDTO input) {
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("/recognize")
+    public Response recognize(MessageDTO input) {
+        return Response.status(200).entity("OK").build();
+    }
 
-
-	    return Response.status(200).entity("OK").build();
-
-	}
-
-
-    public  List<JSONObject> Recognize(String input)
-    {
+    public List<JSONObject> Recognize(String input) {
         // creates a StanfordCoreNLP object, with POS tagging, lemmatization, NER, parsing, and coreference resolution
         Properties props = new Properties();
 
-        props.put("annotators","tokenize,ssplit, pos,lemma,ner");
+        props.put("annotators", "tokenize,ssplit, pos,lemma,ner");
 
         StanfordCoreNLP pipeline = new StanfordCoreNLP(props);
 
@@ -66,15 +58,15 @@ public class CoreNERService {
 
         List result = new ArrayList<JSONObject>();
 
-        for(CoreMap sentence: sentences) {
+        for (CoreMap sentence : sentences) {
             JSONObject newSentence = new JSONObject();
-            newSentence.put("value",sentence);
+            newSentence.put("value", sentence);
 
             List words = new ArrayList<JSONObject>();
 
             // traversing the words in the current sentence
             // a CoreLabel is a CoreMap with additional token-specific methods
-            for (CoreLabel token: sentence.get(CoreAnnotations.TokensAnnotation.class)) {
+            for (CoreLabel token : sentence.get(CoreAnnotations.TokensAnnotation.class)) {
                 JSONObject newWord = new JSONObject();
                 // this is the text of the token
                 String word = token.get(CoreAnnotations.TextAnnotation.class);
@@ -83,37 +75,28 @@ public class CoreNERService {
                 // this is the NER label of the token
                 String ne = token.get(CoreAnnotations.NamedEntityTagAnnotation.class);
 
-                int CharacterOffsetBegin   = token.get(CoreAnnotations.CharacterOffsetBeginAnnotation.class);
+                int CharacterOffsetBegin = token.get(CoreAnnotations.CharacterOffsetBeginAnnotation.class);
 
-                int CharacterOffsetEnd   = token.get(CoreAnnotations.CharacterOffsetEndAnnotation.class);
+                int CharacterOffsetEnd = token.get(CoreAnnotations.CharacterOffsetEndAnnotation.class);
 
-
-                newWord.put("value",word);
-                newWord.put("POS",pos);
-                newWord.put("NE",ne);
-                newWord.put("CharacterOffsetBeginAnnotation",CharacterOffsetBegin);
-                newWord.put("CharacterOffsetEndAnnotation",CharacterOffsetEnd);
+                newWord.put("value", word);
+                newWord.put("POS", pos);
+                newWord.put("NE", ne);
+                newWord.put("CharacterOffsetBeginAnnotation", CharacterOffsetBegin);
+                newWord.put("CharacterOffsetEndAnnotation", CharacterOffsetEnd);
                 words.add(newWord);
 
-
-
-//
 //                System.out.println("word: " + word + " pos: " + pos + " ne:" + ne +
 //                        "offset Begin:" +  CharacterOffsetBegin + "offsetEnd:" + CharacterOffsetEnd);
             }
 
-            newSentence.put("words",words);
+            newSentence.put("words", words);
             result.add(newSentence);
-
-
-
         }
-        return (ArrayList<JSONObject>) result ;
-
+        return (ArrayList<JSONObject>) result;
     }
 
-    private void initializeAnnotators()
-    {
+    private void initializeAnnotators() {
 
     }
 }
