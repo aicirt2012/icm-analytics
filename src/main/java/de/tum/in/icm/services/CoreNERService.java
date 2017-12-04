@@ -34,8 +34,7 @@ public class CoreNERService {
     @GET
     @Path("/{param}")
     public Response getMsg(@PathParam("param") String msg) {
-
-        return Response.status(200).entity(Recognize(msg)).build();
+        return Response.status(200).entity(doRecognize(msg)).build();
     }
 
     @POST
@@ -49,7 +48,7 @@ public class CoreNERService {
     }
 
 
-    public ResultDTO Recognize(String input) {
+    private ResultDTO doRecognize(String input) {
         // create an empty Annotation just with the given text
         Annotation document = new Annotation(input);
 
@@ -63,7 +62,7 @@ public class CoreNERService {
         ResultDTO result = new ResultDTO();
 
         for (CoreMap sentence : sentences) {
-            List words = new ArrayList<AnnotationDTO>();
+            List<AnnotationDTO> words = new ArrayList<>();
 
             // traversing the words in the current sentence
             // a CoreLabel is a CoreMap with additional token-specific methods
@@ -83,6 +82,5 @@ public class CoreNERService {
         }
         return result;
     }
-
 
 }
