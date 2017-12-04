@@ -2,15 +2,15 @@ package de.tum.in.icm.dtos;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-import java.lang.annotation.Annotation;
-import java.util.*;
+import java.util.List;
 
 
 @XmlRootElement
 public class ResultDTO {
 
     @XmlElement
-    public String EmailId;
+    public String emailId;
     @XmlElement
-    public List<AnnotationDTO>Annotations;
+    public List<AnnotationDTO> annotations;
+
 }

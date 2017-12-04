@@ -78,7 +78,7 @@ public class CoreNERService {
                 AnnotationDTO newWord = new AnnotationDTO(word, ne, pos, CharacterOffsetBegin, CharacterOffsetEnd);
                 words.add(newWord);
             }
-            result.Annotations = words;
+            result.annotations = words;
         }
         return result;
     }
