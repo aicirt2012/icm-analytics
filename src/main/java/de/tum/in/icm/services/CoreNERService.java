@@ -48,7 +48,7 @@ public class CoreNERService {
     }
 
 
-    private ResultDTO doRecognize(String input) {
+    ResultDTO doRecognize(String input) {
         // create an empty Annotation just with the given text
         Annotation document = new Annotation(input);
 

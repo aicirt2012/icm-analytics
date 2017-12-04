@@ -16,6 +16,6 @@ public class CoreNERServiceTest {
         MessageDTO objectDTO = new MessageDTO();
         objectDTO.lines = new String[]{"test1", "test2"};
         testObject.recognize(objectDTO);
-        testObject.Recognize(input);
+        testObject.doRecognize(input);
     }
 }
