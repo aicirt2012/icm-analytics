@@ -1,6 +1,8 @@
 package de.tum.in.icm.services;
 
+import de.tum.in.icm.dtos.AnnotationDTO;
 import de.tum.in.icm.dtos.MessageDTO;
+import de.tum.in.icm.dtos.ResultDTO;
 import edu.stanford.nlp.ling.CoreAnnotations;
 import edu.stanford.nlp.ling.CoreLabel;
 import edu.stanford.nlp.pipeline.Annotation;
@@ -32,11 +34,8 @@ public class CoreNERService {
     @GET
     @Path("/{param}")
     public Response getMsg(@PathParam("param") String msg) {
-        String output = "";
-        for (JSONObject item : Recognize(msg)) {
-            output += item.toJSONString();
-        }
-        return Response.status(200).entity(output).build();
+
+        return Response.status(200).entity(Recognize(msg)).build();
     }
 
     @POST
@@ -50,7 +49,18 @@ public class CoreNERService {
         return getMsg(inputString.toString());
     }
 
-    public List<JSONObject> Recognize(String input) {
+
+
+
+    public ResultDTO Recognize(String input)
+    {
+        // creates a StanfordCoreNLP object, with POS tagging, lemmatization, NER, parsing, and coreference resolution
+        Properties props = new Properties();
+
+        props.put("annotators","tokenize,ssplit, pos,lemma,ner");
+
+        StanfordCoreNLP pipeline = new StanfordCoreNLP(props);
+
         // create an empty Annotation just with the given text
         Annotation document = new Annotation(input);
 
@@ -61,39 +71,31 @@ public class CoreNERService {
         // a CoreMap is essentially a Map that uses class objects as keys and has values with custom types
         List<CoreMap> sentences = document.get(CoreAnnotations.SentencesAnnotation.class);
 
-        List result = new ArrayList<JSONObject>();
-        for (CoreMap sentence : sentences) {
-            JSONObject newSentence = new JSONObject();
-            newSentence.put("value", sentence);
+        ResultDTO result = new ResultDTO();
 
-            List words = new ArrayList<JSONObject>();
+        for(CoreMap sentence: sentences) {
+            JSONObject newSentence = new JSONObject();
+
+            List words = new ArrayList<AnnotationDTO>();
+
             // traversing the words in the current sentence
             // a CoreLabel is a CoreMap with additional token-specific methods
-            for (CoreLabel token : sentence.get(CoreAnnotations.TokensAnnotation.class)) {
-                JSONObject newWord = new JSONObject();
+            for (CoreLabel token: sentence.get(CoreAnnotations.TokensAnnotation.class)) {
                 // this is the text of the token
                 String word = token.get(CoreAnnotations.TextAnnotation.class);
                 // this is the POS tag of the token
                 String pos = token.get(CoreAnnotations.PartOfSpeechAnnotation.class);
                 // this is the NER label of the token
                 String ne = token.get(CoreAnnotations.NamedEntityTagAnnotation.class);
-
-                int CharacterOffsetBegin = token.get(CoreAnnotations.CharacterOffsetBeginAnnotation.class);
-                int CharacterOffsetEnd = token.get(CoreAnnotations.CharacterOffsetEndAnnotation.class);
-
-                newWord.put("value", word);
-                newWord.put("POS", pos);
-                newWord.put("NE", ne);
-                newWord.put("CharacterOffsetBeginAnnotation", CharacterOffsetBegin);
-                newWord.put("CharacterOffsetEndAnnotation", CharacterOffsetEnd);
+                int CharacterOffsetBegin   = token.get(CoreAnnotations.CharacterOffsetBeginAnnotation.class);
+                int CharacterOffsetEnd   = token.get(CoreAnnotations.CharacterOffsetEndAnnotation.class);
+                AnnotationDTO  newWord = new AnnotationDTO(word,ne,pos,CharacterOffsetBegin,CharacterOffsetEnd);
                 words.add(newWord);
-
-//                System.out.println("word: " + word + " pos: " + pos + " ne:" + ne +
-//                        "offset Begin:" +  CharacterOffsetBegin + "offsetEnd:" + CharacterOffsetEnd);
             }
-            newSentence.put("words", words);
-            result.add(newSentence);
+            result.Annotations = words   ;
         }
-        return (ArrayList<JSONObject>) result;
+        return result ;
     }
+
+
 }
