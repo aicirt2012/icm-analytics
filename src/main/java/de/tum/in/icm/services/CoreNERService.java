@@ -1,8 +1,8 @@
 package de.tum.in.icm.services;
 
 import de.tum.in.icm.dtos.AnnotationDTO;
-import de.tum.in.icm.dtos.MessageDTO;
-import de.tum.in.icm.dtos.ResultDTO;
+import de.tum.in.icm.dtos.NERInputDTO;
+import de.tum.in.icm.dtos.NERResultDTO;
 import edu.stanford.nlp.ling.CoreAnnotations;
 import edu.stanford.nlp.ling.CoreLabel;
 import edu.stanford.nlp.pipeline.Annotation;
@@ -39,7 +39,7 @@ public class CoreNERService {
 
     @POST
     @Path("/recognize")
-    public Response recognize(MessageDTO input) {
+    public Response recognize(NERInputDTO input) {
         StringBuilder inputString = new StringBuilder();
         for (String line : input.lines) {
             inputString.append(line);
@@ -48,7 +48,7 @@ public class CoreNERService {
     }
 
 
-    ResultDTO doRecognize(String input) {
+    NERResultDTO doRecognize(String input) {
         // create an empty Annotation just with the given text
         Annotation document = new Annotation(input);
 
@@ -59,7 +59,7 @@ public class CoreNERService {
         // a CoreMap is essentially a Map that uses class objects as keys and has values with custom types
         List<CoreMap> sentences = document.get(CoreAnnotations.SentencesAnnotation.class);
 
-        ResultDTO result = new ResultDTO();
+        NERResultDTO result = new NERResultDTO();
 
         for (CoreMap sentence : sentences) {
             List<AnnotationDTO> words = new ArrayList<>();
