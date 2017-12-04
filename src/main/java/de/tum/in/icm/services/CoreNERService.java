@@ -8,7 +8,6 @@ import edu.stanford.nlp.ling.CoreLabel;
 import edu.stanford.nlp.pipeline.Annotation;
 import edu.stanford.nlp.pipeline.StanfordCoreNLP;
 import edu.stanford.nlp.util.CoreMap;
-import org.json.simple.JSONObject;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -20,6 +19,7 @@ import java.util.Properties;
 
 @Path("/ner")
 @Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
 public class CoreNERService {
 
     private static StanfordCoreNLP pipeline;
@@ -39,7 +39,6 @@ public class CoreNERService {
     }
 
     @POST
-    @Consumes(MediaType.APPLICATION_JSON)
     @Path("/recognize")
     public Response recognize(MessageDTO input) {
         StringBuilder inputString = new StringBuilder();
@@ -50,17 +49,7 @@ public class CoreNERService {
     }
 
 
-
-
-    public ResultDTO Recognize(String input)
-    {
-        // creates a StanfordCoreNLP object, with POS tagging, lemmatization, NER, parsing, and coreference resolution
-        Properties props = new Properties();
-
-        props.put("annotators","tokenize,ssplit, pos,lemma,ner");
-
-        StanfordCoreNLP pipeline = new StanfordCoreNLP(props);
-
+    public ResultDTO Recognize(String input) {
         // create an empty Annotation just with the given text
         Annotation document = new Annotation(input);
 
@@ -73,28 +62,26 @@ public class CoreNERService {
 
         ResultDTO result = new ResultDTO();
 
-        for(CoreMap sentence: sentences) {
-            JSONObject newSentence = new JSONObject();
-
+        for (CoreMap sentence : sentences) {
             List words = new ArrayList<AnnotationDTO>();
 
             // traversing the words in the current sentence
             // a CoreLabel is a CoreMap with additional token-specific methods
-            for (CoreLabel token: sentence.get(CoreAnnotations.TokensAnnotation.class)) {
+            for (CoreLabel token : sentence.get(CoreAnnotations.TokensAnnotation.class)) {
                 // this is the text of the token
                 String word = token.get(CoreAnnotations.TextAnnotation.class);
                 // this is the POS tag of the token
                 String pos = token.get(CoreAnnotations.PartOfSpeechAnnotation.class);
                 // this is the NER label of the token
                 String ne = token.get(CoreAnnotations.NamedEntityTagAnnotation.class);
-                int CharacterOffsetBegin   = token.get(CoreAnnotations.CharacterOffsetBeginAnnotation.class);
-                int CharacterOffsetEnd   = token.get(CoreAnnotations.CharacterOffsetEndAnnotation.class);
-                AnnotationDTO  newWord = new AnnotationDTO(word,ne,pos,CharacterOffsetBegin,CharacterOffsetEnd);
+                int CharacterOffsetBegin = token.get(CoreAnnotations.CharacterOffsetBeginAnnotation.class);
+                int CharacterOffsetEnd = token.get(CoreAnnotations.CharacterOffsetEndAnnotation.class);
+                AnnotationDTO newWord = new AnnotationDTO(word, ne, pos, CharacterOffsetBegin, CharacterOffsetEnd);
                 words.add(newWord);
             }
-            result.Annotations = words   ;
+            result.Annotations = words;
         }
-        return result ;
+        return result;
     }
 
 
