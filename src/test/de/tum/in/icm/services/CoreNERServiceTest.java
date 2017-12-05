@@ -14,7 +14,7 @@ public class CoreNERServiceTest {
                 " the Turner Broadcasting System, a division of Time Warner." +
                 " CNN was founded in 1980 by American media proprietor Ted !Turner as a Weihnachtsmarkt  24-hour cable news channe";
         NERInputDTO objectDTO = new NERInputDTO();
-        objectDTO.lines = new String[]{"test1", "test2"};
+        objectDTO.htmlSource = "<div>test1, test2</div>";
         testObject.recognize(objectDTO);
         testObject.doRecognize(input);
     }

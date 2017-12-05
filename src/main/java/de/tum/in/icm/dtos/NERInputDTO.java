@@ -9,6 +9,6 @@ public class NERInputDTO {
     @XmlElement
     public String emailId;
     @XmlElement
-    public String[] lines;
+    public String htmlSource;
 
 }

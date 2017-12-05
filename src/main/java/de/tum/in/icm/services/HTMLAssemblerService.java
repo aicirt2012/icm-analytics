@@ -1,25 +1,27 @@
 package de.tum.in.icm.services;
 
+import de.tum.in.icm.entities.IndexedPlainText;
+
 import java.util.HashMap;
 import java.util.Map;
 
 public class HTMLAssemblerService {
 
-    public String[] tokenizeToText(String htmlSource) {
+    public static String[] tokenizeToText(String htmlSource) {
         return null;
     }
 
-    public Object[] stripHtml(String htmlSource) {
-        String[] tokenizedPlainText = this.tokenizeToText(htmlSource);
+    public static IndexedPlainText parseHtmlSource(String htmlSource) {
+        String[] tokenizedPlainText = tokenizeToText(htmlSource);
         String line;
-        Map<Integer,Integer> indices = new HashMap<>();
+        Map<Integer, Integer> indices = new HashMap<>();
         String plainTextString = "";
         for (int i = 0; i < tokenizedPlainText.length; i++) {
             line = tokenizedPlainText[i];
             indices.put(tokenizedPlainText.length, -1);
             plainTextString += "\n" + line;
         }
-        return new Object[]{plainTextString, indices};
+        return new IndexedPlainText();
     }
 
 //    addAnnotationIndices(annotations, htmlSource) {

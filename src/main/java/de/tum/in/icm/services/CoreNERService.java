@@ -3,6 +3,7 @@ package de.tum.in.icm.services;
 import de.tum.in.icm.dtos.AnnotationDTO;
 import de.tum.in.icm.dtos.NERInputDTO;
 import de.tum.in.icm.dtos.NERResultDTO;
+import de.tum.in.icm.entities.IndexedPlainText;
 import edu.stanford.nlp.ling.CoreAnnotations;
 import edu.stanford.nlp.ling.CoreLabel;
 import edu.stanford.nlp.pipeline.Annotation;
@@ -40,15 +41,11 @@ public class CoreNERService {
     @POST
     @Path("/recognize")
     public Response recognize(NERInputDTO inputDTO) {
-        StringBuilder inputString = new StringBuilder();
-        for (String line : inputDTO.lines) {
-            inputString.append(line);
-        }
-        NERResultDTO resultDto = doRecognize(inputString.toString());
+        IndexedPlainText indexedPlainText = HTMLAssemblerService.parseHtmlSource(inputDTO.htmlSource);
+        NERResultDTO resultDto = doRecognize(indexedPlainText.getPlainText());
         resultDto.emailId = inputDTO.emailId;
         return Response.status(200).entity(resultDto).build();
     }
-
 
     NERResultDTO doRecognize(String input) {
         // create an empty Annotation just with the given text
