@@ -3,9 +3,8 @@ package de.tum.in.icm.dtos;
 import javax.xml.bind.annotation.XmlEnum;
 
 @XmlEnum
-public enum OldNERType {
+public enum NERType {
 
-    //    @XmlEnumValue("CustomValue")
     LOCATION,
     PERSON,
     ORGANIZATION,
@@ -14,5 +13,6 @@ public enum OldNERType {
     TIME,
     PERCENT,
     NUMBER,
-    O,
+    O
+
 }
