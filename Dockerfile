@@ -15,5 +15,8 @@ RUN curl -O ${TOMCAT_URL}/v${TOMCAT_MINOR_VERSION}/bin/apache-tomcat-${TOMCAT_MI
 WORKDIR /opt/tomcat
 EXPOSE 8080
 
+# TODO copy over compiled *.war file to /opt/tomcat/webapps
+# extraction will happen automatically on startup
+
 ENTRYPOINT [ "/opt/tomcat/bin/catalina.sh" ]
 CMD [ "run" ]
