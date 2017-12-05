@@ -1,12 +1,13 @@
-package de.tum.in.icm.services;
+package de.tum.in.icm.controllers;
 
 
+import de.tum.in.icm.controllers.CoreNERController;
 import de.tum.in.icm.dtos.NERInputDTO;
 import org.junit.Test;
 
-public class CoreNERServiceTest {
+public class CoreNERControllerTest {
 
-    private CoreNERService testObject = new CoreNERService();
+    private CoreNERController testObject = new CoreNERController();
 
     @Test
     public void Test() {
