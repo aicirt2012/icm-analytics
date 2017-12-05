@@ -60,6 +60,7 @@ public class CoreNERService {
         List<CoreMap> sentences = document.get(CoreAnnotations.SentencesAnnotation.class);
 
         NERResultDTO result = new NERResultDTO();
+        result.annotations = new ArrayList<>();
 
         for (CoreMap sentence : sentences) {
             List<AnnotationDTO> words = new ArrayList<>();
@@ -78,7 +79,7 @@ public class CoreNERService {
                 AnnotationDTO newWord = new AnnotationDTO(word, ne, pos, CharacterOffsetBegin, CharacterOffsetEnd);
                 words.add(newWord);
             }
-            result.annotations = words;
+            result.annotations.addAll(words);
         }
         return result;
     }
