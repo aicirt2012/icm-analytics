@@ -1,8 +1,8 @@
 package de.tum.in.icm.services;
 
-import de.tum.in.icm.dtos.AnnotationDTO;
+import de.tum.in.icm.dtos.OldAnnotationDTO;
 import de.tum.in.icm.dtos.NERInputDTO;
-import de.tum.in.icm.dtos.NERResultDTO;
+import de.tum.in.icm.dtos.OldNERResultDTO;
 import de.tum.in.icm.entities.IndexedPlainText;
 import edu.stanford.nlp.ling.CoreAnnotations;
 import edu.stanford.nlp.ling.CoreLabel;
@@ -36,12 +36,12 @@ public class CoreNERService {
     @Path("/recognize")
     public Response recognize(NERInputDTO inputDTO) {
         IndexedPlainText indexedPlainText = HTMLAssemblerService.parseHtmlSource(inputDTO.htmlSource);
-        NERResultDTO resultDto = doRecognize(indexedPlainText.getPlainText());
+        OldNERResultDTO resultDto = doRecognize(indexedPlainText.getPlainText());
         resultDto.emailId = inputDTO.emailId;
         return Response.status(200).entity(resultDto).build();
     }
 
-    NERResultDTO doRecognize(String input) {
+    OldNERResultDTO doRecognize(String input) {
         // create an empty Annotation just with the given text
         Annotation document = new Annotation(input);
 
@@ -52,11 +52,11 @@ public class CoreNERService {
         // a CoreMap is essentially a Map that uses class objects as keys and has values with custom types
         List<CoreMap> sentences = document.get(CoreAnnotations.SentencesAnnotation.class);
 
-        NERResultDTO result = new NERResultDTO();
+        OldNERResultDTO result = new OldNERResultDTO();
         result.annotations = new ArrayList<>();
 
         for (CoreMap sentence : sentences) {
-            List<AnnotationDTO> words = new ArrayList<>();
+            List<OldAnnotationDTO> words = new ArrayList<>();
 
             // traversing the words in the current sentence
             // a CoreLabel is a CoreMap with additional token-specific methods
@@ -69,7 +69,7 @@ public class CoreNERService {
                 String ne = token.get(CoreAnnotations.NamedEntityTagAnnotation.class);
                 int CharacterOffsetBegin = token.get(CoreAnnotations.CharacterOffsetBeginAnnotation.class);
                 int CharacterOffsetEnd = token.get(CoreAnnotations.CharacterOffsetEndAnnotation.class);
-                AnnotationDTO newWord = new AnnotationDTO(word, ne, pos, CharacterOffsetBegin, CharacterOffsetEnd);
+                OldAnnotationDTO newWord = new OldAnnotationDTO(word, ne, pos, CharacterOffsetBegin, CharacterOffsetEnd);
                 words.add(newWord);
             }
             result.annotations.addAll(words);

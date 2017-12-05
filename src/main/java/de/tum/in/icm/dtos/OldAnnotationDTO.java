@@ -4,12 +4,12 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-public class AnnotationDTO {
+public class OldAnnotationDTO {
 
     @XmlElement
     public String value;
     @XmlElement
-    public NERType nerType;
+    public OldNERType nerType;
     @XmlElement
     public String posType;
     @XmlElement
@@ -17,9 +17,9 @@ public class AnnotationDTO {
     @XmlElement
     public int endIndex;
 
-    public AnnotationDTO(String value, String nerType, String posType, int startIndex, int endIndex) {
+    public OldAnnotationDTO(String value, String nerType, String posType, int startIndex, int endIndex) {
         this.value = value;
-        this.nerType = NERType.valueOf(nerType);
+        this.nerType = OldNERType.valueOf(nerType);
         // decide whether or not we need this
         this.posType = posType;
         this.startIndex = startIndex;

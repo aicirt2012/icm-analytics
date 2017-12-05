@@ -6,11 +6,11 @@ import java.util.List;
 
 
 @XmlRootElement
-public class NERResultDTO {
+public class OldNERResultDTO {
 
     @XmlElement
     public String emailId;
     @XmlElement
-    public List<AnnotationDTO> annotations;
+    public List<OldAnnotationDTO> annotations;
 
 }
