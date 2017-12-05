@@ -32,12 +32,6 @@ public class CoreNERService {
         pipeline = new StanfordCoreNLP(props);
     }
 
-    @GET
-    @Path("/{param}")
-    public Response getMsg(@PathParam("param") String msg) {
-        return Response.status(200).entity(doRecognize(msg)).build();
-    }
-
     @POST
     @Path("/recognize")
     public Response recognize(NERInputDTO inputDTO) {
