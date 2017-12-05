@@ -39,12 +39,14 @@ public class CoreNERService {
 
     @POST
     @Path("/recognize")
-    public Response recognize(NERInputDTO input) {
+    public Response recognize(NERInputDTO inputDTO) {
         StringBuilder inputString = new StringBuilder();
-        for (String line : input.lines) {
+        for (String line : inputDTO.lines) {
             inputString.append(line);
         }
-        return getMsg(inputString.toString());
+        NERResultDTO resultDto = doRecognize(inputString.toString());
+        resultDto.emailId = inputDTO.emailId;
+        return Response.status(200).entity(resultDto).build();
     }
 
 
