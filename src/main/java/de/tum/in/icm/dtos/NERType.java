@@ -13,6 +13,7 @@ public enum NERType {
     TIME,
     PERCENT,
     NUMBER,
+    MISC,
     O
 
 }

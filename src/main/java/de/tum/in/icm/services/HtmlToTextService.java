@@ -17,7 +17,7 @@ public class HtmlToTextService extends HTMLEditorKit.ParserCallback {
             HTML.Tag.BR, HTML.Tag.DD, HTML.Tag.DT, HTML.Tag.P, HTML.Tag.H1, HTML.Tag.H2, HTML.Tag.H3, HTML.Tag.H4, HTML.Tag.H5);
 
     public static IndexedPlainText stripHtmlTags(String htmlSource) {
-        final StringBuilder sb = new StringBuilder();
+        final IndexedPlainText indexedPlainText = new IndexedPlainText();
 
         HTMLEditorKit.ParserCallback parserCallback = new HTMLEditorKit.ParserCallback() {
             private boolean readyForNewline;
@@ -25,31 +25,33 @@ public class HtmlToTextService extends HTMLEditorKit.ParserCallback {
             @Override
             public void handleText(final char[] data, final int pos) {
                 String s = new String(data);
-                sb.append(s.trim());
+                indexedPlainText.addPlainText(s);
                 readyForNewline = true;
             }
 
             @Override
             public void handleStartTag(final HTML.Tag t, final MutableAttributeSet a, final int pos) {
+                handleEndTag(t, pos);
+            }
+
+            @Override
+            public void handleEndTag(final HTML.Tag t, final int pos) {
                 if (readyForNewline && BREAKING_HTML_TAGS.contains(t)) {
-                    sb.append("\n");
+                    indexedPlainText.addPlainText("\n");
                     readyForNewline = false;
                 }
             }
 
             @Override
             public void handleSimpleTag(final HTML.Tag t, final MutableAttributeSet a, final int pos) {
-                handleStartTag(t, a, pos);
+                handleEndTag(t, pos);
             }
         };
         try {
             new ParserDelegator().parse(new StringReader(htmlSource), parserCallback, false);
         } catch (IOException e) {
-            e.printStackTrace();
-            return null;
+            throw new RuntimeException(e);
         }
-        IndexedPlainText indexedPlainText = new IndexedPlainText();
-        indexedPlainText.addPlainText(sb.toString());
         return indexedPlainText;
     }
 
