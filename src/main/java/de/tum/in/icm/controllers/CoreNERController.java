@@ -6,6 +6,7 @@ import de.tum.in.icm.dtos.NERResultDTO;
 import de.tum.in.icm.dtos.NERType;
 import de.tum.in.icm.entities.IndexedPlainText;
 import de.tum.in.icm.services.HtmlToTextService;
+import de.tum.in.icm.services.NERPostProcessorService;
 import edu.stanford.nlp.ling.CoreAnnotations;
 import edu.stanford.nlp.ling.CoreLabel;
 import edu.stanford.nlp.pipeline.Annotation;
@@ -43,6 +44,7 @@ public class CoreNERController {
         IndexedPlainText indexedPlainText = HtmlToTextService.stripHtmlTags(inputDTO.htmlSource);
         NERResultDTO resultDto = doRecognize(indexedPlainText.getPlainText());
         resultDto.setEmailId(inputDTO.emailId);
+        resultDto = NERPostProcessorService.calculateRangeObjects(resultDto, inputDTO.htmlSource);
         return Response.status(200).entity(resultDto).build();
     }
 

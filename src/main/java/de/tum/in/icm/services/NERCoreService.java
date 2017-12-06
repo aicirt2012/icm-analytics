@@ -5,7 +5,7 @@ import de.tum.in.icm.entities.IndexedPlainText;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CoreNERService {
+public class NERCoreService {
 
     public static String[] tokenizeToText(String htmlSource) {
         return null;
