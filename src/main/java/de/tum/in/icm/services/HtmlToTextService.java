@@ -25,7 +25,7 @@ public class HtmlToTextService extends HTMLEditorKit.ParserCallback {
             @Override
             public void handleText(final char[] data, final int pos) {
                 String s = new String(data);
-                indexedPlainText.addPlainText(s);
+                indexedPlainText.addPlainText(s, pos);
                 readyForNewline = true;
             }
 
@@ -37,7 +37,7 @@ public class HtmlToTextService extends HTMLEditorKit.ParserCallback {
             @Override
             public void handleEndTag(final HTML.Tag t, final int pos) {
                 if (readyForNewline && BREAKING_HTML_TAGS.contains(t)) {
-                    indexedPlainText.addPlainText("\n");
+                    indexedPlainText.addPlainText("\n", -1);
                     readyForNewline = false;
                 }
             }
