@@ -14,7 +14,7 @@ import java.util.List;
 public class HtmlToTextService extends HTMLEditorKit.ParserCallback {
 
     private static final List<HTML.Tag> BREAKING_HTML_TAGS = Arrays.asList(
-            HTML.Tag.BR, HTML.Tag.DD, HTML.Tag.DT, HTML.Tag.P, HTML.Tag.H1, HTML.Tag.H2, HTML.Tag.H3, HTML.Tag.H4, HTML.Tag.H5);
+            HTML.Tag.BR, HTML.Tag.DD, HTML.Tag.DIV, HTML.Tag.DT, HTML.Tag.P, HTML.Tag.H1, HTML.Tag.H2, HTML.Tag.H3, HTML.Tag.H4, HTML.Tag.H5);
 
     public static IndexedPlainText stripHtmlTags(String htmlSource) {
         final IndexedPlainText indexedPlainText = new IndexedPlainText();
