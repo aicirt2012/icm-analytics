@@ -26,6 +26,7 @@ public class NERPostProcessorService {
                 int startOffset = plainTextStartIndex - currentIndex;
                 int htmlStartIndex = parentTagStartIndex + startOffset;
 
+                // check if there is another index on the map in the range of the length of the annotation value
                 int htmlEndIndex = htmlStartIndex + annotation.getValue().length();
                 if (htmlSource.substring(htmlStartIndex, htmlEndIndex).equals(annotation.getValue())) {
                     annotation.addHtmlSourceOccurence(htmlStartIndex, htmlEndIndex);
