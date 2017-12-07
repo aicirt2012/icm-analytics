@@ -2,6 +2,7 @@ package de.tum.in.icm.services;
 
 import de.tum.in.icm.dtos.AnnotationDTO;
 import de.tum.in.icm.dtos.NERResultDTO;
+import de.tum.in.icm.entities.IndexedPlainText;
 import de.tum.in.icm.entities.XPathBuilder;
 
 import javax.swing.text.MutableAttributeSet;
@@ -14,11 +15,25 @@ import java.util.List;
 
 public class NERPostProcessorService {
 
-    public static NERResultDTO calculateRangeObjects(NERResultDTO nerResultDTO, String htmlSource) {
+    public static NERResultDTO calculateHtmlIndices(NERResultDTO resultDTO, IndexedPlainText indexedPlainText) {
+        for (AnnotationDTO annotation : resultDTO.getAnnotations()) {
+            for (int plainTextStartIndex : annotation.getPlainTextStartIndices()) {
+                Integer htmlStartIndex = indexedPlainText.getIndexMap().get(plainTextStartIndex);
+                while (htmlStartIndex == null) {
+                    htmlStartIndex = indexedPlainText.getIndexMap().get(--plainTextStartIndex);
+                }
+                //TODO
+                throw new UnsupportedOperationException("not yet implemented");
+            }
+        }
+        return resultDTO;
+    }
+
+    public static NERResultDTO calculateRangeObjects(NERResultDTO resultDTO, String htmlSource) {
 
         HTMLEditorKit.ParserCallback parserCallback = new HTMLEditorKit.ParserCallback() {
             XPathBuilder xPathBuilder = new XPathBuilder();
-            List<AnnotationDTO> annotations = nerResultDTO.getAnnotations();
+            List<AnnotationDTO> annotations = resultDTO.getAnnotations();
             // annotation list is expected to be sorted ascending by plain text index
             AnnotationDTO currentAnnotation = null;
 
@@ -53,7 +68,7 @@ public class NERPostProcessorService {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        return nerResultDTO;
+        return resultDTO;
     }
 
 }

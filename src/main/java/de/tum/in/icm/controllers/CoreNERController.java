@@ -28,6 +28,7 @@ public class CoreNERController {
         IndexedPlainText indexedPlainText = HtmlToTextService.stripHtmlTags(inputDTO.htmlSource);
         NERResultDTO resultDto = nerCoreService.doRecognize(indexedPlainText.getPlainText());
         resultDto.setEmailId(inputDTO.emailId);
+        resultDto = NERPostProcessorService.calculateHtmlIndices(resultDto, indexedPlainText);
         resultDto = NERPostProcessorService.calculateRangeObjects(resultDto, inputDTO.htmlSource);
         return Response.status(200).entity(resultDto).build();
     }
