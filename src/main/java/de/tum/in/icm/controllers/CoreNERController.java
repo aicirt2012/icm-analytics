@@ -80,7 +80,9 @@ public class CoreNERController {
                 newWord.setNerType(NERType.valueOf(ne));
                 newWord.setPosType(pos);
                 newWord.addPlainTextOccurence(startIndex, endIndex);
-                words.add(newWord);
+                if (!newWord.getNerType().equals(NERType.O)) {
+                    words.add(newWord);
+                }
             }
             result.addAnnotations(words);
         }
