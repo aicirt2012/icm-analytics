@@ -16,6 +16,7 @@ import java.util.List;
 public class NERPostProcessorService {
 
     public static NERResultDTO calculateHtmlIndices(NERResultDTO resultDTO, String htmlSource, IndexedPlainText indexedPlainText) {
+    // FIXME does not play well with encoded entities (e.g. &copy; leads to differences in index between plain text and html)
         for (AnnotationDTO annotation : resultDTO.getAnnotations()) {
             for (int plainTextStartIndex : annotation.getPlainTextStartIndices()) {
                 int currentIndex = plainTextStartIndex;

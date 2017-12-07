@@ -21,6 +21,7 @@ public class AnnotationDTO {
     // FIXME transient values are being output by REST API anyways
     @XmlTransient
     private List<Integer> plainTextStartIndices = new ArrayList<>();
+    //TODO check if end indices can be removed
     @XmlTransient
     private List<Integer> plainTextEndIndices = new ArrayList<>();
     @XmlTransient
