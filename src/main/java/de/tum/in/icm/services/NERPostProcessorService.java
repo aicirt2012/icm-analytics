@@ -15,15 +15,24 @@ import java.util.List;
 
 public class NERPostProcessorService {
 
-    public static NERResultDTO calculateHtmlIndices(NERResultDTO resultDTO, IndexedPlainText indexedPlainText) {
+    public static NERResultDTO calculateHtmlIndices(NERResultDTO resultDTO, String htmlSource, IndexedPlainText indexedPlainText) {
         for (AnnotationDTO annotation : resultDTO.getAnnotations()) {
             for (int plainTextStartIndex : annotation.getPlainTextStartIndices()) {
-                Integer htmlStartIndex = indexedPlainText.getIndexMap().get(plainTextStartIndex);
-                while (htmlStartIndex == null) {
-                    htmlStartIndex = indexedPlainText.getIndexMap().get(--plainTextStartIndex);
+                int currentIndex = plainTextStartIndex;
+                Integer parentTagStartIndex = indexedPlainText.getIndexMap().get(currentIndex);
+                while (parentTagStartIndex == null) {
+                    parentTagStartIndex = indexedPlainText.getIndexMap().get(--currentIndex);
                 }
-                //TODO
-                throw new UnsupportedOperationException("not yet implemented");
+                int startOffset = plainTextStartIndex - currentIndex;
+                int htmlStartIndex = parentTagStartIndex + startOffset;
+
+                int htmlEndIndex = htmlStartIndex + annotation.getValue().length();
+                if (htmlSource.substring(htmlStartIndex, htmlEndIndex).equals(annotation.getValue())) {
+                    annotation.addHtmlSourceOccurence(htmlStartIndex, htmlEndIndex);
+                } else {
+                    // FIXME also triggered by e.g. &copy; prefix
+                    throw new UnsupportedOperationException("Parsing complex annotation is not yet implemented.");
+                }
             }
         }
         return resultDTO;
