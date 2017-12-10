@@ -80,6 +80,15 @@ public class AnnotationDTO {
         htmlAnnotationOffsets.add(annotationOffset);
     }
 
+    public void addXPathRange(String xPathStart, int offsetStart, String xPathEnd, int offsetEnd) {
+        RangeDTO rangeDTO = new RangeDTO();
+        rangeDTO.setxPathStart(xPathStart);
+        rangeDTO.setOffsetStart(offsetStart);
+        rangeDTO.setxPathEnd(xPathEnd);
+        rangeDTO.setOffsetEnd(offsetEnd);
+        ranges.add(rangeDTO);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

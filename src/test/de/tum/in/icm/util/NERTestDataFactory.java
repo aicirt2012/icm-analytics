@@ -46,11 +46,14 @@ public class NERTestDataFactory {
                     annotations.add(annotationDTO);
                 }
                 annotations.get(0).addPlainTextIndex(0);
-                annotations.get(0).addHtmlSourceOccurrence(9, 0);
                 annotations.get(1).addPlainTextIndex(10);
-                annotations.get(1).addHtmlSourceOccurrence(18, 5);
                 annotations.get(2).addPlainTextIndex(15);
+                annotations.get(0).addHtmlSourceOccurrence(9, 0);
+                annotations.get(1).addHtmlSourceOccurrence(18, 5);
                 annotations.get(2).addHtmlSourceOccurrence(38, 0);
+                annotations.get(0).addXPathRange("", -1, "", -1);
+                annotations.get(1).addXPathRange("", -1, "", -1);
+                annotations.get(2).addXPathRange("", -1, "", -1);
                 break;
             case SIMPLE:
                 for (int i = 0; i < 4; i++) {
@@ -67,6 +70,10 @@ public class NERTestDataFactory {
                 annotations.get(1).addHtmlSourceOccurrence(213, 73);
                 annotations.get(2).addHtmlSourceOccurrence(213, 411);
                 annotations.get(3).addHtmlSourceOccurrence(743, 0);
+                annotations.get(0).addXPathRange("", -1, "", -1);
+                annotations.get(1).addXPathRange("", -1, "", -1);
+                annotations.get(2).addXPathRange("", -1, "", -1);
+                annotations.get(3).addXPathRange("", -1, "", -1);
                 break;
             case COMPLEX:
                 for (int i = 0; i < 5; i++) {
@@ -85,6 +92,11 @@ public class NERTestDataFactory {
                 annotations.get(2).addHtmlSourceOccurrence(265, 411);
                 annotations.get(3).addHtmlSourceOccurrence(795, 0);
                 annotations.get(4).addHtmlSourceOccurrence(861, 6);
+                annotations.get(0).addXPathRange("", -1, "", -1);
+                annotations.get(1).addXPathRange("", -1, "", -1);
+                annotations.get(2).addXPathRange("", -1, "", -1);
+                annotations.get(3).addXPathRange("", -1, "", -1);
+                annotations.get(4).addXPathRange("", -1, "", -1);
                 break;
         }
         nerResultDTO.addAnnotations(annotations);
