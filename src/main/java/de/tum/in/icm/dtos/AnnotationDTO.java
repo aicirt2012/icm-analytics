@@ -20,14 +20,11 @@ public class AnnotationDTO {
 
     // FIXME transient values are being output by REST API anyways
     @XmlTransient
-    private List<Integer> plainTextStartIndices = new ArrayList<>();
-    //TODO check if end indices can be removed
+    private List<Integer> plainTextIndices = new ArrayList<>();
     @XmlTransient
-    private List<Integer> plainTextEndIndices = new ArrayList<>();
+    private List<Integer> htmlParentTagIndices = new ArrayList<>();
     @XmlTransient
-    private List<Integer> htmlSourceStartIndices = new ArrayList<>();
-    @XmlTransient
-    private List<Integer> htmlSourceEndIndices = new ArrayList<>();
+    private List<Integer> htmlParentTagOffsets = new ArrayList<>();
 
     public String getValue() {
         return value;
@@ -61,30 +58,25 @@ public class AnnotationDTO {
         this.ranges = ranges;
     }
 
-    public List<Integer> getPlainTextStartIndices() {
-        return plainTextStartIndices;
+    public List<Integer> getPlainTextIndices() {
+        return plainTextIndices;
     }
 
-    public List<Integer> getPlainTextEndIndices() {
-        return plainTextEndIndices;
+    public void addPlainTextIndex(int startIndex) {
+        plainTextIndices.add(startIndex);
     }
 
-    public void addPlainTextOccurence(int startIndex, int endIndex) {
-        plainTextStartIndices.add(startIndex);
-        plainTextEndIndices.add(endIndex);
+    public List<Integer> getHtmlParentTagIndices() {
+        return htmlParentTagIndices;
     }
 
-    public List<Integer> getHtmlSourceStartIndices() {
-        return htmlSourceStartIndices;
+    public List<Integer> getHtmlParentTagOffsets() {
+        return htmlParentTagOffsets;
     }
 
-    public List<Integer> getHtmlSourceEndIndices() {
-        return htmlSourceEndIndices;
-    }
-
-    public void addHtmlSourceOccurence(int startIndex, int endIndex) {
-        htmlSourceStartIndices.add(startIndex);
-        htmlSourceEndIndices.add(endIndex);
+    public void addHtmlSourceOccurrence(int htmlParentTagIndex, int htmlParentTagOffset) {
+        htmlParentTagIndices.add(htmlParentTagIndex);
+        htmlParentTagOffsets.add(htmlParentTagOffset);
     }
 
 }

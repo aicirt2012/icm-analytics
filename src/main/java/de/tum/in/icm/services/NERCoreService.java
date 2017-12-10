@@ -50,12 +50,11 @@ public class NERCoreService {
                 // this is the NER label of the token
                 String ne = token.get(CoreAnnotations.NamedEntityTagAnnotation.class);
                 int startIndex = token.get(CoreAnnotations.CharacterOffsetBeginAnnotation.class);
-                int endIndex = token.get(CoreAnnotations.CharacterOffsetEndAnnotation.class);
                 AnnotationDTO newWord = new AnnotationDTO();
                 newWord.setValue(word);
                 newWord.setNerType(NERType.valueOf(ne));
                 newWord.setPosType(pos);
-                newWord.addPlainTextOccurence(startIndex, endIndex);
+                newWord.addPlainTextIndex(startIndex);
                 if (!newWord.getNerType().equals(NERType.O)) {
                     words.add(newWord);
                 }

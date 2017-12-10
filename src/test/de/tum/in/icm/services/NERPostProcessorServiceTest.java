@@ -10,11 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-
-import static org.junit.Assert.*;
 
 public class NERPostProcessorServiceTest {
 
@@ -46,10 +42,10 @@ public class NERPostProcessorServiceTest {
             annotationDTO.setNerType(NERType.ORGANIZATION);
             annotations.add(annotationDTO);
         }
-        annotations.get(0).addPlainTextOccurence(57, 63);
-        annotations.get(1).addPlainTextOccurence(236, 242);
-        annotations.get(2).addPlainTextOccurence(574, 580);
-        annotations.get(3).addPlainTextOccurence(613, 619);
+        annotations.get(0).addPlainTextIndex(57);
+        annotations.get(1).addPlainTextIndex(236);
+        annotations.get(2).addPlainTextIndex(574);
+        annotations.get(3).addPlainTextIndex(613);
         nerResultDTOSimple.addAnnotations(annotations);
     }
 
@@ -72,11 +68,11 @@ public class NERPostProcessorServiceTest {
             annotationDTO.setNerType(NERType.ORGANIZATION);
             annotations.add(annotationDTO);
         }
-        annotations.get(0).addPlainTextOccurence(57, 63);
-        annotations.get(1).addPlainTextOccurence(233, 239);
-        annotations.get(2).addPlainTextOccurence(567, 573);
-        annotations.get(3).addPlainTextOccurence(606, 612);
-        annotations.get(4).addPlainTextOccurence(630, 636);
+        annotations.get(0).addPlainTextIndex(57);
+        annotations.get(1).addPlainTextIndex(233);
+        annotations.get(2).addPlainTextIndex(567);
+        annotations.get(3).addPlainTextIndex(606);
+        annotations.get(4).addPlainTextIndex(630);
         nerResultDTOComplex.addAnnotations(annotations);
     }
 
