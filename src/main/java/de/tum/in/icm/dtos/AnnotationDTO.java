@@ -22,9 +22,9 @@ public class AnnotationDTO {
     @XmlTransient
     private List<Integer> plainTextIndices = new ArrayList<>();
     @XmlTransient
-    private List<Integer> htmlParentTagIndices = new ArrayList<>();
+    private List<Integer> htmlTextNodeIndices = new ArrayList<>();
     @XmlTransient
-    private List<Integer> htmlParentTagOffsets = new ArrayList<>();
+    private List<Integer> htmlAnnotationOffsets = new ArrayList<>();
 
     public String getValue() {
         return value;
@@ -66,17 +66,17 @@ public class AnnotationDTO {
         plainTextIndices.add(startIndex);
     }
 
-    public List<Integer> getHtmlParentTagIndices() {
-        return htmlParentTagIndices;
+    public List<Integer> getHtmlTextNodeIndices() {
+        return htmlTextNodeIndices;
     }
 
-    public List<Integer> getHtmlParentTagOffsets() {
-        return htmlParentTagOffsets;
+    public List<Integer> getHtmlAnnotationOffsets() {
+        return htmlAnnotationOffsets;
     }
 
-    public void addHtmlSourceOccurrence(int htmlParentTagIndex, int htmlParentTagOffset) {
-        htmlParentTagIndices.add(htmlParentTagIndex);
-        htmlParentTagOffsets.add(htmlParentTagOffset);
+    public void addHtmlSourceOccurrence(int textNodeIndex, int annotationOffset) {
+        htmlTextNodeIndices.add(textNodeIndex);
+        htmlAnnotationOffsets.add(annotationOffset);
     }
 
 }

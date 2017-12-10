@@ -42,10 +42,14 @@ public class NERPostProcessorServiceTest {
             annotationDTO.setNerType(NERType.ORGANIZATION);
             annotations.add(annotationDTO);
         }
-        annotations.get(0).addPlainTextIndex(57);
+        annotations.get(0).addPlainTextIndex(56);
+        annotations.get(0).addHtmlSourceOccurrence(48, -1);
         annotations.get(1).addPlainTextIndex(236);
+        annotations.get(1).addHtmlSourceOccurrence(213, -1);
         annotations.get(2).addPlainTextIndex(574);
+        annotations.get(2).addHtmlSourceOccurrence(213, -1);
         annotations.get(3).addPlainTextIndex(613);
+        annotations.get(3).addHtmlSourceOccurrence(749, -1);
         nerResultDTOSimple.addAnnotations(annotations);
     }
 
@@ -78,15 +82,33 @@ public class NERPostProcessorServiceTest {
 
     @Test
     public void calculateHtmlIndicesSimple() {
-        //FIXME detects complex tags but shouldn't
+        for (AnnotationDTO annotationDTO : nerResultDTOSimple.getAnnotations()) {
+            annotationDTO.getHtmlTextNodeIndices().clear();
+            annotationDTO.getHtmlAnnotationOffsets().clear();
+        }
         nerResultDTOSimple = NERPostProcessorService.calculateHtmlIndices(nerResultDTOSimple, nerInputDTOSimple.htmlSource, indexedPlainTextSimple);
         Assert.assertNotNull(nerResultDTOSimple);
+        checkHtmlIndices(nerResultDTOSimple.getAnnotations());
     }
 
     @Test
     public void calculateHtmlIndicesComplex() {
+        for (AnnotationDTO annotationDTO : nerResultDTOComplex.getAnnotations()) {
+            annotationDTO.getHtmlTextNodeIndices().clear();
+            annotationDTO.getHtmlAnnotationOffsets().clear();
+        }
         nerResultDTOComplex = NERPostProcessorService.calculateHtmlIndices(nerResultDTOComplex, nerInputDTOComplex.htmlSource, indexedPlainTextComplex);
         Assert.assertNotNull(nerResultDTOComplex);
+        checkHtmlIndices(nerResultDTOComplex.getAnnotations());
+    }
+
+    private void checkHtmlIndices(List<AnnotationDTO> annotations) {
+        for (AnnotationDTO annotationDTO : annotations) {
+            Assert.assertNotNull(annotationDTO.getHtmlTextNodeIndices());
+            Assert.assertFalse(annotationDTO.getHtmlTextNodeIndices().isEmpty());
+            Assert.assertNotNull(annotationDTO.getHtmlAnnotationOffsets());
+            Assert.assertFalse(annotationDTO.getHtmlAnnotationOffsets().isEmpty());
+        }
     }
 
     @Test

@@ -16,25 +16,15 @@ import java.util.List;
 public class NERPostProcessorService {
 
     public static NERResultDTO calculateHtmlIndices(NERResultDTO resultDTO, String htmlSource, IndexedPlainText indexedPlainText) {
-        // FIXME does not play well with encoded entities (e.g. &copy; leads to differences in index between plain text and html)
         for (AnnotationDTO annotation : resultDTO.getAnnotations()) {
             for (int plainTextStartIndex : annotation.getPlainTextIndices()) {
                 int currentIndex = plainTextStartIndex;
-                Integer parentTagStartIndex = indexedPlainText.getIndexMap().get(currentIndex);
-                while (parentTagStartIndex == null) {
-                    parentTagStartIndex = indexedPlainText.getIndexMap().get(--currentIndex);
+                Integer textNodeIndex = indexedPlainText.getIndexMap().get(currentIndex);
+                while (textNodeIndex == null) {
+                    textNodeIndex = indexedPlainText.getIndexMap().get(--currentIndex);
                 }
-                int startOffset = plainTextStartIndex - currentIndex;
-                int htmlStartIndex = parentTagStartIndex + startOffset;
-
-                // check if there is another index on the map in the range of the length of the annotation value
-                int htmlEndIndex = htmlStartIndex + annotation.getValue().length();
-                if (htmlSource.substring(htmlStartIndex, htmlEndIndex).equals(annotation.getValue())) {
-                    annotation.addHtmlSourceOccurrence(parentTagStartIndex, startOffset);
-                } else {
-                    // FIXME also triggered by e.g. &copy; prefix
-                    throw new UnsupportedOperationException("Parsing complex annotation is not yet implemented.");
-                }
+                int startOffset = -1;
+                annotation.addHtmlSourceOccurrence(textNodeIndex, startOffset);
             }
         }
         return resultDTO;
