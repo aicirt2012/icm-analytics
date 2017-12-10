@@ -1,5 +1,7 @@
 package de.tum.in.icm.dtos;
 
+import java.util.Objects;
+
 public class RangeDTO {
 
     private String xPathStart = "";
@@ -39,4 +41,20 @@ public class RangeDTO {
         this.offsetEnd = offsetEnd;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        RangeDTO rangeDTO = (RangeDTO) o;
+        return offsetStart == rangeDTO.offsetStart &&
+                offsetEnd == rangeDTO.offsetEnd &&
+                Objects.equals(xPathStart, rangeDTO.xPathStart) &&
+                Objects.equals(xPathEnd, rangeDTO.xPathEnd);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(xPathStart, xPathEnd, offsetStart, offsetEnd);
+    }
 }
