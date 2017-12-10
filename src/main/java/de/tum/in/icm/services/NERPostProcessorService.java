@@ -18,13 +18,13 @@ public class NERPostProcessorService {
     public static NERResultDTO calculateHtmlIndices(NERResultDTO resultDTO, String htmlSource, IndexedPlainText indexedPlainText) {
         for (AnnotationDTO annotation : resultDTO.getAnnotations()) {
             for (int plainTextStartIndex : annotation.getPlainTextIndices()) {
-                int currentIndex = plainTextStartIndex;
-                Integer textNodeIndex = indexedPlainText.getIndexMap().get(currentIndex);
-                while (textNodeIndex == null) {
-                    textNodeIndex = indexedPlainText.getIndexMap().get(--currentIndex);
+                int plainTextNodeIndex = plainTextStartIndex;
+                Integer htmlTextNodeIndex = indexedPlainText.getIndexMap().get(plainTextNodeIndex);
+                while (htmlTextNodeIndex == null) {
+                    htmlTextNodeIndex = indexedPlainText.getIndexMap().get(--plainTextNodeIndex);
                 }
-                int startOffset = -1;
-                annotation.addHtmlSourceOccurrence(textNodeIndex, startOffset);
+                int startOffset = plainTextStartIndex - plainTextNodeIndex;
+                annotation.addHtmlSourceOccurrence(htmlTextNodeIndex, startOffset);
             }
         }
         return resultDTO;

@@ -14,6 +14,10 @@ import java.util.List;
 
 public class NERPostProcessorServiceTest {
 
+    private NERInputDTO nerInputDTOMinimal = new NERInputDTO();
+    private IndexedPlainText indexedPlainTextMinimal = new IndexedPlainText();
+    private NERResultDTO nerResultDTOMinimal = new NERResultDTO();
+
     private NERInputDTO nerInputDTOSimple = new NERInputDTO();
     private IndexedPlainText indexedPlainTextSimple = new IndexedPlainText();
     private NERResultDTO nerResultDTOSimple = new NERResultDTO();
@@ -24,8 +28,34 @@ public class NERPostProcessorServiceTest {
 
     @Before
     public void setUp() {
+        setUpMinimalExample();
         setUpSimpleExample();
         setUpComplexExample();
+    }
+
+    private void setUpMinimalExample() {
+        nerInputDTOMinimal.emailId = "Unit_test_postprocessor_minimal";
+        nerInputDTOMinimal.htmlSource = "<div><h1>Test</h1>text Test</div><div>Te<b>st</b></div>";
+        indexedPlainTextMinimal.addPlainText("Test", 9);
+        indexedPlainTextMinimal.addPlainText("\n", -1);
+        indexedPlainTextMinimal.addPlainText("text Test", 18);
+        indexedPlainTextMinimal.addPlainText("\n", -1);
+        indexedPlainTextMinimal.addPlainText("Te", 38);
+        indexedPlainTextMinimal.addPlainText("st", 43);
+        List<AnnotationDTO> annotations = new ArrayList<>();
+        for (int i = 0; i < 3; i++) {
+            AnnotationDTO annotationDTO = new AnnotationDTO();
+            annotationDTO.setValue("Test");
+            annotationDTO.setNerType(NERType.ORGANIZATION);
+            annotations.add(annotationDTO);
+        }
+        annotations.get(0).addPlainTextIndex(0);
+        annotations.get(0).addHtmlSourceOccurrence(9, 0);
+        annotations.get(1).addPlainTextIndex(10);
+        annotations.get(1).addHtmlSourceOccurrence(18, 5);
+        annotations.get(2).addPlainTextIndex(15);
+        annotations.get(2).addHtmlSourceOccurrence(38, 0);
+        nerResultDTOMinimal.addAnnotations(annotations);
     }
 
     private void setUpSimpleExample() {
@@ -85,6 +115,17 @@ public class NERPostProcessorServiceTest {
         annotations.get(3).addPlainTextIndex(606);
         annotations.get(4).addPlainTextIndex(630);
         nerResultDTOComplex.addAnnotations(annotations);
+    }
+
+    @Test
+    public void calculateHtmlIndicesMinimal() {
+        for (AnnotationDTO annotationDTO : nerResultDTOMinimal.getAnnotations()) {
+            annotationDTO.getHtmlTextNodeIndices().clear();
+            annotationDTO.getHtmlAnnotationOffsets().clear();
+        }
+        nerResultDTOMinimal = NERPostProcessorService.calculateHtmlIndices(nerResultDTOMinimal, nerInputDTOMinimal.htmlSource, indexedPlainTextMinimal);
+        Assert.assertNotNull(nerResultDTOMinimal);
+        checkHtmlIndices(nerResultDTOMinimal.getAnnotations());
     }
 
     @Test

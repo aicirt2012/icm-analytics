@@ -21,4 +21,17 @@ public class IndexedPlainText {
         return indexMap;
     }
 
+    public Integer getHtmlTextNodeIndex(int plainTextIndex) {
+        return -1;
+    }
+
+    private Integer getPlainTextParentIndex(int plainTextIndex) {
+
+        return -1;
+    }
+
+    public Integer getHtmlTextNodeOffset(int plainTextIndex) {
+        return plainTextIndex - getPlainTextParentIndex(plainTextIndex);
+    }
+
 }
