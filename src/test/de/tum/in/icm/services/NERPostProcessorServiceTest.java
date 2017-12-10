@@ -30,10 +30,13 @@ public class NERPostProcessorServiceTest {
 
     private void setUpSimpleExample() {
         nerInputDTOSimple.emailId = "Unit_test_postprocessor_simple";
-        nerInputDTOSimple.htmlSource = "<html><head></head><body><h1>Lorem ipsum</h1><p>dolor sit amet, consetetur sadipscing elitr, Google sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.</p><div><span>At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd Google gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus Google est Lorem ipsum dolor sit amet.</span></div><a href=\\\"www.some.url.containing.the.search.word/Google/index.html\\\">Google</a></body></html>";
+        nerInputDTOSimple.htmlSource = "<html><head></head><body><h1>Lorem ipsum</h1><p>dolor sit amet, consetetur sadipscing elitr, Google sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.</p><div><span>At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd Google gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus Google est Lorem ipsum dolor sit amet.</span></div><a href=\"www.some.url.containing.the.search.word/Google/index.html\">Google</a></body></html>";
         indexedPlainTextSimple.addPlainText("Lorem ipsum", 29);
+        indexedPlainTextSimple.addPlainText("\n", -1);
         indexedPlainTextSimple.addPlainText("dolor sit amet, consetetur sadipscing elitr, Google sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.", 48);
+        indexedPlainTextSimple.addPlainText("\n", -1);
         indexedPlainTextSimple.addPlainText("At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd Google gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus Google est Lorem ipsum dolor sit amet.", 213);
+        indexedPlainTextSimple.addPlainText("\n", -1);
         indexedPlainTextSimple.addPlainText("Google", 749);
         List<AnnotationDTO> annotations = new ArrayList<>();
         for (int i = 0; i < 4; i++) {
@@ -44,7 +47,7 @@ public class NERPostProcessorServiceTest {
         }
         annotations.get(0).addPlainTextIndex(56);
         annotations.get(0).addHtmlSourceOccurrence(48, -1);
-        annotations.get(1).addPlainTextIndex(236);
+        annotations.get(1).addPlainTextIndex(234);
         annotations.get(1).addHtmlSourceOccurrence(213, -1);
         annotations.get(2).addPlainTextIndex(574);
         annotations.get(2).addHtmlSourceOccurrence(213, -1);
@@ -55,11 +58,15 @@ public class NERPostProcessorServiceTest {
 
     private void setUpComplexExample() {
         nerInputDTOComplex.emailId = "Unit_test_postprocessor_complex";
-        nerInputDTOComplex.htmlSource = "<html><head></head><body><div><div><div><div><h1>Lorem ipsum</h1><table><tbody><tr><p></p><p>dolor sit amet, consetetur sadipscing elitr, Google sed diam nonumy eirmod tempor invidunt ut laboreetdolore magna aliquyam erat, sed diam voluptua.</p></tr><tr><div><span>At vero eos et accusam et justo duo dolores et ea rebum.Stet clita kasd Google gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.Lorem ipsum dolor sit amet, consetetur sadipscing elitr,sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.Stet clita kasd gubergren, no sea takimata sanctus Google est Lorem ipsum dolor sit amet.</span></div><a href=\\\"www.some.url.containing.the.search.word/Google/index.html\\\">Google</a></tr></tbody></table></div><div><span>This is <a>the</a> ugly Goo<i>gle</i>...</span></div></div></div></div></body></html>";
+        nerInputDTOComplex.htmlSource = "<html><head></head><body><div><div><div><div><h1>Lorem ipsum</h1><table><tbody><tr><p></p><p>dolor sit amet, consetetur sadipscing elitr, Google sed diam nonumy eirmod tempor invidunt ut laboreetdolore magna aliquyam erat, sed diam voluptua.</p></tr><tr><div><span>At vero eos et accusam et justo duo dolores et ea rebum.Stet clita kasd Google gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.Lorem ipsum dolor sit amet, consetetur sadipscing elitr,sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.Stet clita kasd gubergren, no sea takimata sanctus Google est Lorem ipsum dolor sit amet.</span></div><a href=\"www.some.url.containing.the.search.word/Google/index.html\">Google</a></tr></tbody></table></div><div><span>This is <a>the</a> ugly Goo<i>gle</i>...</span></div></div></div></div></body></html>";
         indexedPlainTextComplex.addPlainText("Lorem ipsum", 49);
+        indexedPlainTextSimple.addPlainText("\n", -1);
         indexedPlainTextComplex.addPlainText("dolor sit amet, consetetur sadipscing elitr, Google sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.", 93);
+        indexedPlainTextSimple.addPlainText("\n", -1);
         indexedPlainTextComplex.addPlainText("At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd Google gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus Google est Lorem ipsum dolor sit amet.", 265);
+        indexedPlainTextSimple.addPlainText("\n", -1);
         indexedPlainTextComplex.addPlainText("Google", 796);
+        indexedPlainTextSimple.addPlainText("\n", -1);
         indexedPlainTextComplex.addPlainText("This is ", 844);
         indexedPlainTextComplex.addPlainText("the", 855);
         indexedPlainTextComplex.addPlainText(" ugly Goo", 862);
