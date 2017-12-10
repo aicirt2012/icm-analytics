@@ -2,6 +2,7 @@ package de.tum.in.icm.entities;
 
 import javax.swing.text.html.HTML;
 import java.util.LinkedList;
+import java.util.ListIterator;
 
 public class XPathBuilder {
 
@@ -19,23 +20,31 @@ public class XPathBuilder {
     }
 
     public void addClosingTag(HTML.Tag closingTag) {
-        if (closingTag.equals(tags.peekLast())) {
+        if (tags.isEmpty()) {
+            return;
+        }
+        if (!closingTag.equals(tags.peekLast())) {
+            throw new UnsupportedOperationException("Malformed HTML. Cannot close a tag that is not the last open tag.");
+        }
+        if (tagCounts.peekLast() == 1) {
+            tags.pollLast();
+            tagCounts.pollLast();
+        } else {
             Integer tagCount = tagCounts.pollLast() - 1;
             tagCounts.add(tagCount);
-        } else {
-            tags.add(closingTag);
-            tagCounts.add(1);
         }
     }
 
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
-        while (!tags.isEmpty()) {
+        ListIterator<HTML.Tag> tagIterator = tags.listIterator();
+        ListIterator<Integer> tagCountIterator = tagCounts.listIterator();
+        while (tagIterator.hasNext()) {
             stringBuilder.append("/");
-            stringBuilder.append(tags.pollFirst());
+            stringBuilder.append(tagIterator.next());
             stringBuilder.append("[");
-            stringBuilder.append(tagCounts.pollFirst());
+            stringBuilder.append(tagCountIterator.next());
             stringBuilder.append("]");
         }
         return stringBuilder.toString();

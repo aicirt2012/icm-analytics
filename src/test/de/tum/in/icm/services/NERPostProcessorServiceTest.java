@@ -13,24 +13,24 @@ public class NERPostProcessorServiceTest {
     @Test
     public void calculateHtmlIndicesMinimal() {
         NERTestDataFactory.Type type = NERTestDataFactory.Type.MINIMAL;
-        NERResultDTO actualNERResultDTO = calculateHtmlIndices(type);
         NERResultDTO expectedNERResultDTO = NERTestDataFactory.getNERResultDTO(type);
+        NERResultDTO actualNERResultDTO = calculateHtmlIndices(type);
         Assert.assertEquals(expectedNERResultDTO.getAnnotations(), actualNERResultDTO.getAnnotations());
     }
 
     @Test
     public void calculateHtmlIndicesSimple() {
         NERTestDataFactory.Type type = NERTestDataFactory.Type.SIMPLE;
-        NERResultDTO actualNERResultDTO = calculateHtmlIndices(type);
         NERResultDTO expectedNERResultDTO = NERTestDataFactory.getNERResultDTO(type);
+        NERResultDTO actualNERResultDTO = calculateHtmlIndices(type);
         Assert.assertEquals(expectedNERResultDTO.getAnnotations(), actualNERResultDTO.getAnnotations());
     }
 
     @Test
     public void calculateHtmlIndicesComplex() {
         NERTestDataFactory.Type type = NERTestDataFactory.Type.COMPLEX;
-        NERResultDTO actualNERResultDTO = calculateHtmlIndices(type);
         NERResultDTO expectedNERResultDTO = NERTestDataFactory.getNERResultDTO(type);
+        NERResultDTO actualNERResultDTO = calculateHtmlIndices(type);
         Assert.assertEquals(expectedNERResultDTO.getAnnotations(), actualNERResultDTO.getAnnotations());
     }
 
@@ -46,14 +46,18 @@ public class NERPostProcessorServiceTest {
 
     @Test
     public void calculateRangeObjectsSimple() {
-        NERResultDTO nerResultDTO = calculateRangeObjects(NERTestDataFactory.Type.SIMPLE);
-        Assert.assertNotNull(nerResultDTO);
+        NERTestDataFactory.Type type = NERTestDataFactory.Type.SIMPLE;
+        NERResultDTO expectedNERResultDTO = NERTestDataFactory.getNERResultDTO(type);
+        NERResultDTO actualNERResultDTO = calculateRangeObjects(type);
+        Assert.assertEquals(expectedNERResultDTO.getAnnotations(), actualNERResultDTO.getAnnotations());
     }
 
     @Test
     public void calculateRangeObjectsComplex() {
-        NERResultDTO nerResultDTO = calculateRangeObjects(NERTestDataFactory.Type.COMPLEX);
-        Assert.assertNotNull(nerResultDTO);
+        NERTestDataFactory.Type type = NERTestDataFactory.Type.COMPLEX;
+        NERResultDTO expectedNERResultDTO = NERTestDataFactory.getNERResultDTO(type);
+        NERResultDTO actualNERResultDTO = calculateRangeObjects(type);
+        Assert.assertEquals(expectedNERResultDTO.getAnnotations(), actualNERResultDTO.getAnnotations());
     }
 
     private NERResultDTO calculateRangeObjects(NERTestDataFactory.Type type) {

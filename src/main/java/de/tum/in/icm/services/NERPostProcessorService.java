@@ -2,6 +2,7 @@ package de.tum.in.icm.services;
 
 import de.tum.in.icm.dtos.AnnotationDTO;
 import de.tum.in.icm.dtos.NERResultDTO;
+import de.tum.in.icm.dtos.RangeDTO;
 import de.tum.in.icm.entities.IndexedPlainText;
 import de.tum.in.icm.entities.XPathBuilder;
 
@@ -35,32 +36,43 @@ public class NERPostProcessorService {
         HTMLEditorKit.ParserCallback parserCallback = new HTMLEditorKit.ParserCallback() {
             XPathBuilder xPathBuilder = new XPathBuilder();
             List<AnnotationDTO> annotations = resultDTO.getAnnotations();
-            // annotation list is expected to be sorted ascending by plain text index
-            AnnotationDTO currentAnnotation = null;
 
             @Override
             public void handleText(final char[] data, final int pos) {
-
+                for (AnnotationDTO annotation : annotations) {
+                    if (annotation.getHtmlTextNodeIndices().contains(pos)) {
+                        for (int i = 0; i < annotation.getHtmlTextNodeIndices().size(); i++) {
+                            if (annotation.getHtmlTextNodeIndices().get(i) == pos) {
+                                RangeDTO rangeDTO = new RangeDTO();
+                                rangeDTO.setxPathStart(xPathBuilder.toString());
+                                rangeDTO.setOffsetStart(annotation.getHtmlAnnotationOffsets().get(i));
+                                int startIndex = pos + rangeDTO.getOffsetStart();
+                                int endIndex = startIndex + annotation.getValue().length();
+                                if (!htmlSource.substring(startIndex, endIndex).equals(annotation.getValue())) {
+                                    throw new UnsupportedOperationException("HTML source contains complex annotations. Handling those is not yet implemented.");
+                                } else {
+                                    rangeDTO.setxPathEnd(xPathBuilder.toString());
+                                    rangeDTO.setOffsetEnd(rangeDTO.getOffsetStart() + annotation.getValue().length());
+                                }
+                            }
+                        }
+                    }
+                }
             }
 
             @Override
-            public void handleStartTag(final HTML.Tag t, final MutableAttributeSet a, final int pos) {
-                if (t.equals(HTML.Tag.BODY)) {
-                    // xpath is relative to body tag, drop everything we've parsed until now
+            public void handleStartTag(final HTML.Tag tag, final MutableAttributeSet a, final int pos) {
+                if (tag.equals(HTML.Tag.BODY)) {
+                    // xpaths are relative to body tag, drop everything we've parsed until now
                     xPathBuilder = new XPathBuilder();
                     return;
                 }
-
+                xPathBuilder.addOpeningTag(tag);
             }
 
             @Override
-            public void handleEndTag(final HTML.Tag t, final int pos) {
-
-            }
-
-            @Override
-            public void handleSimpleTag(final HTML.Tag t, final MutableAttributeSet a, final int pos) {
-
+            public void handleEndTag(final HTML.Tag tag, final int pos) {
+                xPathBuilder.addClosingTag(tag);
             }
         };
 
