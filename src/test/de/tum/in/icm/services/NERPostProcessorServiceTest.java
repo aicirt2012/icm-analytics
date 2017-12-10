@@ -36,13 +36,12 @@ public class NERPostProcessorServiceTest {
 
     private NERResultDTO calculateHtmlIndices(NERTestDataFactory.Type type) {
         NERResultDTO nerResultDTO = NERTestDataFactory.getNERResultDTO(type);
-        NERInputDTO nerInputDTO = NERTestDataFactory.getNERInputDTO(type);
         IndexedPlainText indexedPlainText = NERTestDataFactory.getIndexedPlainText(type);
         for (AnnotationDTO annotationDTO : nerResultDTO.getAnnotations()) {
             annotationDTO.getHtmlTextNodeIndices().clear();
             annotationDTO.getHtmlAnnotationOffsets().clear();
         }
-        return NERPostProcessorService.calculateHtmlIndices(nerResultDTO, nerInputDTO.htmlSource, indexedPlainText);
+        return NERPostProcessorService.calculateHtmlIndices(nerResultDTO, indexedPlainText);
     }
 
     @Test

@@ -15,7 +15,7 @@ import java.util.List;
 
 public class NERPostProcessorService {
 
-    public static NERResultDTO calculateHtmlIndices(NERResultDTO resultDTO, String htmlSource, IndexedPlainText indexedPlainText) {
+    public static NERResultDTO calculateHtmlIndices(NERResultDTO resultDTO, IndexedPlainText indexedPlainText) {
         for (AnnotationDTO annotation : resultDTO.getAnnotations()) {
             for (int plainTextStartIndex : annotation.getPlainTextIndices()) {
                 int plainTextNodeIndex = plainTextStartIndex;
