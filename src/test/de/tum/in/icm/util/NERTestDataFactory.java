@@ -51,9 +51,9 @@ public class NERTestDataFactory {
                 annotations.get(0).addHtmlSourceOccurrence(9, 0);
                 annotations.get(1).addHtmlSourceOccurrence(18, 5);
                 annotations.get(2).addHtmlSourceOccurrence(38, 0);
-                annotations.get(0).addXPathRange("", -1, "", -1);
-                annotations.get(1).addXPathRange("", -1, "", -1);
-                annotations.get(2).addXPathRange("", -1, "", -1);
+                annotations.get(0).addXPathRange("/div[1]/h1[1]", 0, "/div[1]/h1[1]", 4);
+                annotations.get(1).addXPathRange("/div[1]", 5, "/div[1]", 9);
+                annotations.get(2).addXPathRange("/div[2]", 0, "/div[2]/b[1]", 2);
                 break;
             case SIMPLE:
                 for (int i = 0; i < 4; i++) {
