@@ -8,26 +8,30 @@ import de.tum.in.icm.util.NERTestDataFactory;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.util.List;
-
 public class NERPostProcessorServiceTest {
 
     @Test
     public void calculateHtmlIndicesMinimal() {
-        NERResultDTO nerResultDTO = calculateHtmlIndices(NERTestDataFactory.Type.MINIMAL);
-        checkHtmlIndices(nerResultDTO.getAnnotations());
+        NERTestDataFactory.Type type = NERTestDataFactory.Type.MINIMAL;
+        NERResultDTO actualNERResultDTO = calculateHtmlIndices(type);
+        NERResultDTO expectedNERResultDTO = NERTestDataFactory.getNERResultDTO(type);
+        Assert.assertEquals(expectedNERResultDTO.getAnnotations(), actualNERResultDTO.getAnnotations());
     }
 
     @Test
     public void calculateHtmlIndicesSimple() {
-        NERResultDTO nerResultDTO = calculateHtmlIndices(NERTestDataFactory.Type.SIMPLE);
-        checkHtmlIndices(nerResultDTO.getAnnotations());
+        NERTestDataFactory.Type type = NERTestDataFactory.Type.SIMPLE;
+        NERResultDTO actualNERResultDTO = calculateHtmlIndices(type);
+        NERResultDTO expectedNERResultDTO = NERTestDataFactory.getNERResultDTO(type);
+        Assert.assertEquals(expectedNERResultDTO.getAnnotations(), actualNERResultDTO.getAnnotations());
     }
 
     @Test
     public void calculateHtmlIndicesComplex() {
-        NERResultDTO nerResultDTO = calculateHtmlIndices(NERTestDataFactory.Type.COMPLEX);
-        checkHtmlIndices(nerResultDTO.getAnnotations());
+        NERTestDataFactory.Type type = NERTestDataFactory.Type.COMPLEX;
+        NERResultDTO actualNERResultDTO = calculateHtmlIndices(type);
+        NERResultDTO expectedNERResultDTO = NERTestDataFactory.getNERResultDTO(type);
+        Assert.assertEquals(expectedNERResultDTO.getAnnotations(), actualNERResultDTO.getAnnotations());
     }
 
     private NERResultDTO calculateHtmlIndices(NERTestDataFactory.Type type) {
@@ -39,15 +43,6 @@ public class NERPostProcessorServiceTest {
             annotationDTO.getHtmlAnnotationOffsets().clear();
         }
         return NERPostProcessorService.calculateHtmlIndices(nerResultDTO, nerInputDTO.htmlSource, indexedPlainText);
-    }
-
-    private void checkHtmlIndices(List<AnnotationDTO> annotations) {
-        for (AnnotationDTO annotationDTO : annotations) {
-            Assert.assertNotNull(annotationDTO.getHtmlTextNodeIndices());
-            Assert.assertFalse(annotationDTO.getHtmlTextNodeIndices().isEmpty());
-            Assert.assertNotNull(annotationDTO.getHtmlAnnotationOffsets());
-            Assert.assertFalse(annotationDTO.getHtmlAnnotationOffsets().isEmpty());
-        }
     }
 
     @Test

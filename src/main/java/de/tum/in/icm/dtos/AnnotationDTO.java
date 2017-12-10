@@ -5,6 +5,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @XmlRootElement
 public class AnnotationDTO {
@@ -79,4 +80,23 @@ public class AnnotationDTO {
         htmlAnnotationOffsets.add(annotationOffset);
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AnnotationDTO that = (AnnotationDTO) o;
+        return Objects.equals(value, that.value) &&
+                nerType == that.nerType &&
+                Objects.equals(posType, that.posType) &&
+                Objects.equals(ranges, that.ranges) &&
+                Objects.equals(plainTextIndices, that.plainTextIndices) &&
+                Objects.equals(htmlTextNodeIndices, that.htmlTextNodeIndices) &&
+                Objects.equals(htmlAnnotationOffsets, that.htmlAnnotationOffsets);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(value, nerType, posType, ranges, plainTextIndices, htmlTextNodeIndices, htmlAnnotationOffsets);
+    }
 }
