@@ -70,10 +70,10 @@ public class NERTestDataFactory {
                 annotations.get(1).addHtmlSourceOccurrence(213, 73);
                 annotations.get(2).addHtmlSourceOccurrence(213, 411);
                 annotations.get(3).addHtmlSourceOccurrence(743, 0);
-                annotations.get(0).addXPathRange("", -1, "", -1);
-                annotations.get(1).addXPathRange("", -1, "", -1);
-                annotations.get(2).addXPathRange("", -1, "", -1);
-                annotations.get(3).addXPathRange("", -1, "", -1);
+                annotations.get(0).addXPathRange("/p[1]", 45, "/p[1]", 51);
+                annotations.get(1).addXPathRange("/div[1]/span[1]", 73, "/div[1]/span[1]", 79);
+                annotations.get(2).addXPathRange("/div[1]/span[1]", 411, "/div[1]/span[1]", 417);
+                annotations.get(3).addXPathRange("/a[1]", 0, "/a[1]", 6);
                 break;
             case COMPLEX:
                 for (int i = 0; i < 5; i++) {
@@ -92,11 +92,11 @@ public class NERTestDataFactory {
                 annotations.get(2).addHtmlSourceOccurrence(265, 411);
                 annotations.get(3).addHtmlSourceOccurrence(795, 0);
                 annotations.get(4).addHtmlSourceOccurrence(861, 6);
-                annotations.get(0).addXPathRange("", -1, "", -1);
-                annotations.get(1).addXPathRange("", -1, "", -1);
-                annotations.get(2).addXPathRange("", -1, "", -1);
-                annotations.get(3).addXPathRange("", -1, "", -1);
-                annotations.get(4).addXPathRange("", -1, "", -1);
+                annotations.get(0).addXPathRange("/div[1]/div[1]/div[1]/div[1]/table[1]/tbody[1]/tr[1]/p[2]", 45, "/div[1]/div[1]/div[1]/div[1]/table[1]/tbody[1]/tr[1]/p[2]", 51);
+                annotations.get(1).addXPathRange("/div[1]/div[1]/div[1]/div[1]/table[1]/tbody[1]/tr[2]/div[1]/span[1]", 73, "/div[1]/div[1]/div[1]/div[1]/table[1]/tbody[1]/tr[2]/div[1]/span[1]", 79);
+                annotations.get(2).addXPathRange("/div[1]/div[1]/div[1]/div[1]/table[1]/tbody[1]/tr[2]/div[1]/span[1]", 411, "/div[1]/div[1]/div[1]/div[1]/table[1]/tbody[1]/tr[2]/div[1]/span[1]", 417);
+                annotations.get(3).addXPathRange("/div[1]/div[1]/div[1]/div[1]/table[1]/tbody[1]/tr[2]/a[1]", 0, "/div[1]/div[1]/div[1]/div[1]/table[1]/tbody[1]/tr[2]/a[1]", 6);
+                annotations.get(4).addXPathRange("/div[1]/div[1]/div[2]/span[1]", 6, "/div[1]/div[1]/div[2]/span[1]/i[1]", 3);  //TODO check this in annotator framework!
                 break;
         }
         nerResultDTO.addAnnotations(annotations);
