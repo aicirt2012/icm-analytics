@@ -67,7 +67,7 @@ public class NERPostProcessorServiceTest {
         indexedPlainTextSimple.addPlainText("\n", -1);
         indexedPlainTextSimple.addPlainText("At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd Google gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus Google est Lorem ipsum dolor sit amet.", 213);
         indexedPlainTextSimple.addPlainText("\n", -1);
-        indexedPlainTextSimple.addPlainText("Google", 749);
+        indexedPlainTextSimple.addPlainText("Google", 743);
         List<AnnotationDTO> annotations = new ArrayList<>();
         for (int i = 0; i < 4; i++) {
             AnnotationDTO annotationDTO = new AnnotationDTO();
@@ -75,14 +75,14 @@ public class NERPostProcessorServiceTest {
             annotationDTO.setNerType(NERType.ORGANIZATION);
             annotations.add(annotationDTO);
         }
-        annotations.get(0).addPlainTextIndex(56);
-        annotations.get(0).addHtmlSourceOccurrence(48, -1);
-        annotations.get(1).addPlainTextIndex(234);
-        annotations.get(1).addHtmlSourceOccurrence(213, -1);
+        annotations.get(0).addPlainTextIndex(57);
+        annotations.get(1).addPlainTextIndex(236);
         annotations.get(2).addPlainTextIndex(574);
-        annotations.get(2).addHtmlSourceOccurrence(213, -1);
         annotations.get(3).addPlainTextIndex(613);
-        annotations.get(3).addHtmlSourceOccurrence(749, -1);
+        annotations.get(0).addHtmlSourceOccurrence(48, 45);
+        annotations.get(1).addHtmlSourceOccurrence(213, 73);
+        annotations.get(2).addHtmlSourceOccurrence(213, 411);
+        annotations.get(3).addHtmlSourceOccurrence(743, 0);
         nerResultDTOSimple.addAnnotations(annotations);
     }
 
@@ -90,18 +90,18 @@ public class NERPostProcessorServiceTest {
         nerInputDTOComplex.emailId = "Unit_test_postprocessor_complex";
         nerInputDTOComplex.htmlSource = "<html><head></head><body><div><div><div><div><h1>Lorem ipsum</h1><table><tbody><tr><p></p><p>dolor sit amet, consetetur sadipscing elitr, Google sed diam nonumy eirmod tempor invidunt ut laboreetdolore magna aliquyam erat, sed diam voluptua.</p></tr><tr><div><span>At vero eos et accusam et justo duo dolores et ea rebum.Stet clita kasd Google gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.Lorem ipsum dolor sit amet, consetetur sadipscing elitr,sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.Stet clita kasd gubergren, no sea takimata sanctus Google est Lorem ipsum dolor sit amet.</span></div><a href=\"www.some.url.containing.the.search.word/Google/index.html\">Google</a></tr></tbody></table></div><div><span>This is <a>the</a> ugly Goo<i>gle</i>...</span></div></div></div></div></body></html>";
         indexedPlainTextComplex.addPlainText("Lorem ipsum", 49);
-        indexedPlainTextSimple.addPlainText("\n", -1);
+        indexedPlainTextComplex.addPlainText("\n", -1);
         indexedPlainTextComplex.addPlainText("dolor sit amet, consetetur sadipscing elitr, Google sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.", 93);
-        indexedPlainTextSimple.addPlainText("\n", -1);
+        indexedPlainTextComplex.addPlainText("\n", -1);
         indexedPlainTextComplex.addPlainText("At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd Google gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus Google est Lorem ipsum dolor sit amet.", 265);
-        indexedPlainTextSimple.addPlainText("\n", -1);
-        indexedPlainTextComplex.addPlainText("Google", 796);
-        indexedPlainTextSimple.addPlainText("\n", -1);
-        indexedPlainTextComplex.addPlainText("This is ", 844);
-        indexedPlainTextComplex.addPlainText("the", 855);
-        indexedPlainTextComplex.addPlainText(" ugly Goo", 862);
-        indexedPlainTextComplex.addPlainText("gle", 874);
-        indexedPlainTextComplex.addPlainText("...", 881);
+        indexedPlainTextComplex.addPlainText("\n", -1);
+        indexedPlainTextComplex.addPlainText("Google", 790);
+        indexedPlainTextComplex.addPlainText("\n", -1);
+        indexedPlainTextComplex.addPlainText("This is ", 838);
+        indexedPlainTextComplex.addPlainText("the", 849);
+        indexedPlainTextComplex.addPlainText(" ugly Goo", 856);
+        indexedPlainTextComplex.addPlainText("gle", 868);
+        indexedPlainTextComplex.addPlainText("...", 875);
         List<AnnotationDTO> annotations = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
             AnnotationDTO annotationDTO = new AnnotationDTO();
@@ -114,6 +114,11 @@ public class NERPostProcessorServiceTest {
         annotations.get(2).addPlainTextIndex(567);
         annotations.get(3).addPlainTextIndex(606);
         annotations.get(4).addPlainTextIndex(630);
+        annotations.get(0).addHtmlSourceOccurrence(93, 45);
+        annotations.get(1).addHtmlSourceOccurrence(265, 72);
+        annotations.get(2).addHtmlSourceOccurrence(265, 406);
+        annotations.get(3).addHtmlSourceOccurrence(790, 0);
+        annotations.get(4).addHtmlSourceOccurrence(857, 6);
         nerResultDTOComplex.addAnnotations(annotations);
     }
 
