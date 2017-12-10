@@ -54,6 +54,7 @@ public class NERPostProcessorService {
                                     rangeDTO.setxPathEnd(xPathBuilder.toString());
                                     rangeDTO.setOffsetEnd(rangeDTO.getOffsetStart() + annotation.getValue().length());
                                 }
+                                annotation.getRanges().add(rangeDTO);
                             }
                         }
                     }

@@ -8,15 +8,19 @@ public class XPathBuilder {
 
     private LinkedList<HTML.Tag> tags = new LinkedList<>();
     private LinkedList<Integer> tagCounts = new LinkedList<>();
+    private HTML.Tag lastClosedTag = null;
+    private Integer lastClosedTagCount = -1;
 
     public void addOpeningTag(HTML.Tag openingTag) {
-        if (openingTag.equals(tags.peekLast())) {
-            Integer tagCount = tagCounts.pollLast() + 1;
-            tagCounts.add(tagCount);
+        if (openingTag.equals(lastClosedTag)) {
+            tags.add(openingTag);
+            tagCounts.add(lastClosedTagCount + 1);
         } else {
             tags.add(openingTag);
             tagCounts.add(1);
         }
+        lastClosedTag = null;
+        lastClosedTagCount = -1;
     }
 
     public void addClosingTag(HTML.Tag closingTag) {
@@ -26,13 +30,8 @@ public class XPathBuilder {
         if (!closingTag.equals(tags.peekLast())) {
             throw new UnsupportedOperationException("Malformed HTML. Cannot close a tag that is not the last open tag.");
         }
-        if (tagCounts.peekLast() == 1) {
-            tags.pollLast();
-            tagCounts.pollLast();
-        } else {
-            Integer tagCount = tagCounts.pollLast() - 1;
-            tagCounts.add(tagCount);
-        }
+        lastClosedTag = tags.pollLast();
+        lastClosedTagCount = tagCounts.pollLast();
     }
 
     @Override
