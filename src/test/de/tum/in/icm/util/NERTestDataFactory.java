@@ -28,7 +28,7 @@ public class NERTestDataFactory {
                 break;
             case COMPLEX:
                 nerInputDTO.emailId = "Unit_test_postprocessor_complex";
-                nerInputDTO.htmlSource = "<html><head></head><body><div><div><div><div><h1>Lorem ipsum</h1><table><tbody><tr><p></p><p>dolor sit amet, consetetur sadipscing elitr, Google sed diam nonumy eirmod tempor invidunt ut laboreetdolore magna aliquyam erat, sed diam voluptua.</p></tr><tr><div><span>At vero eos et accusam et justo duo dolores et ea rebum.Stet clita kasd Google gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.Lorem ipsum dolor sit amet, consetetur sadipscing elitr,sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.Stet clita kasd gubergren, no sea takimata sanctus Google est Lorem ipsum dolor sit amet.</span></div><a href=\"www.some.url.containing.the.search.word/Google/index.html\">Google</a></tr></tbody></table></div><div><span>This is <a>the</a> ugly Goo<i>gle</i>...</span></div></div></div></div></body></html>";
+                nerInputDTO.htmlSource = "<html><head></head><body><div><div><div><div><h1>Lorem ipsum</h1><table><tbody><tr><p></p><p>dolor sit amet, consetetur sadipscing elitr, Google sed diam nonumy eirmod tempor invidunt ut laboreetdolore magna aliquyam erat, sed diam voluptua.</p></tr><tr><div><span>At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd Google gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus Google est Lorem ipsum dolor sit amet.</span></div><a href=\"www.some.url.containing.the.search.word/Google/index.html\">Google</a></tr></tbody></table></div><div><span>This is <a>the</a> ugly Goo<i>gle</i>...</span></div></div></div></div></body></html>";
                 break;
         }
         return nerInputDTO;
@@ -76,15 +76,15 @@ public class NERTestDataFactory {
                     annotations.add(annotationDTO);
                 }
                 annotations.get(0).addPlainTextIndex(57);
-                annotations.get(1).addPlainTextIndex(233);
-                annotations.get(2).addPlainTextIndex(567);
-                annotations.get(3).addPlainTextIndex(606);
-                annotations.get(4).addPlainTextIndex(630);
+                annotations.get(1).addPlainTextIndex(236);
+                annotations.get(2).addPlainTextIndex(574);
+                annotations.get(3).addPlainTextIndex(613);
+                annotations.get(4).addPlainTextIndex(637);
                 annotations.get(0).addHtmlSourceOccurrence(93, 45);
-                annotations.get(1).addHtmlSourceOccurrence(265, 72);
-                annotations.get(2).addHtmlSourceOccurrence(265, 406);
-                annotations.get(3).addHtmlSourceOccurrence(790, 0);
-                annotations.get(4).addHtmlSourceOccurrence(857, 6);
+                annotations.get(1).addHtmlSourceOccurrence(265, 73);
+                annotations.get(2).addHtmlSourceOccurrence(265, 411);
+                annotations.get(3).addHtmlSourceOccurrence(795, 0);
+                annotations.get(4).addHtmlSourceOccurrence(861, 6);
                 break;
         }
         nerResultDTO.addAnnotations(annotations);
@@ -118,13 +118,13 @@ public class NERTestDataFactory {
                 indexedPlainText.addPlainText("\n", -1);
                 indexedPlainText.addPlainText("At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd Google gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus Google est Lorem ipsum dolor sit amet.", 265);
                 indexedPlainText.addPlainText("\n", -1);
-                indexedPlainText.addPlainText("Google", 790);
+                indexedPlainText.addPlainText("Google", 795);
                 indexedPlainText.addPlainText("\n", -1);
-                indexedPlainText.addPlainText("This is ", 838);
-                indexedPlainText.addPlainText("the", 849);
-                indexedPlainText.addPlainText(" ugly Goo", 856);
-                indexedPlainText.addPlainText("gle", 868);
-                indexedPlainText.addPlainText("...", 875);
+                indexedPlainText.addPlainText("This is ", 843);
+                indexedPlainText.addPlainText("the", 854);
+                indexedPlainText.addPlainText(" ugly Goo", 861);
+                indexedPlainText.addPlainText("gle", 873);
+                indexedPlainText.addPlainText("...", 880);
                 break;
         }
         return indexedPlainText;

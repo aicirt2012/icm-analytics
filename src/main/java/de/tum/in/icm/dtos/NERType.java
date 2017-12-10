@@ -8,6 +8,7 @@ public enum NERType {
     LOCATION,
     PERSON,
     ORGANIZATION,
+    DURATION,
     MONEY,
     DATE,
     TIME,
