@@ -16,7 +16,7 @@ public class AnnotationDTO {
     @XmlElement
     private String posType;
     @XmlElement
-    private List<RangeDTO> ranges;
+    private List<RangeDTO> ranges = new ArrayList<>();
 
     // FIXME transient values are being output by REST API anyways
     @XmlTransient
