@@ -37,8 +37,34 @@ public class NERPostProcessorService {
             XPathBuilder xPathBuilder = new XPathBuilder();
             List<AnnotationDTO> annotations = resultDTO.getAnnotations();
 
+            RangeDTO currentSplitAnnotationRange = null;
+            String annotationValueNotYetRead = "";
+
             @Override
             public void handleText(final char[] data, final int pos) {
+                if (currentSplitAnnotationRange != null) {
+                    // already found the start of a split annotation, need to find the end now
+                    int charsToRead = annotationValueNotYetRead.length();
+                    int charsAlreadyRead;
+                    for (charsAlreadyRead = 0; charsAlreadyRead <= charsToRead && charsAlreadyRead < data.length; charsAlreadyRead++) {
+                        if (data[charsAlreadyRead] != annotationValueNotYetRead.toCharArray()[charsAlreadyRead]) {
+                            if (charsAlreadyRead != charsToRead) {
+                                // found unexpected character while still parsing the annotation value => malformed html
+                                throw new UnsupportedOperationException("HTML source malformed: Could not find the end of a split annotation.");
+                            }
+                        }
+                    }
+                    if (charsAlreadyRead == charsToRead) {
+                        // done parsing the split annotation
+                        currentSplitAnnotationRange.setxPathEnd(xPathBuilder.toString());
+                        currentSplitAnnotationRange.setOffsetEnd(charsAlreadyRead);
+                        currentSplitAnnotationRange = null;
+                        annotationValueNotYetRead = "";
+                    } else {
+                        // not yet done with parsing, continue in next text node
+                        annotationValueNotYetRead = annotationValueNotYetRead.substring(charsAlreadyRead);
+                    }
+                }
                 for (AnnotationDTO annotation : annotations) {
                     if (annotation.getHtmlTextNodeIndices().contains(pos)) {
                         for (int i = 0; i < annotation.getHtmlTextNodeIndices().size(); i++) {
@@ -48,9 +74,18 @@ public class NERPostProcessorService {
                                 rangeDTO.setOffsetStart(annotation.getHtmlAnnotationOffsets().get(i));
                                 int startIndex = pos + rangeDTO.getOffsetStart();
                                 int endIndex = startIndex + annotation.getValue().length();
-                                if (!htmlSource.substring(startIndex, endIndex).equals(annotation.getValue())) {
-                                    throw new UnsupportedOperationException("HTML source contains complex annotations. Handling those is not yet implemented.");
+                                String htmlValue = htmlSource.substring(startIndex, endIndex);
+                                if (!htmlValue.equals(annotation.getValue())) {
+                                    // complex annotation, split over multiple text nodes
+                                    for (int j = 0; j < htmlValue.length(); j++) {
+                                        if (htmlValue.toCharArray()[j] != annotation.getValue().toCharArray()[j]) {
+                                            annotationValueNotYetRead = annotation.getValue().substring(j);
+                                            break;
+                                        }
+                                    }
+                                    currentSplitAnnotationRange = rangeDTO;
                                 } else {
+                                    // simple annotation, all contained in one text node
                                     rangeDTO.setxPathEnd(xPathBuilder.toString());
                                     rangeDTO.setOffsetEnd(rangeDTO.getOffsetStart() + annotation.getValue().length());
                                 }
