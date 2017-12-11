@@ -66,7 +66,7 @@ public class NERPostProcessorServiceTest {
         for (AnnotationDTO annotationDTO : nerResultDTO.getAnnotations()) {
             annotationDTO.getRanges().clear();
         }
-        return NERPostProcessorService.calculateRangeObjects(nerResultDTO, nerInputDTO.htmlSource);
+        return NERPostProcessorService.calculateRangeObjects(nerResultDTO, nerInputDTO.getHtmlSource());
     }
 
 }

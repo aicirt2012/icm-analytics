@@ -19,16 +19,16 @@ public class NERTestDataFactory {
         NERInputDTO nerInputDTO = new NERInputDTO();
         switch (type) {
             case MINIMAL:
-                nerInputDTO.emailId = "Unit_test_postprocessor_minimal";
-                nerInputDTO.htmlSource = "<div><h1>Test</h1>text Test</div><div>Te<b>st</b></div>";
+                nerInputDTO.setEmailId("Unit_test_postprocessor_minimal");
+                nerInputDTO.setHtmlSource("<div><h1>Test</h1>text Test</div><div>Te<b>st</b></div>");
                 break;
             case SIMPLE:
-                nerInputDTO.emailId = "Unit_test_postprocessor_simple";
-                nerInputDTO.htmlSource = "<html><head></head><body><h1>Lorem ipsum</h1><p>dolor sit amet, consetetur sadipscing elitr, Google sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.</p><div><span>At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd Google gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus Google est Lorem ipsum dolor sit amet.</span></div><a href=\"www.some.url.containing.the.search.word/Google/index.html\">Google</a></body></html>";
+                nerInputDTO.setEmailId("Unit_test_postprocessor_simple");
+                nerInputDTO.setHtmlSource("<html><head></head><body><h1>Lorem ipsum</h1><p>dolor sit amet, consetetur sadipscing elitr, Google sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.</p><div><span>At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd Google gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus Google est Lorem ipsum dolor sit amet.</span></div><a href=\"www.some.url.containing.the.search.word/Google/index.html\">Google</a></body></html>");
                 break;
             case COMPLEX:
-                nerInputDTO.emailId = "Unit_test_postprocessor_complex";
-                nerInputDTO.htmlSource = "<html><head></head><body><div><div><div><div><h1>Lorem ipsum</h1><table><tbody><tr><p></p><p>dolor sit amet, consetetur sadipscing elitr, Google sed diam nonumy eirmod tempor invidunt ut laboreetdolore magna aliquyam erat, sed diam voluptua.</p></tr><tr><div><span>At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd Google gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus Google est Lorem ipsum dolor sit amet.</span></div><a href=\"www.some.url.containing.the.search.word/Google/index.html\">Google</a></tr></tbody></table></div><div><span>This is <a>the</a> ugly Goo<i>gle</i>...</span></div></div></div></div></body></html>";
+                nerInputDTO.setEmailId("Unit_test_postprocessor_complex");
+                nerInputDTO.setHtmlSource("<html><head></head><body><div><div><div><div><h1>Lorem ipsum</h1><table><tbody><tr><p></p><p>dolor sit amet, consetetur sadipscing elitr, Google sed diam nonumy eirmod tempor invidunt ut laboreetdolore magna aliquyam erat, sed diam voluptua.</p></tr><tr><div><span>At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd Google gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus Google est Lorem ipsum dolor sit amet.</span></div><a href=\"www.some.url.containing.the.search.word/Google/index.html\">Google</a></tr></tbody></table></div><div><span>This is <a>the</a> ugly Goo<i>gle</i>...</span></div></div></div></div></body></html>");
                 break;
         }
         return nerInputDTO;
@@ -39,6 +39,7 @@ public class NERTestDataFactory {
         List<AnnotationDTO> annotations = new ArrayList<>();
         switch (type) {
             case MINIMAL:
+                nerResultDTO.setEmailId("Unit_test_postprocessor_minimal");
                 for (int i = 0; i < 3; i++) {
                     AnnotationDTO annotationDTO = new AnnotationDTO();
                     annotationDTO.setValue("Test");
@@ -56,6 +57,7 @@ public class NERTestDataFactory {
                 annotations.get(2).addXPathRange("/div[2]", 0, "/div[2]/b[1]", 2);
                 break;
             case SIMPLE:
+                nerResultDTO.setEmailId("Unit_test_postprocessor_simple");
                 for (int i = 0; i < 4; i++) {
                     AnnotationDTO annotationDTO = new AnnotationDTO();
                     annotationDTO.setValue("Google");
@@ -76,6 +78,7 @@ public class NERTestDataFactory {
                 annotations.get(3).addXPathRange("/a[1]", 0, "/a[1]", 6);
                 break;
             case COMPLEX:
+                nerResultDTO.setEmailId("Unit_test_postprocessor_complex");
                 for (int i = 0; i < 5; i++) {
                     AnnotationDTO annotationDTO = new AnnotationDTO();
                     annotationDTO.setValue("Google");

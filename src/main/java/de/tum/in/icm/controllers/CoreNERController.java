@@ -25,11 +25,11 @@ public class CoreNERController {
     @POST
     @Path("/recognize")
     public Response recognize(NERInputDTO inputDTO) {
-        IndexedPlainText indexedPlainText = HtmlToTextService.stripHtmlTags(inputDTO.htmlSource);
+        IndexedPlainText indexedPlainText = HtmlToTextService.stripHtmlTags(inputDTO.getHtmlSource());
         NERResultDTO resultDto = nerCoreService.doRecognize(indexedPlainText.getPlainText());
-        resultDto.setEmailId(inputDTO.emailId);
+        resultDto.setEmailId(inputDTO.getEmailId());
         resultDto = NERPostProcessorService.calculateHtmlIndices(resultDto, indexedPlainText);
-        resultDto = NERPostProcessorService.calculateRangeObjects(resultDto, inputDTO.htmlSource);
+        resultDto = NERPostProcessorService.calculateRangeObjects(resultDto, inputDTO.getHtmlSource());
         return Response.status(200).entity(resultDto).build();
     }
 

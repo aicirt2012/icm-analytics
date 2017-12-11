@@ -80,7 +80,7 @@ public class NERPostProcessorService {
         try {
             new ParserDelegator().parse(new StringReader(htmlSource), parserCallback, false);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException(e);  //TODO improve error handling
         }
         return resultDTO;
     }
