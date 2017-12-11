@@ -28,7 +28,7 @@ public class NERTestDataFactory {
                 break;
             case COMPLEX:
                 nerInputDTO.setEmailId("Unit_test_postprocessor_complex");
-                nerInputDTO.setHtmlSource("<html><head></head><body><div><div><div><div><h1>Lorem ipsum</h1><table><tbody><tr><p></p><p>dolor sit amet, consetetur sadipscing elitr, Google sed diam nonumy eirmod tempor invidunt ut laboreetdolore magna aliquyam erat, sed diam voluptua.</p></tr><tr><div><span>At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd Google gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus Google est Lorem ipsum dolor sit amet.</span></div><a href=\"www.some.url.containing.the.search.word/Google/index.html\">Google</a></tr></tbody></table></div><div><span>This is <a>the</a> ugly Goo<i>gle</i>...</span></div></div></div></div></body></html>");
+                nerInputDTO.setHtmlSource("<html><head></head><body><div><div><div><div><h1>Lorem ipsum</h1><table><tbody><tr><td><p></p><p>dolor sit amet, consetetur sadipscing elitr, Google sed diam nonumy eirmod tempor invidunt ut laboreetdolore magna aliquyam erat, sed diam voluptua.</p></td></tr><tr><td><div><span>At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd Google gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus Google est Lorem ipsum dolor sit amet.</span></div><a href=\"www.some.url.containing.the.search.word/Google/index.html\">Google</a></td></tr></tbody></table></div><div><span>This is <a>the</a> ugly Goo<i>gle</i>...</span></div></div></div></div><script src=\"annotator/annotator.custom-extensions.js\"></script><script src=\"annotator/annotator.js\" onload=\"annotatorCustomExtensions.initAnnotator();\"></script></body></html>");
                 break;
         }
         return nerInputDTO;
@@ -90,16 +90,16 @@ public class NERTestDataFactory {
                 annotations.get(2).addPlainTextIndex(574);
                 annotations.get(3).addPlainTextIndex(613);
                 annotations.get(4).addPlainTextIndex(637);
-                annotations.get(0).addHtmlSourceOccurrence(93, 45);
-                annotations.get(1).addHtmlSourceOccurrence(265, 73);
-                annotations.get(2).addHtmlSourceOccurrence(265, 411);
-                annotations.get(3).addHtmlSourceOccurrence(795, 0);
-                annotations.get(4).addHtmlSourceOccurrence(861, 6);
-                annotations.get(0).addXPathRange("/div[1]/div[1]/div[1]/div[1]/table[1]/tbody[1]/tr[1]/p[2]", 45, "/div[1]/div[1]/div[1]/div[1]/table[1]/tbody[1]/tr[1]/p[2]", 51);
-                annotations.get(1).addXPathRange("/div[1]/div[1]/div[1]/div[1]/table[1]/tbody[1]/tr[2]/div[1]/span[1]", 73, "/div[1]/div[1]/div[1]/div[1]/table[1]/tbody[1]/tr[2]/div[1]/span[1]", 79);
-                annotations.get(2).addXPathRange("/div[1]/div[1]/div[1]/div[1]/table[1]/tbody[1]/tr[2]/div[1]/span[1]", 411, "/div[1]/div[1]/div[1]/div[1]/table[1]/tbody[1]/tr[2]/div[1]/span[1]", 417);
-                annotations.get(3).addXPathRange("/div[1]/div[1]/div[1]/div[1]/table[1]/tbody[1]/tr[2]/a[1]", 0, "/div[1]/div[1]/div[1]/div[1]/table[1]/tbody[1]/tr[2]/a[1]", 6);
-                annotations.get(4).addXPathRange("/div[1]/div[1]/div[2]/span[1]", 6, "/div[1]/div[1]/div[2]/span[1]/i[1]", 3);  //TODO check this in annotator framework!
+                annotations.get(0).addHtmlSourceOccurrence(97, 45);
+                annotations.get(1).addHtmlSourceOccurrence(278, 73);
+                annotations.get(2).addHtmlSourceOccurrence(278, 411);
+                annotations.get(3).addHtmlSourceOccurrence(808, 0);
+                annotations.get(4).addHtmlSourceOccurrence(879, 6);
+                annotations.get(0).addXPathRange("/div[1]/div[1]/div[1]/div[1]/table[1]/tbody[1]/tr[1]/td[1]/p[2]", 45, "/div[1]/div[1]/div[1]/div[1]/table[1]/tbody[1]/tr[1]/td[1]/p[2]", 51);
+                annotations.get(1).addXPathRange("/div[1]/div[1]/div[1]/div[1]/table[1]/tbody[1]/tr[2]/td[1]/div[1]/span[1]", 73, "/div[1]/div[1]/div[1]/div[1]/table[1]/tbody[1]/tr[2]/td[1]/div[1]/span[1]", 79);
+                annotations.get(2).addXPathRange("/div[1]/div[1]/div[1]/div[1]/table[1]/tbody[1]/tr[2]/td[1]/div[1]/span[1]", 411, "/div[1]/div[1]/div[1]/div[1]/table[1]/tbody[1]/tr[2]/td[1]/div[1]/span[1]", 417);
+                annotations.get(3).addXPathRange("/div[1]/div[1]/div[1]/div[1]/table[1]/tbody[1]/tr[2]/td[1]/a[1]", 0, "/div[1]/div[1]/div[1]/div[1]/table[1]/tbody[1]/tr[2]/td[1]/a[1]", 6);
+                annotations.get(4).addXPathRange("/div[1]/div[1]/div[1]/div[2]/span[1]", 17, "/div[1]/div[1]/div[1]/div[2]/span[1]/i[1]", 3);  //TODO check this in annotator framework!
                 break;
         }
         nerResultDTO.addAnnotations(annotations);
@@ -129,17 +129,17 @@ public class NERTestDataFactory {
             case COMPLEX:
                 indexedPlainText.addPlainText("Lorem ipsum", 49);
                 indexedPlainText.addPlainText("\n", -1);
-                indexedPlainText.addPlainText("dolor sit amet, consetetur sadipscing elitr, Google sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.", 93);
+                indexedPlainText.addPlainText("dolor sit amet, consetetur sadipscing elitr, Google sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.", 97);
                 indexedPlainText.addPlainText("\n", -1);
-                indexedPlainText.addPlainText("At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd Google gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus Google est Lorem ipsum dolor sit amet.", 265);
+                indexedPlainText.addPlainText("At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd Google gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus Google est Lorem ipsum dolor sit amet.", 278);
                 indexedPlainText.addPlainText("\n", -1);
-                indexedPlainText.addPlainText("Google", 795);
+                indexedPlainText.addPlainText("Google", 708);
                 indexedPlainText.addPlainText("\n", -1);
-                indexedPlainText.addPlainText("This is ", 843);
-                indexedPlainText.addPlainText("the", 854);
-                indexedPlainText.addPlainText(" ugly Goo", 861);
-                indexedPlainText.addPlainText("gle", 873);
-                indexedPlainText.addPlainText("...", 880);
+                indexedPlainText.addPlainText("This is ", 861);
+                indexedPlainText.addPlainText("the", 872);
+                indexedPlainText.addPlainText(" ugly Goo", 879);
+                indexedPlainText.addPlainText("gle", 891);
+                indexedPlainText.addPlainText("...", 898);
                 break;
         }
         return indexedPlainText;
