@@ -133,7 +133,7 @@ public class NERTestDataFactory {
                 indexedPlainText.addPlainText("\n", -1);
                 indexedPlainText.addPlainText("At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd Google gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus Google est Lorem ipsum dolor sit amet.", 278);
                 indexedPlainText.addPlainText("\n", -1);
-                indexedPlainText.addPlainText("Google", 708);
+                indexedPlainText.addPlainText("Google", 808);
                 indexedPlainText.addPlainText("\n", -1);
                 indexedPlainText.addPlainText("This is ", 861);
                 indexedPlainText.addPlainText("the", 872);
