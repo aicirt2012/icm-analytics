@@ -42,6 +42,7 @@ public class NERPostProcessorService {
 
             @Override
             public void handleText(final char[] data, final int pos) {
+                xPathBuilder.addTextTag(pos);
                 if (currentSplitAnnotationRange != null) {
                     // already found the start of a split annotation, need to find the end now
                     int charsToRead = annotationValueNotYetRead.length();
@@ -71,8 +72,8 @@ public class NERPostProcessorService {
                             if (annotation.getHtmlTextNodeIndices().get(i) == pos) {
                                 RangeDTO rangeDTO = new RangeDTO();
                                 rangeDTO.setxPathStart(xPathBuilder.toString());
-                                rangeDTO.setOffsetStart(annotation.getHtmlAnnotationOffsets().get(i));
-                                int startIndex = pos + rangeDTO.getOffsetStart();
+                                rangeDTO.setOffsetStart(xPathBuilder.getOffsetFromInnerHtml(pos) + annotation.getHtmlAnnotationOffsets().get(i));
+                                int startIndex = pos + annotation.getHtmlAnnotationOffsets().get(i);
                                 int endIndex = startIndex + annotation.getValue().length();
                                 String htmlValue = htmlSource.substring(startIndex, endIndex);
                                 if (!htmlValue.equals(annotation.getValue())) {
@@ -103,7 +104,7 @@ public class NERPostProcessorService {
                     xPathBuilder = new XPathBuilder();
                     return;
                 }
-                xPathBuilder.addOpeningTag(tag);
+                xPathBuilder.addOpeningTag(tag, pos);
             }
 
             @Override

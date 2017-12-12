@@ -8,19 +8,27 @@ public class XPathBuilder {
 
     private LinkedList<HTML.Tag> tags = new LinkedList<>();
     private LinkedList<Integer> tagCounts = new LinkedList<>();
+    private LinkedList<Integer> innerHtmlStartIndices = new LinkedList<>();
     private HTML.Tag lastClosedTag = null;
     private Integer lastClosedTagCount = -1;
+    private Integer lastClosedTagInnerHtmlStart = -1;
 
-    public void addOpeningTag(HTML.Tag openingTag) {
+    public void addOpeningTag(HTML.Tag openingTag, int htmlIndex) {
         if (openingTag.equals(lastClosedTag)) {
             tags.add(openingTag);
             tagCounts.add(lastClosedTagCount + 1);
+            innerHtmlStartIndices.add(lastClosedTagInnerHtmlStart);
         } else {
+            if (tags.size() > 1 && innerHtmlStartIndices.size() < tags.size()) {
+                // add the index of the current element as start of the inner html of the last element
+                innerHtmlStartIndices.add(htmlIndex);
+            }
             tags.add(openingTag);
             tagCounts.add(1);
         }
         lastClosedTag = null;
         lastClosedTagCount = -1;
+        lastClosedTagInnerHtmlStart = -1;
     }
 
     public void addClosingTag(HTML.Tag closingTag) {
@@ -32,6 +40,20 @@ public class XPathBuilder {
         }
         lastClosedTag = tags.pollLast();
         lastClosedTagCount = tagCounts.pollLast();
+        lastClosedTagInnerHtmlStart = innerHtmlStartIndices.pollLast();
+    }
+
+    public void addTextTag(int htmlIndex) {
+        if (innerHtmlStartIndices.size() < tags.size()) {
+            innerHtmlStartIndices.add(htmlIndex);
+        }
+    }
+
+    public int getOffsetFromInnerHtml(int htmlIndex) {
+        if (innerHtmlStartIndices.isEmpty()) {
+            return htmlIndex;
+        }
+        return htmlIndex - innerHtmlStartIndices.peekLast();
     }
 
     @Override
