@@ -3,6 +3,7 @@ package de.tum.in.icm.entities;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Objects;
 
 public class TextNodeMap {
 
@@ -35,6 +36,21 @@ public class TextNodeMap {
             }
         }
         return plainText.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TextNodeMap that = (TextNodeMap) o;
+        return Objects.equals(values, that.values) &&
+                Objects.equals(parentLocators, that.parentLocators) &&
+                Objects.equals(parentOffsets, that.parentOffsets);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(values, parentLocators, parentOffsets);
     }
 
 }

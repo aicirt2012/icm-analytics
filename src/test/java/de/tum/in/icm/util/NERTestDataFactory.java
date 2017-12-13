@@ -5,6 +5,8 @@ import de.tum.in.icm.dtos.NERInputDTO;
 import de.tum.in.icm.dtos.NERResultDTO;
 import de.tum.in.icm.dtos.NERType;
 import de.tum.in.icm.entities.IndexedPlainText;
+import de.tum.in.icm.entities.TextNodeMap;
+import de.tum.in.icm.entities.XPath;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -143,6 +145,47 @@ public class NERTestDataFactory {
                 break;
         }
         return indexedPlainText;
+    }
+
+    public static TextNodeMap getTextNodeMap(Type type) {
+        TextNodeMap textNodeMap = new TextNodeMap();
+        switch (type) {
+            case MINIMAL:
+                textNodeMap.add("Test", asXPath("/div[1]/h1[1]"), 0);
+                textNodeMap.add("text Test", asXPath("/div[1]"), 0);
+                textNodeMap.add("Te", asXPath("/div[2]"), 13);
+                textNodeMap.add("st", asXPath("/div[2]/b[1]"), 0);
+                break;
+            case SIMPLE:
+                textNodeMap.add("Lorem ipsum", asXPath("/h1[1]"), 0);
+                textNodeMap.add("dolor sit amet, consetetur sadipscing elitr, Google sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.", asXPath("/p[1]"), 0);
+                textNodeMap.add("At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd Google gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus Google est Lorem ipsum dolor sit amet.", asXPath("/div[1]/span[1]"), 0);
+                textNodeMap.add("Google", asXPath("/a[1]"), 0);
+                break;
+            case COMPLEX:
+                textNodeMap.add("Lorem ipsum", asXPath("/div[1]/div[1]/div[1]/div[1]/h1[1]"), 0);
+                textNodeMap.add("dolor sit amet, consetetur sadipscing elitr, Google sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.", asXPath("/div[1]/div[1]/div[1]/div[1]/table[1]/tbody[1]/tr[1]/td[1]/p[2]"), 0);
+                textNodeMap.add("At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd Google gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus Google est Lorem ipsum dolor sit amet.", asXPath("/div[1]/div[1]/div[1]/div[1]/table[1]/tbody[1]/tr[2]/td[1]/div[1]/span[1]"), 0);
+                textNodeMap.add("Google", asXPath("/div[1]/div[1]/div[1]/div[1]/table[1]/tbody[1]/tr[2]/td[1]/a[1]"), 0);
+                textNodeMap.add("This is ", asXPath("/div[1]/div[1]/div[1]/div[2]/span[1]"), 0);
+                textNodeMap.add("the", asXPath("/div[1]/div[1]/div[1]/div[2]/span[1]/a[1]"), 0);
+                textNodeMap.add(" ugly Goo", asXPath("/div[1]/div[1]/div[1]/div[2]/span[1]"), 18);
+                textNodeMap.add("gle", asXPath("/div[1]/div[1]/div[1]/div[2]/span[1]/i[1]"), 0);
+                textNodeMap.add("...", asXPath("/div[1]/div[1]/div[1]/div[2]/span[1]"), 37);
+                break;
+        }
+        return textNodeMap;
+    }
+
+    private static XPath asXPath(String value) {
+        XPath xPath = new XPath();
+        for (String subPath : value.split("/")) {
+            if (subPath.isEmpty())
+                continue;
+            String[] tagAndCount = subPath.split("\\[");
+            xPath.add(tagAndCount[0], Integer.valueOf(tagAndCount[1].replace("]", "")));
+        }
+        return xPath;
     }
 
 }

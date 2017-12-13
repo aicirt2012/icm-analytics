@@ -38,7 +38,7 @@ public class JsoupParserService {
                 }
             } else if (node instanceof TextNode) {
                 TextNode textNode = (TextNode) node;
-                textNodeMap.add(textNode.text(), xPathBuilder.toXPath(), -1);   // TODO handle parent offsets
+                textNodeMap.add(textNode.text(), xPathBuilder.toXPath(), 0);   // TODO handle parent offsets
             }
         }
 
