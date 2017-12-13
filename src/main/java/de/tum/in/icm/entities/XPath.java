@@ -58,13 +58,11 @@ public class XPath {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         XPath xPath = (XPath) o;
-        return Objects.equals(tags, xPath.tags) &&
-                Objects.equals(tagCounts, xPath.tagCounts);
+        return Objects.equals(this.toString(), xPath.toString());
     }
 
     @Override
     public int hashCode() {
-
-        return Objects.hash(tags, tagCounts);
+        return Objects.hash(this.toString());
     }
 }

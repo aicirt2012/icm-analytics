@@ -27,14 +27,25 @@ public class JsoupParserService {
 
         @Override
         public void head(Node node, int depth) {
-            // TODO detect and handle elements nested in text nodes (textnodes > 0 && elements > 0; handle by raw html processing)
             if (node instanceof Element) {
                 Element element = (Element) node;
                 xPathBuilder.addOpeningTag(element.tagName());
             } else if (node instanceof TextNode) {
                 TextNode textNode = (TextNode) node;
-                textNodeMap.add(textNode.text(), xPathBuilder.toXPath(), 0);   // TODO handle parent offsets
+                int parentOffset = 0;
+                if (textNode.siblingIndex() != 0) {
+                    Node previousSibling = textNode.previousSibling();
+                    while (previousSibling != null) {
+                        parentOffset += getSourceLength(previousSibling);
+                        previousSibling = previousSibling.previousSibling();
+                    }
+                }
+                textNodeMap.add(textNode.text(), xPathBuilder.toXPath(), parentOffset);
             }
+        }
+
+        private int getSourceLength(Node node) {
+            return node.outerHtml().length();
         }
 
         @Override
