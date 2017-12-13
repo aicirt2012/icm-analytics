@@ -6,32 +6,34 @@ import java.util.ListIterator;
 
 public class XPathBuilder {
 
-    private LinkedList<HTML.Tag> tags = new LinkedList<>();
+    private LinkedList<String> tags = new LinkedList<>();
     private LinkedList<Integer> tagCounts = new LinkedList<>();
-    private LinkedList<Integer> innerHtmlStartIndices = new LinkedList<>();
-    private HTML.Tag lastClosedTag = null;
+    private String lastClosedTag = null;
     private Integer lastClosedTagCount = -1;
-    private Integer lastClosedTagInnerHtmlStart = -1;
 
+    @Deprecated
     public void addOpeningTag(HTML.Tag openingTag, int htmlIndex) {
+        this.addOpeningTag(openingTag.toString(), htmlIndex);
+    }
+
+    public void addOpeningTag(String openingTag, int htmlIndex) {
         if (openingTag.equals(lastClosedTag)) {
             tags.add(openingTag);
             tagCounts.add(lastClosedTagCount + 1);
-            innerHtmlStartIndices.add(lastClosedTagInnerHtmlStart);
         } else {
-            if (tags.size() > 1 && innerHtmlStartIndices.size() < tags.size()) {
-                // add the index of the current element as start of the inner html of the last element
-                innerHtmlStartIndices.add(htmlIndex);
-            }
             tags.add(openingTag);
             tagCounts.add(1);
         }
         lastClosedTag = null;
         lastClosedTagCount = -1;
-        lastClosedTagInnerHtmlStart = -1;
     }
 
+    @Deprecated
     public void addClosingTag(HTML.Tag closingTag) {
+        this.addClosingTag(closingTag.toString());
+    }
+
+    public void addClosingTag(String closingTag) {
         if (tags.isEmpty()) {
             return;
         }
@@ -40,26 +42,28 @@ public class XPathBuilder {
         }
         lastClosedTag = tags.pollLast();
         lastClosedTagCount = tagCounts.pollLast();
-        lastClosedTagInnerHtmlStart = innerHtmlStartIndices.pollLast();
     }
 
+    /**
+     * remove offset handling when jsoup parsing is established
+     */
+    @Deprecated
     public void addTextTag(int htmlIndex) {
-        if (innerHtmlStartIndices.size() < tags.size()) {
-            innerHtmlStartIndices.add(htmlIndex);
-        }
+        // do nothing, just for compilation
     }
 
+    /**
+     * remove offset handling when jsoup parsing is established
+     */
+    @Deprecated
     public int getOffsetFromInnerHtml(int htmlIndex) {
-        if (innerHtmlStartIndices.isEmpty()) {
-            return htmlIndex;
-        }
-        return htmlIndex - innerHtmlStartIndices.peekLast();
+        return -1;
     }
 
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
-        ListIterator<HTML.Tag> tagIterator = tags.listIterator();
+        ListIterator<String> tagIterator = tags.listIterator();
         ListIterator<Integer> tagCountIterator = tagCounts.listIterator();
         while (tagIterator.hasNext()) {
             stringBuilder.append("/");
