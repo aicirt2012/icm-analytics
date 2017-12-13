@@ -7,7 +7,6 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.nodes.Node;
 import org.jsoup.nodes.TextNode;
-import org.jsoup.select.NodeTraversor;
 import org.jsoup.select.NodeVisitor;
 
 public class JsoupParserService {
@@ -20,7 +19,7 @@ public class JsoupParserService {
         textNodeMap = new TextNodeMap();
         xPathBuilder = new XPathBuilder();
         Document document = Jsoup.parse(html);
-        NodeTraversor.traverse(textNodeMapFactory, document.body());
+        document.body().childNodes().forEach(node -> node.traverse(textNodeMapFactory));  // parse all children of body
         return textNodeMap;
     }
 
@@ -32,10 +31,6 @@ public class JsoupParserService {
             if (node instanceof Element) {
                 Element element = (Element) node;
                 xPathBuilder.addOpeningTag(element.tagName());
-                if (element.tagName().equals("body")) {
-                    // xpaths we want are relative to body, drop everything we got until now
-                    xPathBuilder = new XPathBuilder();
-                }
             } else if (node instanceof TextNode) {
                 TextNode textNode = (TextNode) node;
                 textNodeMap.add(textNode.text(), xPathBuilder.toXPath(), 0);   // TODO handle parent offsets
@@ -49,6 +44,7 @@ public class JsoupParserService {
                 xPathBuilder.addClosingTag(element.tagName());
             }
         }
+
     }
 
 }
