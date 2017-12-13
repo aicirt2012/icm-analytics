@@ -28,6 +28,7 @@ public class JsoupParserService {
 
         @Override
         public void head(Node node, int depth) {
+            // TODO detect and handle elements nested in text nodes (textnodes > 0 && elements > 0; handle by raw html processing)
             if (node instanceof Element) {
                 Element element = (Element) node;
                 xPathBuilder.addOpeningTag(element.tagName());
@@ -38,9 +39,6 @@ public class JsoupParserService {
             } else if (node instanceof TextNode) {
                 TextNode textNode = (TextNode) node;
                 textNodeMap.add(textNode.text(), xPathBuilder.toXPath(), -1);   // TODO handle parent offsets
-            } else {
-                // TODO handle other node types
-                return;
             }
         }
 
@@ -49,9 +47,6 @@ public class JsoupParserService {
             if (node instanceof Element) {
                 Element element = (Element) node;
                 xPathBuilder.addClosingTag(element.tagName());
-            } else {
-                // TODO handle other node types
-                return;
             }
         }
     }
