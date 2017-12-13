@@ -13,6 +13,7 @@ public class JsoupParserServiceTest {
         NERInputDTO inputDTO = NERTestDataFactory.getNERInputDTO(NERTestDataFactory.Type.MINIMAL);
         TextNodeMap actualResult = JsoupParserService.getTextNodes(inputDTO.getHtmlSource());
         TextNodeMap expectedResult = NERTestDataFactory.getTextNodeMap(NERTestDataFactory.Type.MINIMAL);
+        //FIXME fails, even though objects seem to be equal
         Assert.assertEquals(expectedResult, actualResult);
     }
 
