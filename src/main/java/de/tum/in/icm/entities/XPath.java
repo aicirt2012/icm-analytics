@@ -8,6 +8,13 @@ public class XPath {
     private LinkedList<String> tags = new LinkedList<>();
     private LinkedList<Integer> tagCounts = new LinkedList<>();
 
+    public static XPath copy(XPath xPath) {
+        XPath copy = new XPath();
+        copy.tags = new LinkedList<>(xPath.tags);
+        copy.tagCounts = new LinkedList<>(xPath.tagCounts);
+        return copy;
+    }
+
     public void add(String tag) {
         this.add(tag, 1);
     }
@@ -17,13 +24,17 @@ public class XPath {
         tagCounts.add(count);
     }
 
-    public void removeLast() {
+    public void removeLastTag() {
         tags.pollLast();
         tagCounts.pollLast();
     }
 
     public String getLastTag() {
         return tags.peekLast();
+    }
+
+    public int getLastTagCount() {
+        return tagCounts.peekLast();
     }
 
     @Override

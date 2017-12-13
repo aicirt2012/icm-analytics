@@ -8,14 +8,20 @@ public class TextNodeMap {
 
     private static final List<String> breakingHTMLTags = new ArrayList<>();
 
-    private List<String> values;
-    private List<XPath> parentLocators;
-    private List<Integer> parentOffsets;
+    private List<String> values = new ArrayList<>();
+    private List<XPath> parentLocators = new ArrayList<>();
+    private List<Integer> parentOffsets = new ArrayList<>();
 
     public void add(String value, XPath parentLocator, int parentOffset) {
         this.values.add(value);
         this.parentLocators.add(parentLocator);
         this.parentOffsets.add(parentOffset);
+    }
+
+    public void addAll(TextNodeMap textNodeMap) {
+        this.values.addAll(textNodeMap.values);
+        this.parentLocators.addAll(textNodeMap.parentLocators);
+        this.parentOffsets.addAll(textNodeMap.parentOffsets);
     }
 
     public String toPlainText() {
