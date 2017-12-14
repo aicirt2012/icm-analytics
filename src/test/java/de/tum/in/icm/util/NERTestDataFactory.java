@@ -164,7 +164,7 @@ public class NERTestDataFactory {
                 break;
             case COMPLEX:
                 textNodeMap.add("Lorem ipsum", asXPath("/div[1]/div[1]/div[1]/div[1]/h1[1]"), 0);
-                textNodeMap.add("dolor sit amet, consetetur sadipscing elitr, Google sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.", asXPath("/div[1]/div[1]/div[1]/div[1]/table[1]/tbody[1]/tr[1]/td[1]/p[2]"), 0);
+                textNodeMap.add("dolor sit amet, consetetur sadipscing elitr, Google sed diam nonumy eirmod tempor invidunt ut laboreetdolore magna aliquyam erat, sed diam voluptua.", asXPath("/div[1]/div[1]/div[1]/div[1]/table[1]/tbody[1]/tr[1]/td[1]/p[2]"), 0);
                 textNodeMap.add("At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd Google gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus Google est Lorem ipsum dolor sit amet.", asXPath("/div[1]/div[1]/div[1]/div[1]/table[1]/tbody[1]/tr[2]/td[1]/div[1]/span[1]"), 0);
                 textNodeMap.add("Google", asXPath("/div[1]/div[1]/div[1]/div[1]/table[1]/tbody[1]/tr[2]/td[1]/a[1]"), 0);
                 textNodeMap.add("This is ", asXPath("/div[1]/div[1]/div[1]/div[2]/span[1]"), 0);
