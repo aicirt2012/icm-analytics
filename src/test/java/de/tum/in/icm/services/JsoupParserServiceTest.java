@@ -11,7 +11,7 @@ public class JsoupParserServiceTest {
     @Test
     public void parseHtmlMinimal() {
         NERInputDTO inputDTO = NERTestDataFactory.getNERInputDTO(NERTestDataFactory.Type.MINIMAL);
-        TextNodeMap actualResult = JsoupParserService.getTextNodes(inputDTO.getHtmlSource());
+        TextNodeMap actualResult = JsoupParserService.getTextNodeMap(inputDTO.getHtmlSource());
         TextNodeMap expectedResult = NERTestDataFactory.getTextNodeMap(NERTestDataFactory.Type.MINIMAL);
         Assert.assertEquals(expectedResult, actualResult);
     }
@@ -19,7 +19,7 @@ public class JsoupParserServiceTest {
     @Test
     public void parseHtmlSimple() {
         NERInputDTO inputDTO = NERTestDataFactory.getNERInputDTO(NERTestDataFactory.Type.SIMPLE);
-        TextNodeMap actualResult = JsoupParserService.getTextNodes(inputDTO.getHtmlSource());
+        TextNodeMap actualResult = JsoupParserService.getTextNodeMap(inputDTO.getHtmlSource());
         TextNodeMap expectedResult = NERTestDataFactory.getTextNodeMap(NERTestDataFactory.Type.SIMPLE);
         Assert.assertEquals(expectedResult, actualResult);
     }
@@ -27,7 +27,7 @@ public class JsoupParserServiceTest {
     @Test
     public void parseHtmlComplex() {
         NERInputDTO inputDTO = NERTestDataFactory.getNERInputDTO(NERTestDataFactory.Type.COMPLEX);
-        TextNodeMap actualResult = JsoupParserService.getTextNodes(inputDTO.getHtmlSource());
+        TextNodeMap actualResult = JsoupParserService.getTextNodeMap(inputDTO.getHtmlSource());
         TextNodeMap expectedResult = NERTestDataFactory.getTextNodeMap(NERTestDataFactory.Type.COMPLEX);
         Assert.assertEquals(expectedResult, actualResult);
     }

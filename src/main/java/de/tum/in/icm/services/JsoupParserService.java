@@ -15,7 +15,7 @@ public class JsoupParserService {
     private static TextNodeMap textNodeMap;
     private static XPathBuilder xPathBuilder;
 
-    public static TextNodeMap getTextNodes(String html) {
+    public static TextNodeMap getTextNodeMap(String html) {
         textNodeMap = new TextNodeMap();
         xPathBuilder = new XPathBuilder();
         Document document = Jsoup.parse(html);
