@@ -10,12 +10,12 @@ import java.util.ListIterator;
 
 import static org.junit.Assert.assertEquals;
 
-public class JsoupParserServiceTest {
+public class NERPreProcessorServiceTest {
 
     @Test
     public void parseHtmlMinimal() {
         NERInputDTO inputDTO = NERTestDataFactory.getNERInputDTO(NERTestDataFactory.Type.MINIMAL);
-        TextNodeMap actualResult = JsoupParserService.getTextNodeMap(inputDTO.getHtmlSource());
+        TextNodeMap actualResult = NERPreProcessorService.getTextNodeMap(inputDTO.getHtmlSource());
         TextNodeMap expectedResult = NERTestDataFactory.getTextNodeMap(NERTestDataFactory.Type.MINIMAL);
         this.checkForEquality(expectedResult, actualResult);
     }
@@ -23,7 +23,7 @@ public class JsoupParserServiceTest {
     @Test
     public void parseHtmlSimple() {
         NERInputDTO inputDTO = NERTestDataFactory.getNERInputDTO(NERTestDataFactory.Type.SIMPLE);
-        TextNodeMap actualResult = JsoupParserService.getTextNodeMap(inputDTO.getHtmlSource());
+        TextNodeMap actualResult = NERPreProcessorService.getTextNodeMap(inputDTO.getHtmlSource());
         TextNodeMap expectedResult = NERTestDataFactory.getTextNodeMap(NERTestDataFactory.Type.SIMPLE);
         this.checkForEquality(expectedResult, actualResult);
     }
@@ -31,7 +31,7 @@ public class JsoupParserServiceTest {
     @Test
     public void parseHtmlComplex() {
         NERInputDTO inputDTO = NERTestDataFactory.getNERInputDTO(NERTestDataFactory.Type.COMPLEX);
-        TextNodeMap actualResult = JsoupParserService.getTextNodeMap(inputDTO.getHtmlSource());
+        TextNodeMap actualResult = NERPreProcessorService.getTextNodeMap(inputDTO.getHtmlSource());
         TextNodeMap expectedResult = NERTestDataFactory.getTextNodeMap(NERTestDataFactory.Type.COMPLEX);
         this.checkForEquality(expectedResult, actualResult);
     }
@@ -39,7 +39,7 @@ public class JsoupParserServiceTest {
     @Test
     public void parseHtmlOffset() {
         NERInputDTO inputDTO = NERTestDataFactory.getNERInputDTO(NERTestDataFactory.Type.OFFSET_TEST);
-        TextNodeMap actualResult = JsoupParserService.getTextNodeMap(inputDTO.getHtmlSource());
+        TextNodeMap actualResult = NERPreProcessorService.getTextNodeMap(inputDTO.getHtmlSource());
         TextNodeMap expectedResult = NERTestDataFactory.getTextNodeMap(NERTestDataFactory.Type.OFFSET_TEST);
         this.checkForEquality(expectedResult, actualResult);
     }
@@ -47,7 +47,7 @@ public class JsoupParserServiceTest {
     @Test
     public void parseHtmlElementCount() {
         NERInputDTO inputDTO = NERTestDataFactory.getNERInputDTO(NERTestDataFactory.Type.ELEMENT_COUNT);
-        TextNodeMap actualResult = JsoupParserService.getTextNodeMap(inputDTO.getHtmlSource());
+        TextNodeMap actualResult = NERPreProcessorService.getTextNodeMap(inputDTO.getHtmlSource());
         TextNodeMap expectedResult = NERTestDataFactory.getTextNodeMap(NERTestDataFactory.Type.ELEMENT_COUNT);
         this.checkForEquality(expectedResult, actualResult);
     }

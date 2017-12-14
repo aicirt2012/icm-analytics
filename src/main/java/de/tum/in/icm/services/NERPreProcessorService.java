@@ -9,7 +9,7 @@ import org.jsoup.nodes.Node;
 import org.jsoup.nodes.TextNode;
 import org.jsoup.select.NodeVisitor;
 
-public class JsoupParserService {
+public class NERPreProcessorService {
 
     private static final TextNodeMapFactory textNodeMapFactory = new TextNodeMapFactory();
     private static TextNodeMap textNodeMap;

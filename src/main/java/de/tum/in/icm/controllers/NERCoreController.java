@@ -17,14 +17,14 @@ import javax.ws.rs.core.Response;
 @Path("/ner")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
-public class CoreNERController {
+public class NERCoreController {
 
     private NERCoreService nerCoreService = new NERCoreService();
 
     @POST
     @Path("/recognize")
     public Response recognize(NERInputDTO inputDTO) {
-        TextNodeMap textNodeMap = JsoupParserService.getTextNodeMap(inputDTO.getHtmlSource());
+        TextNodeMap textNodeMap = NERPreProcessorService.getTextNodeMap(inputDTO.getHtmlSource());
         NERResultDTO resultDto = nerCoreService.doRecognize(textNodeMap.toPlainText());
         resultDto.setEmailId(inputDTO.getEmailId());
         resultDto = NERPostProcessorService.calculateRangeObjects(resultDto, inputDTO.getHtmlSource(), textNodeMap);
