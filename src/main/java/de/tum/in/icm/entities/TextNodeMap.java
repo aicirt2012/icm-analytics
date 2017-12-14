@@ -38,6 +38,18 @@ public class TextNodeMap {
         return plainText.toString();
     }
 
+    public List<String> getValues() {
+        return values;
+    }
+
+    public List<XPath> getParentLocators() {
+        return parentLocators;
+    }
+
+    public List<Integer> getParentOffsets() {
+        return parentOffsets;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

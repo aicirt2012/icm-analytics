@@ -14,7 +14,7 @@ import java.util.List;
 public class NERTestDataFactory {
 
     public enum Type {
-        MINIMAL, SIMPLE, COMPLEX
+        MINIMAL, SIMPLE, COMPLEX, OFFSET_TEST
     }
 
     public static NERInputDTO getNERInputDTO(Type type) {
@@ -31,6 +31,10 @@ public class NERTestDataFactory {
             case COMPLEX:
                 nerInputDTO.setEmailId("Unit_test_postprocessor_complex");
                 nerInputDTO.setHtmlSource("<html><head></head><body><div><div><div><div><h1>Lorem ipsum</h1><table><tbody><tr><td><p></p><p>dolor sit amet, consetetur sadipscing elitr, Google sed diam nonumy eirmod tempor invidunt ut laboreetdolore magna aliquyam erat, sed diam voluptua.</p></td></tr><tr><td><div><span>At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd Google gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus Google est Lorem ipsum dolor sit amet.</span></div><a href=\"www.some.url.containing.the.search.word/Google/index.html\">Google</a></td></tr></tbody></table></div><div><span>This is <a>the</a> ugly Goo<i>gle</i>...</span></div></div></div></div><script src=\"annotator/annotator.custom-extensions.js\"></script><script src=\"annotator/annotator.js\" onload=\"annotatorCustomExtensions.initAnnotator();\"></script></body></html>");
+                break;
+            case OFFSET_TEST:
+                nerInputDTO.setEmailId("Unit_test_postprocessor_offset_test");
+                nerInputDTO.setHtmlSource("<div><h1>Caption1</h1>Google 1<h1>Caption2</h1>Google 2<p>Lorem ipsum dolor sit amet, consetetur Google sadipscing elitr, sed diam nonumy eirmod tempor.</p><h1>Caption3</h1>Google 4<span>Invidunt ut labore et dolore magna aliquyam erat, sed Google diam voluptua.</span><h1>Caption4</h1>Google 6<span>At vero eos et accusam <b>et justo Google</b> est.</span></div><script src=\"annotator/annotator.custom-extensions.js\"></script><script src=\"annotator/annotator.js\" onload=\"annotatorCustomExtensions.initAnnotator();\"></script>");
                 break;
         }
         return nerInputDTO;
@@ -173,6 +177,20 @@ public class NERTestDataFactory {
                 textNodeMap.add("gle", asXPath("/div[1]/div[1]/div[1]/div[2]/span[1]/i[1]"), 0);
                 textNodeMap.add("...", asXPath("/div[1]/div[1]/div[1]/div[2]/span[1]"), 37);
                 break;
+            case OFFSET_TEST:
+                textNodeMap.add("Caption1", asXPath("/div[1]/h1[1]"), 0);
+                textNodeMap.add("Google 1", asXPath("/div[1]"), 8);
+                textNodeMap.add("Caption2", asXPath("/div[1]/h1[2]"), 0);
+                textNodeMap.add("Google 2", asXPath("/div[1]"), 24);
+                textNodeMap.add("Lorem ipsum dolor sit amet, consetetur Google sadipscing elitr, sed diam nonumy eirmod tempor.", asXPath("/div[1]/p[1]"), 0);
+                textNodeMap.add("Caption3", asXPath("/div[1]/h1[3]"), 0);
+                textNodeMap.add("Google 4", asXPath("/div[1]"), 134);
+                textNodeMap.add("Invidunt ut labore et dolore magna aliquyam erat, sed Google diam voluptua.", asXPath("/div[1]/span[1]"), 0);
+                textNodeMap.add("Caption4", asXPath("/div[1]/h1[4]"), 0);
+                textNodeMap.add("Google 6", asXPath("/div[1]"), 225);
+                textNodeMap.add("At vero eos et accusam ", asXPath("/div[1]/span[2]"), 0);
+                textNodeMap.add("et justo Google", asXPath("/div[1]/span[2]/b[1]"), 0);
+                textNodeMap.add(" est.", asXPath("/div[1]/span[2]"), 38);
         }
         return textNodeMap;
     }
