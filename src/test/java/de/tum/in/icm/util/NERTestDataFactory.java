@@ -195,6 +195,7 @@ public class NERTestDataFactory {
                 textNodeMap.add("At vero eos et accusam ", asXPath("/div[1]/span[2]"), 0);
                 textNodeMap.add("et justo Google", asXPath("/div[1]/span[2]/b[1]"), 0);
                 textNodeMap.add(" est.", asXPath("/div[1]/span[2]"), 38);
+                break;
             case ELEMENT_COUNT:
                 textNodeMap.add("Test", asXPath("/div[1]/p[1]"), 0);
                 textNodeMap.add("Test2", asXPath("/div[1]/div[1]"), 0);
