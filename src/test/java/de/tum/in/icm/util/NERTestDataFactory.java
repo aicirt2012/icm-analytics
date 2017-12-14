@@ -152,8 +152,8 @@ public class NERTestDataFactory {
         switch (type) {
             case MINIMAL:
                 textNodeMap.add("Test", asXPath("/div[1]/h1[1]"), 0);
-                textNodeMap.add("text Test", asXPath("/div[1]"), 0);
-                textNodeMap.add("Te", asXPath("/div[2]"), 13);
+                textNodeMap.add("text Test", asXPath("/div[1]"), 13);
+                textNodeMap.add("Te", asXPath("/div[2]"), 0);
                 textNodeMap.add("st", asXPath("/div[2]/b[1]"), 0);
                 break;
             case SIMPLE:
