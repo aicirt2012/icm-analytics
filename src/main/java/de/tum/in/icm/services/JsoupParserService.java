@@ -36,7 +36,7 @@ public class JsoupParserService {
                 if (textNode.siblingIndex() != 0) {
                     Node previousSibling = textNode.previousSibling();
                     while (previousSibling != null) {
-                        parentOffset += getSourceLength(previousSibling);
+                        parentOffset += getTextOffset(previousSibling);
                         previousSibling = previousSibling.previousSibling();
                     }
                 }
@@ -44,8 +44,12 @@ public class JsoupParserService {
             }
         }
 
-        private int getSourceLength(Node node) {
-            return node.outerHtml().length();
+        private int getTextOffset(Node node) {
+            if (node instanceof Element)
+                return ((Element) node).text().length();
+            if (node instanceof TextNode)
+                return ((TextNode) node).text().length();
+            return 0;
         }
 
         @Override
