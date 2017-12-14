@@ -1,8 +1,6 @@
 package de.tum.in.icm.entities;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class TextNodeMap {
 
@@ -22,6 +20,17 @@ public class TextNodeMap {
             plainText.append(value);
         }
         return plainText.toString();
+    }
+
+    public Map<Integer, Integer> getTextToNodeIndexMap() {
+        Map<Integer, Integer> textToNodeIndexMap = new HashMap<>();
+        StringBuilder plainText = new StringBuilder();
+        for (int i = 0; i < values.size(); i++) {
+            String value = values.get(i);
+            textToNodeIndexMap.put(plainText.length(), i);
+            plainText.append(value);
+        }
+        return textToNodeIndexMap;
     }
 
     public boolean lastTagEquals(String tagName) {

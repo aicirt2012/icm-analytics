@@ -27,7 +27,7 @@ public class NERCoreController {
         TextNodeMap textNodeMap = NERPreProcessorService.getTextNodeMap(inputDTO.getHtmlSource());
         NERResultDTO resultDto = nerCoreService.doRecognize(textNodeMap.toPlainText());
         resultDto.setEmailId(inputDTO.getEmailId());
-        resultDto = NERPostProcessorService.calculateRangeObjects(resultDto, inputDTO.getHtmlSource(), textNodeMap);
+        resultDto = NERPostProcessorService.calculateRangeObjects(resultDto, textNodeMap);
         return Response.status(200).entity(resultDto).build();
     }
 
