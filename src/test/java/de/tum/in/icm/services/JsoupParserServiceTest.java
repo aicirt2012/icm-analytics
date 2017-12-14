@@ -44,6 +44,14 @@ public class JsoupParserServiceTest {
         this.checkForEquality(expectedResult, actualResult);
     }
 
+    @Test
+    public void parseHtmlElementCount() {
+        NERInputDTO inputDTO = NERTestDataFactory.getNERInputDTO(NERTestDataFactory.Type.ELEMENT_COUNT);
+        TextNodeMap actualResult = JsoupParserService.getTextNodeMap(inputDTO.getHtmlSource());
+        TextNodeMap expectedResult = NERTestDataFactory.getTextNodeMap(NERTestDataFactory.Type.ELEMENT_COUNT);
+        this.checkForEquality(expectedResult, actualResult);
+    }
+
     private void checkForEquality(TextNodeMap expected, TextNodeMap actual) {
         ListIterator<String> expectedValueIterator = expected.getValues().listIterator();
         ListIterator<XPath> expectedParentLocatorIterator = expected.getParentLocators().listIterator();

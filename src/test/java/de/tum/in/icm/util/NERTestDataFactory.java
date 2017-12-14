@@ -14,7 +14,7 @@ import java.util.List;
 public class NERTestDataFactory {
 
     public enum Type {
-        MINIMAL, SIMPLE, COMPLEX, OFFSET_TEST
+        MINIMAL, SIMPLE, COMPLEX, ELEMENT_COUNT, OFFSET_TEST
     }
 
     public static NERInputDTO getNERInputDTO(Type type) {
@@ -35,6 +35,10 @@ public class NERTestDataFactory {
             case OFFSET_TEST:
                 nerInputDTO.setEmailId("Unit_test_postprocessor_offset_test");
                 nerInputDTO.setHtmlSource("<div><h1>Caption1</h1>Google 1<h1>Caption2</h1>Google 2<p>Lorem ipsum dolor sit amet, consetetur Google sadipscing elitr, sed diam nonumy eirmod tempor.</p><h1>Caption3</h1>Google 4<span>Invidunt ut labore et dolore magna aliquyam erat, sed Google diam voluptua.</span><h1>Caption4</h1>Google 6<span>At vero eos et accusam <b>et justo Google</b> est.</span></div><script src=\"annotator/annotator.custom-extensions.js\"></script><script src=\"annotator/annotator.js\" onload=\"annotatorCustomExtensions.initAnnotator();\"></script>");
+                break;
+            case ELEMENT_COUNT:
+                nerInputDTO.setEmailId("Unit_test_postprocessor_element_count_test");
+                nerInputDTO.setHtmlSource("<div><p>Test</p><div>Test2</div><p>Test3</p></div>");
                 break;
         }
         return nerInputDTO;
@@ -191,6 +195,11 @@ public class NERTestDataFactory {
                 textNodeMap.add("At vero eos et accusam ", asXPath("/div[1]/span[2]"), 0);
                 textNodeMap.add("et justo Google", asXPath("/div[1]/span[2]/b[1]"), 0);
                 textNodeMap.add(" est.", asXPath("/div[1]/span[2]"), 38);
+            case ELEMENT_COUNT:
+                textNodeMap.add("Test", asXPath("/div[1]/p[1]"), 0);
+                textNodeMap.add("Test2", asXPath("/div[1]/div[1]"), 0);
+                textNodeMap.add("Test3", asXPath("/div[1]/p[2]"), 0);
+                break;
         }
         return textNodeMap;
     }
