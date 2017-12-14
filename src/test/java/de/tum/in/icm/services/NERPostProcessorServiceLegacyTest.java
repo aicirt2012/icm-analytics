@@ -8,7 +8,7 @@ import de.tum.in.icm.util.NERTestDataFactory;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class NERPostProcessorServiceTest {
+public class NERPostProcessorServiceLegacyTest {
 
     @Test
     public void calculateHtmlIndicesMinimal() {
@@ -41,7 +41,7 @@ public class NERPostProcessorServiceTest {
             annotationDTO.getHtmlTextNodeIndices().clear();
             annotationDTO.getHtmlAnnotationOffsets().clear();
         }
-        return NERPostProcessorService.calculateHtmlIndices(nerResultDTO, indexedPlainText);
+        return NERPostProcessorServiceLegacy.calculateHtmlIndices(nerResultDTO, indexedPlainText);
     }
 
     @Test
@@ -66,7 +66,7 @@ public class NERPostProcessorServiceTest {
         for (AnnotationDTO annotationDTO : nerResultDTO.getAnnotations()) {
             annotationDTO.getRanges().clear();
         }
-        return NERPostProcessorService.calculateRangeObjects(nerResultDTO, nerInputDTO.getHtmlSource());
+        return NERPostProcessorServiceLegacy.calculateRangeObjects(nerResultDTO, nerInputDTO.getHtmlSource());
     }
 
 }

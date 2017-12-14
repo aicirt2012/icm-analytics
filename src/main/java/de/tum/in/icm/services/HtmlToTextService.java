@@ -11,6 +11,7 @@ import java.io.StringReader;
 import java.util.Arrays;
 import java.util.List;
 
+@Deprecated
 public class HtmlToTextService {
 
     private static final List<HTML.Tag> BREAKING_HTML_TAGS = Arrays.asList(
