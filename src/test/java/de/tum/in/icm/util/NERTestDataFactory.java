@@ -160,46 +160,69 @@ public class NERTestDataFactory {
         switch (type) {
             case MINIMAL:
                 textNodeMap.add("Test", asXPath("/div[1]/h1[1]"), 0);
+                textNodeMap.add("\n", new XPath(), 0);
                 textNodeMap.add("text Test", asXPath("/div[1]"), 4);
+                textNodeMap.add("\n", new XPath(), 0);
                 textNodeMap.add("Te", asXPath("/div[2]"), 0);
                 textNodeMap.add("st", asXPath("/div[2]/b[1]"), 0);
+                textNodeMap.add("\n", new XPath(), 0);
                 break;
             case SIMPLE:
                 textNodeMap.add("Lorem ipsum", asXPath("/h1[1]"), 0);
+                textNodeMap.add("\n", new XPath(), 0);
                 textNodeMap.add("dolor sit amet, consetetur sadipscing elitr, Google sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.", asXPath("/p[1]"), 0);
+                textNodeMap.add("\n", new XPath(), 0);
                 textNodeMap.add("At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd Google gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus Google est Lorem ipsum dolor sit amet.", asXPath("/div[1]/span[1]"), 0);
+                textNodeMap.add("\n", new XPath(), 0);
                 textNodeMap.add("Google", asXPath("/a[1]"), 0);
                 break;
             case COMPLEX:
                 textNodeMap.add("Lorem ipsum", asXPath("/div[1]/div[1]/div[1]/div[1]/h1[1]"), 0);
+                textNodeMap.add("\n", new XPath(), 0);
                 textNodeMap.add("dolor sit amet, consetetur sadipscing elitr, Google sed diam nonumy eirmod tempor invidunt ut laboreetdolore magna aliquyam erat, sed diam voluptua.", asXPath("/div[1]/div[1]/div[1]/div[1]/table[1]/tbody[1]/tr[1]/td[1]/p[2]"), 0);
+                textNodeMap.add("\n", new XPath(), 0);
                 textNodeMap.add("At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd Google gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus Google est Lorem ipsum dolor sit amet.", asXPath("/div[1]/div[1]/div[1]/div[1]/table[1]/tbody[1]/tr[2]/td[1]/div[1]/span[1]"), 0);
+                textNodeMap.add("\n", new XPath(), 0);
                 textNodeMap.add("Google", asXPath("/div[1]/div[1]/div[1]/div[1]/table[1]/tbody[1]/tr[2]/td[1]/a[1]"), 0);
+                textNodeMap.add("\n", new XPath(), 0);
                 textNodeMap.add("This is ", asXPath("/div[1]/div[1]/div[1]/div[2]/span[1]"), 0);
                 textNodeMap.add("the", asXPath("/div[1]/div[1]/div[1]/div[2]/span[1]/a[1]"), 0);
                 textNodeMap.add(" ugly Goo", asXPath("/div[1]/div[1]/div[1]/div[2]/span[1]"), 11);
                 textNodeMap.add("gle", asXPath("/div[1]/div[1]/div[1]/div[2]/span[1]/i[1]"), 0);
                 textNodeMap.add("...", asXPath("/div[1]/div[1]/div[1]/div[2]/span[1]"), 23);
+                textNodeMap.add("\n", new XPath(), 0);
                 break;
             case OFFSET_TEST:
                 textNodeMap.add("Caption1", asXPath("/div[1]/h1[1]"), 0);
+                textNodeMap.add("\n", new XPath(), 0);
                 textNodeMap.add("Google 1", asXPath("/div[1]"), 8);
+                textNodeMap.add("\n", new XPath(), 0);
                 textNodeMap.add("Caption2", asXPath("/div[1]/h1[2]"), 0);
+                textNodeMap.add("\n", new XPath(), 0);
                 textNodeMap.add("Google 2", asXPath("/div[1]"), 24);
+                textNodeMap.add("\n", new XPath(), 0);
                 textNodeMap.add("Lorem ipsum dolor sit amet, consetetur Google sadipscing elitr, sed diam nonumy eirmod tempor.", asXPath("/div[1]/p[1]"), 0);
+                textNodeMap.add("\n", new XPath(), 0);
                 textNodeMap.add("Caption3", asXPath("/div[1]/h1[3]"), 0);
+                textNodeMap.add("\n", new XPath(), 0);
                 textNodeMap.add("Google 4", asXPath("/div[1]"), 134);
                 textNodeMap.add("Invidunt ut labore et dolore magna aliquyam erat, sed Google diam voluptua.", asXPath("/div[1]/span[1]"), 0);
+                textNodeMap.add("\n", new XPath(), 0);
                 textNodeMap.add("Caption4", asXPath("/div[1]/h1[4]"), 0);
+                textNodeMap.add("\n", new XPath(), 0);
                 textNodeMap.add("Google 6", asXPath("/div[1]"), 225);
                 textNodeMap.add("At vero eos et accusam ", asXPath("/div[1]/span[2]"), 0);
                 textNodeMap.add("et justo Google", asXPath("/div[1]/span[2]/b[1]"), 0);
                 textNodeMap.add(" est.", asXPath("/div[1]/span[2]"), 38);
+                textNodeMap.add("\n", new XPath(), 0);
                 break;
             case ELEMENT_COUNT:
                 textNodeMap.add("Test", asXPath("/div[1]/p[1]"), 0);
+                textNodeMap.add("\n", new XPath(), 0);
                 textNodeMap.add("Test2", asXPath("/div[1]/div[1]"), 0);
+                textNodeMap.add("\n", new XPath(), 0);
                 textNodeMap.add("Test3", asXPath("/div[1]/p[2]"), 0);
+                textNodeMap.add("\n", new XPath(), 0);
                 break;
         }
         return textNodeMap;

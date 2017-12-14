@@ -38,6 +38,10 @@ public class TextNodeMap {
         return plainText.toString();
     }
 
+    public boolean lastTagEquals(String tagName) {
+        return values.get(values.size() - 1).equals(tagName);
+    }
+
     public List<String> getValues() {
         return values;
     }

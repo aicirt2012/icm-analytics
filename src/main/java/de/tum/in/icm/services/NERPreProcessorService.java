@@ -1,6 +1,7 @@
 package de.tum.in.icm.services;
 
 import de.tum.in.icm.entities.TextNodeMap;
+import de.tum.in.icm.entities.XPath;
 import de.tum.in.icm.entities.XPathBuilder;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -9,7 +10,12 @@ import org.jsoup.nodes.Node;
 import org.jsoup.nodes.TextNode;
 import org.jsoup.select.NodeVisitor;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class NERPreProcessorService {
+
+    private static final List<String> BREAKING_HTML_TAGS = Arrays.asList("br", "dd", "div", "dt", "h1", "h2", "h3", "h4", "h5", "p", "tr");
 
     private static final TextNodeMapFactory textNodeMapFactory = new TextNodeMapFactory();
     private static TextNodeMap textNodeMap;
@@ -30,6 +36,7 @@ public class NERPreProcessorService {
             if (node instanceof Element) {
                 Element element = (Element) node;
                 xPathBuilder.addOpeningTag(element.tagName());
+                this.considerNewLine(element);
             } else if (node instanceof TextNode) {
                 TextNode textNode = (TextNode) node;
                 int parentOffset = 0;
@@ -57,6 +64,15 @@ public class NERPreProcessorService {
             if (node instanceof Element) {
                 Element element = (Element) node;
                 xPathBuilder.addClosingTag(element.tagName());
+                this.considerNewLine(element);
+            }
+        }
+
+        private void considerNewLine(Element element) {
+            if (BREAKING_HTML_TAGS.contains(element.tagName())) {
+                if (!textNodeMap.getValues().isEmpty() && !textNodeMap.lastTagEquals("\n")) {
+                    textNodeMap.add("\n", new XPath(), 0);
+                }
             }
         }
 
