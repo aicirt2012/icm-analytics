@@ -38,6 +38,10 @@ public class XPath {
         return tagCounts.peekLast();
     }
 
+    public int getDepth() {
+        return tags.size() - 1;
+    }
+
     @Override
     public String toString() {
         StringBuilder xPath = new StringBuilder();
