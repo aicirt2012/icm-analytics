@@ -156,7 +156,7 @@ public class NERTestDataFactory {
         switch (type) {
             case MINIMAL:
                 textNodeMap.add("Test", asXPath("/div[1]/h1[1]"), 0);
-                textNodeMap.add("text Test", asXPath("/div[1]"), 13);
+                textNodeMap.add("text Test", asXPath("/div[1]"), 4);
                 textNodeMap.add("Te", asXPath("/div[2]"), 0);
                 textNodeMap.add("st", asXPath("/div[2]/b[1]"), 0);
                 break;
@@ -173,9 +173,9 @@ public class NERTestDataFactory {
                 textNodeMap.add("Google", asXPath("/div[1]/div[1]/div[1]/div[1]/table[1]/tbody[1]/tr[2]/td[1]/a[1]"), 0);
                 textNodeMap.add("This is ", asXPath("/div[1]/div[1]/div[1]/div[2]/span[1]"), 0);
                 textNodeMap.add("the", asXPath("/div[1]/div[1]/div[1]/div[2]/span[1]/a[1]"), 0);
-                textNodeMap.add(" ugly Goo", asXPath("/div[1]/div[1]/div[1]/div[2]/span[1]"), 18);
+                textNodeMap.add(" ugly Goo", asXPath("/div[1]/div[1]/div[1]/div[2]/span[1]"), 11);
                 textNodeMap.add("gle", asXPath("/div[1]/div[1]/div[1]/div[2]/span[1]/i[1]"), 0);
-                textNodeMap.add("...", asXPath("/div[1]/div[1]/div[1]/div[2]/span[1]"), 37);
+                textNodeMap.add("...", asXPath("/div[1]/div[1]/div[1]/div[2]/span[1]"), 23);
                 break;
             case OFFSET_TEST:
                 textNodeMap.add("Caption1", asXPath("/div[1]/h1[1]"), 0);
