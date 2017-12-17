@@ -12,7 +12,7 @@ public class NERPostProcessorService {
     private static Map<Integer, Integer> textToNodeIndexMap;
     private static TextNodeMap textNodeMap;
 
-    public static NERResultDTO calculateRangeObjects(NERResultDTO resultDto, TextNodeMap textNodeMap) {
+    public static NERResultDTO calculateRanges(NERResultDTO resultDto, TextNodeMap textNodeMap) {
         NERPostProcessorService.textNodeMap = textNodeMap;
         textToNodeIndexMap = textNodeMap.getTextToNodeIndexMap();
         for (AnnotationDTO annotation : resultDto.getAnnotations()) {
