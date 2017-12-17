@@ -4,7 +4,6 @@ import de.tum.in.icm.dtos.AnnotationDTO;
 import de.tum.in.icm.dtos.NERInputDTO;
 import de.tum.in.icm.dtos.NERResultDTO;
 import de.tum.in.icm.dtos.NERType;
-import de.tum.in.icm.entities.IndexedPlainText;
 import de.tum.in.icm.entities.TextNodeMap;
 import de.tum.in.icm.entities.XPath;
 
@@ -114,45 +113,6 @@ public class NERTestDataFactory {
         }
         nerResultDTO.addAnnotations(annotations);
         return nerResultDTO;
-    }
-
-    public static IndexedPlainText getIndexedPlainText(Type type) {
-        IndexedPlainText indexedPlainText = new IndexedPlainText();
-        switch (type) {
-            case MINIMAL:
-                indexedPlainText.addPlainText("Test", 9);
-                indexedPlainText.addPlainText("\n", -1);
-                indexedPlainText.addPlainText("text Test", 18);
-                indexedPlainText.addPlainText("\n", -1);
-                indexedPlainText.addPlainText("Te", 38);
-                indexedPlainText.addPlainText("st", 43);
-                break;
-            case SIMPLE:
-                indexedPlainText.addPlainText("Lorem ipsum", 29);
-                indexedPlainText.addPlainText("\n", -1);
-                indexedPlainText.addPlainText("dolor sit amet, consetetur sadipscing elitr, Google sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.", 48);
-                indexedPlainText.addPlainText("\n", -1);
-                indexedPlainText.addPlainText("At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd Google gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus Google est Lorem ipsum dolor sit amet.", 213);
-                indexedPlainText.addPlainText("\n", -1);
-                indexedPlainText.addPlainText("Google", 743);
-                break;
-            case COMPLEX:
-                indexedPlainText.addPlainText("Lorem ipsum", 49);
-                indexedPlainText.addPlainText("\n", -1);
-                indexedPlainText.addPlainText("dolor sit amet, consetetur sadipscing elitr, Google sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.", 97);
-                indexedPlainText.addPlainText("\n", -1);
-                indexedPlainText.addPlainText("At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd Google gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus Google est Lorem ipsum dolor sit amet.", 278);
-                indexedPlainText.addPlainText("\n", -1);
-                indexedPlainText.addPlainText("Google", 808);
-                indexedPlainText.addPlainText("\n", -1);
-                indexedPlainText.addPlainText("This is ", 861);
-                indexedPlainText.addPlainText("the", 872);
-                indexedPlainText.addPlainText(" ugly Goo", 879);
-                indexedPlainText.addPlainText("gle", 891);
-                indexedPlainText.addPlainText("...", 898);
-                break;
-        }
-        return indexedPlainText;
     }
 
     public static TextNodeMap getTextNodeMap(Type type) {
