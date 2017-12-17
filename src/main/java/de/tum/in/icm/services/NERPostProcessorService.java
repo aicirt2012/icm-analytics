@@ -30,14 +30,35 @@ public class NERPostProcessorService {
         int startOffset = textIndex - textNodeIndex;
         String textNode = textNodeMap.getValues().get(listIndex);
 
-        String startXPath = getStartXPath(listIndex);
+        String startXPath = getParentLocator(listIndex);
         int relativeStartOffset = getRelativeStartOffset(listIndex, startOffset);
         String endXPath = startXPath;
         int relativeEndOffset = relativeStartOffset + annotation.getValue().length();
         if (textNode.substring(startOffset).length() < annotation.getValue().length()) {
             // annotation value is split over multiple nodes
-            endXPath = "not implemented";
-            relativeEndOffset = -1;
+            String remainingAnnotationValue = annotation.getValue().substring(textNode.substring(startOffset).length());
+            while (!remainingAnnotationValue.isEmpty()) {
+                // get next text node until annotation is fully read
+                listIndex++;
+                textNode = textNodeMap.getValues().get(listIndex);
+                if (textNode.length() >= remainingAnnotationValue.length()) {
+                    // remaining value fully contained, this is the end node
+                    if (!textNode.startsWith(remainingAnnotationValue)) {
+                        throw new RuntimeException("Unexpected character, could not find end of annotation!");
+                        // TODO think about simply stopping and using this as the end instead of aborting with exception
+                    }
+                    endXPath = getParentLocator(listIndex);
+                    relativeEndOffset = remainingAnnotationValue.length();
+                    remainingAnnotationValue = "";
+                } else {
+                    // remaining value not fully contained, keep on parsing
+                    if (!remainingAnnotationValue.startsWith(textNode)) {
+                        throw new RuntimeException("Unexpected character, could not find end of annotation!");
+                        // TODO think about simply stopping and using this as the end instead of aborting with exception
+                    }
+                    remainingAnnotationValue = remainingAnnotationValue.substring(textNode.length());
+                }
+            }
         }
 
         RangeDTO rangeDTO = new RangeDTO();
@@ -48,7 +69,7 @@ public class NERPostProcessorService {
         return rangeDTO;
     }
 
-    private static String getStartXPath(Integer listIndex) {
+    private static String getParentLocator(Integer listIndex) {
         return textNodeMap.getParentLocators().get(listIndex).toString();
     }
 
