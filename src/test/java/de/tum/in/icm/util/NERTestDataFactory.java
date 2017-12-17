@@ -96,10 +96,10 @@ public class NERTestDataFactory {
                     annotations.add(annotationDTO);
                 }
                 annotations.get(0).addPlainTextIndex(57);
-                annotations.get(1).addPlainTextIndex(236);
-                annotations.get(2).addPlainTextIndex(574);
-                annotations.get(3).addPlainTextIndex(613);
-                annotations.get(4).addPlainTextIndex(637);
+                annotations.get(1).addPlainTextIndex(234);
+                annotations.get(2).addPlainTextIndex(572);
+                annotations.get(3).addPlainTextIndex(611);
+                annotations.get(4).addPlainTextIndex(635);
                 annotations.get(0).addHtmlSourceOccurrence(97, 45);
                 annotations.get(1).addHtmlSourceOccurrence(278, 73);
                 annotations.get(2).addHtmlSourceOccurrence(278, 411);
