@@ -21,6 +21,7 @@ When developing with IntelliJ, the built-in maven can be used instead of a globa
 ![1](https://user-images.githubusercontent.com/6501308/34104052-4771f1f2-e3ef-11e7-9713-46c6d1a40070.PNG)
 
 ![2](https://user-images.githubusercontent.com/6501308/34104055-4a3bc6ce-e3ef-11e7-8546-ac42edd3efff.PNG)
+
 2. Configure like in the screenshot below
 
 ![3](https://user-images.githubusercontent.com/6501308/34104057-4e4f1856-e3ef-11e7-892d-60bdb75c9334.PNG)
