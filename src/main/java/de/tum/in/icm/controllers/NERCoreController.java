@@ -14,15 +14,14 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-
 @Path("/ner")
+@Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
 public class NERCoreController {
 
     private NERCoreService nerCoreService = new NERCoreService();
 
     @POST
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
     @Path("/recognize")
     public Response recognize(NERInputDTO inputDTO) {
         TextNodeMap textNodeMap = NERPreProcessorService.getTextNodeMap(inputDTO.getHtmlSource());
