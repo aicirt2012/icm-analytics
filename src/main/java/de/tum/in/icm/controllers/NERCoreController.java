@@ -24,6 +24,9 @@ public class NERCoreController {
     @POST
     @Path("/recognize")
     public Response recognize(NERInputDTO inputDTO) {
+        if (inputDTO.getHtmlSource() == null) {
+            inputDTO.setHtmlSource("");
+        }
         TextNodeMap textNodeMap = NERPreProcessorService.getTextNodeMap(inputDTO.getHtmlSource());
         NERResultDTO resultDto = nerCoreService.doRecognize(textNodeMap.toPlainText());
         resultDto.setEmailId(inputDTO.getEmailId());
