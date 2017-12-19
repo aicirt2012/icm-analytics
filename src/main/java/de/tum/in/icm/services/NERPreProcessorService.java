@@ -47,7 +47,7 @@ public class NERPreProcessorService {
                         previousSibling = previousSibling.previousSibling();
                     }
                 }
-                textNodeMap.add(textNode.text(), xPathBuilder.toXPath(), parentOffset);
+                textNodeMap.add(textNode.getWholeText(), xPathBuilder.toXPath(), parentOffset);
             }
         }
 
