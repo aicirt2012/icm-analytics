@@ -14,7 +14,18 @@ public enum NERType {
     TIME,
     PERCENT,
     NUMBER,
+    ORDINAL,
     MISC,
-    O
+    O,
+    NOT_IMPLEMENTED;
+
+    public static NERType fromString(String nerType) {
+        for (NERType type : NERType.values()) {
+            if (type.toString().equalsIgnoreCase(nerType)) {
+                return type;
+            }
+        }
+        return NERType.NOT_IMPLEMENTED;
+    }
 
 }

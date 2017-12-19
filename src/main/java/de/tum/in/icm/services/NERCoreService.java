@@ -52,7 +52,7 @@ public class NERCoreService {
                 int startIndex = token.get(CoreAnnotations.CharacterOffsetBeginAnnotation.class);
                 AnnotationDTO newWord = new AnnotationDTO();
                 newWord.setValue(word);
-                newWord.setNerType(NERType.valueOf(ne));
+                newWord.setNerType(NERType.fromString(ne));
                 newWord.setPosType(pos);
                 newWord.addPlainTextIndex(startIndex);
                 if (!newWord.getNerType().equals(NERType.O)) {
