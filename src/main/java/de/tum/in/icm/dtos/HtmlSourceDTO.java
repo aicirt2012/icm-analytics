@@ -4,7 +4,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-public class NERInputDTO {
+public class HtmlSourceDTO {
 
     @XmlElement
     private String emailId;

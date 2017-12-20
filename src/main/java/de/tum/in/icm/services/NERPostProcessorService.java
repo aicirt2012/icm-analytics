@@ -12,6 +12,20 @@ public class NERPostProcessorService {
     private static Map<Integer, Integer> textToNodeIndexMap;
     private static TextNodeMap textNodeMap;
 
+    public static NERResultDTO calculateRangesPlainText(NERResultDTO resultDto) {
+        for (AnnotationDTO annotation : resultDto.getAnnotations()) {
+            for (int textIndex : annotation.getPlainTextIndices()) {
+                RangeDTO rangeDTO = new RangeDTO();
+                rangeDTO.setxPathStart("");
+                rangeDTO.setxPathEnd("");
+                rangeDTO.setOffsetStart(textIndex);
+                rangeDTO.setOffsetEnd(textIndex + annotation.getValue().length());
+                annotation.getRanges().add(rangeDTO);
+            }
+        }
+        return resultDto;
+    }
+
     public static NERResultDTO calculateRanges(NERResultDTO resultDto, TextNodeMap textNodeMap) {
         NERPostProcessorService.textNodeMap = textNodeMap;
         textToNodeIndexMap = textNodeMap.getTextToNodeIndexMap();

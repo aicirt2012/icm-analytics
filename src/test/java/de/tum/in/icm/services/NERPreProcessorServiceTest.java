@@ -1,6 +1,6 @@
 package de.tum.in.icm.services;
 
-import de.tum.in.icm.dtos.NERInputDTO;
+import de.tum.in.icm.dtos.HtmlSourceDTO;
 import de.tum.in.icm.entities.TextNodeMap;
 import de.tum.in.icm.entities.XPath;
 import de.tum.in.icm.util.NERTestDataFactory;
@@ -14,7 +14,7 @@ public class NERPreProcessorServiceTest {
 
     @Test
     public void parseHtmlMinimal() {
-        NERInputDTO inputDTO = NERTestDataFactory.getNERInputDTO(NERTestDataFactory.Type.MINIMAL);
+        HtmlSourceDTO inputDTO = NERTestDataFactory.getHTMLSourceDTO(NERTestDataFactory.Type.MINIMAL);
         TextNodeMap actualResult = NERPreProcessorService.getTextNodeMap(inputDTO.getHtmlSource());
         TextNodeMap expectedResult = NERTestDataFactory.getTextNodeMap(NERTestDataFactory.Type.MINIMAL);
         this.checkForEquality(expectedResult, actualResult);
@@ -22,7 +22,7 @@ public class NERPreProcessorServiceTest {
 
     @Test
     public void parseHtmlSimple() {
-        NERInputDTO inputDTO = NERTestDataFactory.getNERInputDTO(NERTestDataFactory.Type.SIMPLE);
+        HtmlSourceDTO inputDTO = NERTestDataFactory.getHTMLSourceDTO(NERTestDataFactory.Type.SIMPLE);
         TextNodeMap actualResult = NERPreProcessorService.getTextNodeMap(inputDTO.getHtmlSource());
         TextNodeMap expectedResult = NERTestDataFactory.getTextNodeMap(NERTestDataFactory.Type.SIMPLE);
         this.checkForEquality(expectedResult, actualResult);
@@ -30,7 +30,7 @@ public class NERPreProcessorServiceTest {
 
     @Test
     public void parseHtmlComplex() {
-        NERInputDTO inputDTO = NERTestDataFactory.getNERInputDTO(NERTestDataFactory.Type.COMPLEX);
+        HtmlSourceDTO inputDTO = NERTestDataFactory.getHTMLSourceDTO(NERTestDataFactory.Type.COMPLEX);
         TextNodeMap actualResult = NERPreProcessorService.getTextNodeMap(inputDTO.getHtmlSource());
         TextNodeMap expectedResult = NERTestDataFactory.getTextNodeMap(NERTestDataFactory.Type.COMPLEX);
         this.checkForEquality(expectedResult, actualResult);
@@ -38,7 +38,7 @@ public class NERPreProcessorServiceTest {
 
     @Test
     public void parseHtmlOffset() {
-        NERInputDTO inputDTO = NERTestDataFactory.getNERInputDTO(NERTestDataFactory.Type.OFFSET_TEST);
+        HtmlSourceDTO inputDTO = NERTestDataFactory.getHTMLSourceDTO(NERTestDataFactory.Type.OFFSET_TEST);
         TextNodeMap actualResult = NERPreProcessorService.getTextNodeMap(inputDTO.getHtmlSource());
         TextNodeMap expectedResult = NERTestDataFactory.getTextNodeMap(NERTestDataFactory.Type.OFFSET_TEST);
         this.checkForEquality(expectedResult, actualResult);
@@ -46,7 +46,7 @@ public class NERPreProcessorServiceTest {
 
     @Test
     public void parseHtmlElementCount() {
-        NERInputDTO inputDTO = NERTestDataFactory.getNERInputDTO(NERTestDataFactory.Type.ELEMENT_COUNT);
+        HtmlSourceDTO inputDTO = NERTestDataFactory.getHTMLSourceDTO(NERTestDataFactory.Type.ELEMENT_COUNT);
         TextNodeMap actualResult = NERPreProcessorService.getTextNodeMap(inputDTO.getHtmlSource());
         TextNodeMap expectedResult = NERTestDataFactory.getTextNodeMap(NERTestDataFactory.Type.ELEMENT_COUNT);
         this.checkForEquality(expectedResult, actualResult);
