@@ -11,4 +11,4 @@ COPY pom.xml $WORKSPACE
 COPY src $WORKSPACE/src
 
 # run maven to build project
-RUN mvn -T 1C install
+RUN mvn -T 1C install -DskipTests=true
