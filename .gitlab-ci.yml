@@ -10,7 +10,7 @@ docker_build:
     - docker:dind
   script:
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN registry.gitlab.com
-    - docker build -t build-img -f Dockerfile.build
+    - docker build -t build-img -f Dockerfile.build .
     - docker create --name build-cont build-img
     - docker cp build-cont:/usr/src/icm-analytics/target/icm-analytics.war ./target/icm-analytics.war
     - docker build --pull -t registry.gitlab.com/tum.icm/icm-analytics:latest .
