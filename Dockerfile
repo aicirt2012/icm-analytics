@@ -4,8 +4,9 @@ ENV TOMCAT_MINOR_VERSION=8.5.24 \
  CATALINA_HOME=/opt/tomcat \
  TOMCAT_URL=https://archive.apache.org/dist/tomcat/tomcat-8
 
-# install curl
+# install curl and tar
 RUN apk --no-cache add curl
+RUN apk --no-cache add tar
 
 # install tomcat
 RUN curl -O ${TOMCAT_URL}/v${TOMCAT_MINOR_VERSION}/bin/apache-tomcat-${TOMCAT_MINOR_VERSION}.tar.gz && \
