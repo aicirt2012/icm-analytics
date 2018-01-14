@@ -1,4 +1,4 @@
-FROM openjdk:8-jre
+FROM openjdk:8-jre-alpine
 
 ENV TOMCAT_MINOR_VERSION=8.5.24 \
  CATALINA_HOME=/opt/tomcat \
