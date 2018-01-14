@@ -4,6 +4,10 @@ ENV TOMCAT_MINOR_VERSION=8.5.24 \
  CATALINA_HOME=/opt/tomcat \
  TOMCAT_URL=https://archive.apache.org/dist/tomcat/tomcat-8
 
+# install curl
+RUN apk --no-cache add curl
+
+# install tomcat
 RUN curl -O ${TOMCAT_URL}/v${TOMCAT_MINOR_VERSION}/bin/apache-tomcat-${TOMCAT_MINOR_VERSION}.tar.gz && \
  curl ${TOMCAT_URL}/v${TOMCAT_MINOR_VERSION}/bin/apache-tomcat-${TOMCAT_MINOR_VERSION}.tar.gz.md5 | md5sum -c - && \
  tar xzf apache-tomcat-*.tar.gz && \
@@ -14,8 +18,10 @@ RUN curl -O ${TOMCAT_URL}/v${TOMCAT_MINOR_VERSION}/bin/apache-tomcat-${TOMCAT_MI
 
 #EXPOSE 8080
 
+# copy war file
 WORKDIR ${CATALINA_HOME}/webapps
 COPY target/icm-analytics.war .
 
+# start tomcat
 ENTRYPOINT [ "/opt/tomcat/bin/catalina.sh" ]
 CMD [ "run" ]
