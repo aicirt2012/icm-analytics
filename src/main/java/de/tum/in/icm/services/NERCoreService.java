@@ -9,19 +9,27 @@ import edu.stanford.nlp.pipeline.Annotation;
 import edu.stanford.nlp.pipeline.StanfordCoreNLP;
 import edu.stanford.nlp.util.CoreMap;
 
+import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletContextListener;
+import javax.servlet.annotation.WebListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-public class NERCoreService {
+@WebListener
+public class NERCoreService implements ServletContextListener {
 
     private static StanfordCoreNLP pipeline;
 
-    static {
+    public void contextInitialized(ServletContextEvent event) {
         // creates a StanfordCoreNLP object, with POS tagging, lemmatization, NER, parsing, and coreference resolution
         Properties props = new Properties();
         props.put("annotators", "tokenize,ssplit, pos,lemma,ner");
         pipeline = new StanfordCoreNLP(props);
+    }
+
+    public void contextDestroyed(ServletContextEvent event) {
+        // do nothing
     }
 
     public NERResultDTO doRecognize(String input) {
