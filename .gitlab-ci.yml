@@ -1,0 +1,14 @@
+image: docker:latest
+
+stages:
+  - docker_build
+
+# greift auf Dockerfile zu
+docker_build:
+  stage: docker_build
+  services:
+    - docker:dind
+  script:
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN registry.gitlab.com
+    - docker build --pull -t registry.gitlab.com/tum.icm/icm-analytics:latest .
+    - docker push registry.gitlab.com/tum.icm/icm-server:latest

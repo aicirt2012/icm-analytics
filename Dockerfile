@@ -13,7 +13,7 @@ RUN curl -O ${TOMCAT_URL}/v${TOMCAT_MINOR_VERSION}/bin/apache-tomcat-${TOMCAT_MI
   ${CATALINA_HOME}/bin/*.bat ${CATALINA_HOME}/bin/*.tar.gz
 
 WORKDIR /opt/tomcat
-EXPOSE 8080
+#EXPOSE 8080
 
 # TODO copy over compiled *.war file to /opt/tomcat/webapps
 # extraction will happen automatically on startup
