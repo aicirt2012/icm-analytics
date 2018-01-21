@@ -13,5 +13,5 @@ WORKDIR ${CATALINA_HOME}/webapps
 COPY target/icm-analytics.war .
 
 # start tomcat
-ENTRYPOINT [ "${CATALINA_HOME}/bin/catalina.sh" ]
-CMD [ "run" ]
+#ENTRYPOINT [ "${CATALINA_HOME}/bin/catalina.sh" ]
+#CMD [ "run" ]
