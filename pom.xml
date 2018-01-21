@@ -52,6 +52,11 @@
             <groupId>org.glassfish.jersey.media</groupId>
             <artifactId>jersey-media-json-jackson</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.apache.tomcat</groupId>
+            <artifactId>tomcat-servlet-api</artifactId>
+            <version>8.5.24</version>
+        </dependency>
 
         <!-- Stanford NLP used for actual named entity recognition -->
         <dependency>
