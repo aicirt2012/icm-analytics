@@ -12,6 +12,4 @@ RUN rm -rf \
 WORKDIR ${CATALINA_HOME}/webapps
 COPY target/icm-analytics.war .
 
-# start tomcat
-#ENTRYPOINT [ "${CATALINA_HOME}/bin/catalina.sh" ]
-#CMD [ "run" ]
+# no need to explicitly deploy and/or start tomcat, this is done implicitly
