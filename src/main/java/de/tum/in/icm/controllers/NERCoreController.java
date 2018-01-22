@@ -8,10 +8,7 @@ import de.tum.in.icm.services.NERCoreService;
 import de.tum.in.icm.services.NERPostProcessorService;
 import de.tum.in.icm.services.NERPreProcessorService;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -21,6 +18,8 @@ import javax.ws.rs.core.Response;
 public class NERCoreController {
 
     private NERCoreService nerCoreService = new NERCoreService();
+
+    // TODO add logging
 
     @POST
     @Path("/recognize/html")
@@ -45,6 +44,12 @@ public class NERCoreController {
         resultDto.setEmailId(textDTO.getEmailId());
         resultDto = NERPostProcessorService.calculateRangesPlainText(resultDto);
         return Response.status(200).entity(resultDto).build();
+    }
+
+    @GET
+    @Path("/test")
+    public Response test() {
+        return Response.status(200).entity("Connection works!").build();
     }
 
 }
