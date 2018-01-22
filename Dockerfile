@@ -11,5 +11,6 @@ RUN rm -rf \
 # copy war file
 WORKDIR ${CATALINA_HOME}/webapps
 COPY target/icm-analytics.war .
+RUN mv icm-analytics.war ROOT.war
 
 # no need to explicitly deploy and/or start tomcat, this is done implicitly
