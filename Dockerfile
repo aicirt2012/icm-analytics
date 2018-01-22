@@ -12,5 +12,4 @@ FROM tomcat:8.5.24-jre8
 WORKDIR ${CATALINA_HOME}/webapps
 COPY target/icm-analytics.war .
 
-# start tomcat
-CMD ["catalina.sh", "run"]
+# no need to explicitly deploy and/or start tomcat, this is done implicitly
