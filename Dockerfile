@@ -1,4 +1,4 @@
-FROM tomcat:8.5.24-jre8
+FROM tomcat:8.5.24-jre8-alpine
 
 # remove tomcat examples
 #RUN rm -rf \
