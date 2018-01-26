@@ -17,6 +17,7 @@ public enum NERType {
     ORDINAL,
     MISC,
     O,
+    TASK_TITLE,
     NOT_IMPLEMENTED;
 
     public static NERType fromString(String nerType) {

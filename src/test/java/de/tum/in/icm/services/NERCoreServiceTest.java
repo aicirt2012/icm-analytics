@@ -1,7 +1,7 @@
 package de.tum.in.icm.services;
 
 
-import de.tum.in.icm.dtos.NERResultDTO;
+import de.tum.in.icm.dtos.ResultDTO;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -23,7 +23,7 @@ public class NERCoreServiceTest {
                 "dolor sit amet, consetetur sadipscing elitr, Google sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.\n" +
                 "At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd Google gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus Google est Lorem ipsum dolor sit amet.\n" +
                 "Google";
-        NERResultDTO nerResultDTO = nerCoreService.doRecognize(input);
+        ResultDTO nerResultDTO = nerCoreService.doRecognize(input);
         Assert.assertNotNull(nerResultDTO);
     }
 
@@ -34,7 +34,7 @@ public class NERCoreServiceTest {
                 "At vero eos et accusam et justo duo dolores et ea rebum.Stet clita kasd Google gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.Lorem ipsum dolor sit amet, consetetur sadipscing elitr,sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.Stet clita kasd gubergren, no sea takimata sanctus Google est Lorem ipsum dolor sit amet.\n" +
                 "Google\n" +
                 "This is the ugly Google...\n";
-        NERResultDTO nerResultDTO = nerCoreService.doRecognize(input);
+        ResultDTO nerResultDTO = nerCoreService.doRecognize(input);
         Assert.assertNotNull(nerResultDTO);
     }
 

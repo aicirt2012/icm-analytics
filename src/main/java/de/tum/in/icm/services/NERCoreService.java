@@ -1,7 +1,7 @@
 package de.tum.in.icm.services;
 
 import de.tum.in.icm.dtos.AnnotationDTO;
-import de.tum.in.icm.dtos.NERResultDTO;
+import de.tum.in.icm.dtos.ResultDTO;
 import de.tum.in.icm.dtos.NERType;
 import edu.stanford.nlp.ling.CoreAnnotations;
 import edu.stanford.nlp.ling.CoreLabel;
@@ -32,7 +32,7 @@ public class NERCoreService implements ServletContextListener {
         // do nothing
     }
 
-    public NERResultDTO doRecognize(String input) {
+    public ResultDTO doRecognize(String input) {
         // create an empty Annotation just with the given text
         Annotation document = new Annotation(input);
 
@@ -43,7 +43,7 @@ public class NERCoreService implements ServletContextListener {
         // a CoreMap is essentially a Map that uses class objects as keys and has values with custom types
         List<CoreMap> sentences = document.get(CoreAnnotations.SentencesAnnotation.class);
 
-        NERResultDTO result = new NERResultDTO();
+        ResultDTO result = new ResultDTO();
 
         for (CoreMap sentence : sentences) {
             List<AnnotationDTO> words = new ArrayList<>();

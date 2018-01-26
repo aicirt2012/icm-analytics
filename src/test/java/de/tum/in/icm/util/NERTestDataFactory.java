@@ -2,7 +2,7 @@ package de.tum.in.icm.util;
 
 import de.tum.in.icm.dtos.AnnotationDTO;
 import de.tum.in.icm.dtos.HtmlSourceDTO;
-import de.tum.in.icm.dtos.NERResultDTO;
+import de.tum.in.icm.dtos.ResultDTO;
 import de.tum.in.icm.dtos.NERType;
 import de.tum.in.icm.entities.TextNodeMap;
 import de.tum.in.icm.entities.XPath;
@@ -43,8 +43,8 @@ public class NERTestDataFactory {
         return htmlSourceDTO;
     }
 
-    public static NERResultDTO getNERResultDTO(Type type) {
-        NERResultDTO nerResultDTO = new NERResultDTO();
+    public static ResultDTO getNERResultDTO(Type type) {
+        ResultDTO nerResultDTO = new ResultDTO();
         List<AnnotationDTO> annotations = new ArrayList<>();
         switch (type) {
             case MINIMAL:
