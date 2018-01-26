@@ -2,26 +2,29 @@ package de.tum.in.icm.services;
 
 import de.tum.in.icm.dtos.AnnotationDTO;
 import de.tum.in.icm.dtos.NERType;
+import de.tum.in.icm.dtos.TaskAnnotationDTO;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.lang.reflect.Array;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
-public class StringSearchService {
+public class TaskService {
 
     static final int MAX_WORDS_COUNT = 20;
 
-    public ArrayList<AnnotationDTO> Search(String text, List<String> regexPatterns, Boolean matchTillSentenceEnd){
+    public ArrayList<AnnotationDTO> Search(String text, List<String> regexPatterns, Boolean matchTillSentenceEnd, List<AnnotationDTO> nerAnnotations) {
 
         ArrayList<AnnotationDTO> result = new ArrayList<AnnotationDTO>();
-        for (String pattern: regexPatterns) {
-            result.addAll(Search(text,pattern,matchTillSentenceEnd));
+        for (String pattern : regexPatterns) {
+            result.addAll(Search(text, pattern, matchTillSentenceEnd, nerAnnotations));
         }
-            return result;
+        return result;
     }
 
-    public ArrayList<AnnotationDTO> Search(String text, String regexPattern, Boolean matchTillSentenceEnd) {
+    public ArrayList<AnnotationDTO> Search(String text, String regexPattern, Boolean matchTillSentenceEnd, List<AnnotationDTO> nerAnnotations) {
 
         text = text.toLowerCase();
         regexPattern = regexPattern.toLowerCase();
@@ -29,9 +32,24 @@ public class StringSearchService {
         ArrayList<AnnotationDTO> result = new ArrayList<AnnotationDTO>();
         Pattern p = Pattern.compile(regexPattern);
         Matcher m = p.matcher(text);
+        Random randomGenerator = new Random();
         while (m.find()) {
-            AnnotationDTO newMatch = new AnnotationDTO();
+
+            List<String> allPersons = nerAnnotations.stream().filter(x -> x.getNerType() == NERType.PERSON)
+                    .map(AnnotationDTO::getValue).collect(Collectors.toList());
+
+            List<String> allDates = nerAnnotations.stream().filter(x -> x.getNerType() == NERType.DATE)
+                    .map(AnnotationDTO::getValue).collect(Collectors.toList());
+            //today
+            String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+            // randomly get date
+            // decide on a way to bind a task with a date
+            if (allDates != null && !allDates.isEmpty())
+                date = allDates.get(randomGenerator.nextInt(allDates.size()));
+            TaskAnnotationDTO newMatch = new TaskAnnotationDTO(date, allPersons);
+            // could we delete this ?
             newMatch.setNerType(NERType.TASK_TITLE);
+
             if (matchTillSentenceEnd)
                 newMatch.setValue(getFullSentence(text, m.start()));
             else

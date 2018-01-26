@@ -7,7 +7,7 @@ import de.tum.in.icm.entities.TextNodeMap;
 import de.tum.in.icm.services.NERCoreService;
 import de.tum.in.icm.services.NERPostProcessorService;
 import de.tum.in.icm.services.NERPreProcessorService;
-import de.tum.in.icm.services.StringSearchService;
+import de.tum.in.icm.services.TaskService;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -22,7 +22,7 @@ import javax.ws.rs.core.Response;
 public class NERCoreController {
 
     private NERCoreService nerCoreService = new NERCoreService();
-    private StringSearchService stringSearchService = new StringSearchService();
+    private TaskService taskService = new TaskService();
 
     @POST
     @Path("/recognize/html")
@@ -33,7 +33,7 @@ public class NERCoreController {
         TextNodeMap textNodeMap = NERPreProcessorService.getTextNodeMap(sourceDTO.getHtmlSource());
 
         ResultDTO resultDto = nerCoreService.doRecognize(textNodeMap.toPlainText());
-        resultDto.addAnnotations(stringSearchService.Search(textNodeMap.toPlainText(),sourceDTO.getRegexPatterns(),sourceDTO.isAutoCompleteTaskLabel()));
+        resultDto.addAnnotations(taskService.Search(textNodeMap.toPlainText(),sourceDTO.getRegexPatterns(),sourceDTO.isAutoCompleteTaskLabel(),resultDto.getAnnotations()));
 
         resultDto.setEmailId(sourceDTO.getEmailId());
         resultDto = NERPostProcessorService.calculateRanges(resultDto, textNodeMap);
