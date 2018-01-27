@@ -10,6 +10,8 @@ public class PatternDTO
     private String label;
     @XmlElement
     private boolean matchTillSentenceEnd;
+    @XmlElement
+    private boolean caseSensitive;
 
     public String getLabel() {
         return label;
@@ -25,5 +27,13 @@ public class PatternDTO
 
     public void setMatchTillSentenceEnd(boolean matchTillSentenceEnd) {
         this.matchTillSentenceEnd = matchTillSentenceEnd;
+    }
+
+    public boolean isCaseSensitive() {
+        return caseSensitive;
+    }
+
+    public void setCaseSensitive(boolean caseSensitive) {
+        this.caseSensitive = caseSensitive;
     }
 }
