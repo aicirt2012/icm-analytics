@@ -1,6 +1,10 @@
 package de.tum.in.icm.dtos;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElements;
+import javax.xml.bind.annotation.XmlList;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,10 +17,8 @@ public class HtmlSourceDTO  {
     @XmlElement
     private String emailId;
     @XmlElement
-    private List<String> regexPatterns = new ArrayList<String>();
-    //TODO: this should be for every pattern
-    @XmlElement
-    private boolean autoCompleteTaskLabel;
+    private List<PatternDTO> regexPatterns = new ArrayList<PatternDTO>();
+
 
 
     public String getHtmlSource() {
@@ -35,19 +37,13 @@ public class HtmlSourceDTO  {
         this.emailId = emailId;
     }
 
-    public List<String> getRegexPatterns() {
+    public List<PatternDTO> getRegexPatterns() {
         return regexPatterns;
     }
 
-    public void setRegexPatterns(List<String> regexPatterns) {
+    public void setRegexPatterns(List<PatternDTO> regexPatterns) {
         this.regexPatterns = regexPatterns;
     }
 
-    public boolean isAutoCompleteTaskLabel() {
-        return autoCompleteTaskLabel;
-    }
 
-    public void setAutoCompleteTaskLabel(boolean autoCompleteTaskLabel) {
-        this.autoCompleteTaskLabel = autoCompleteTaskLabel;
-    }
 }

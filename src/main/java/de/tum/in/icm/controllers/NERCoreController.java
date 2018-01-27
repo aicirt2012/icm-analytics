@@ -33,7 +33,7 @@ public class NERCoreController {
         TextNodeMap textNodeMap = NERPreProcessorService.getTextNodeMap(sourceDTO.getHtmlSource());
 
         ResultDTO resultDto = nerCoreService.doRecognize(textNodeMap.toPlainText());
-        resultDto.addAnnotations(taskService.Search(textNodeMap.toPlainText(),sourceDTO.getRegexPatterns(),sourceDTO.isAutoCompleteTaskLabel(),resultDto.getAnnotations()));
+        resultDto.addAnnotations(taskService.Search(textNodeMap.toPlainText(),sourceDTO.getRegexPatterns(),resultDto.getAnnotations()));
 
         resultDto.setEmailId(sourceDTO.getEmailId());
         resultDto = NERPostProcessorService.calculateRanges(resultDto, textNodeMap);

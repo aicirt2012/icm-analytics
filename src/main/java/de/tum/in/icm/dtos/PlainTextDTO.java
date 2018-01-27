@@ -17,7 +17,7 @@ public class PlainTextDTO  {
     private List<String> regexPatterns = new ArrayList<String>();
     //TODO: this should be for every pattern
     @XmlElement
-    private boolean autoCompleteTaskLabel;
+    private boolean matchTillSentenceEnd;
 
 
     public String getPlainText() {
@@ -44,11 +44,12 @@ public class PlainTextDTO  {
         this.regexPatterns = regexPatterns;
     }
 
-    public boolean isAutoCompleteTaskLabel() {
-        return autoCompleteTaskLabel;
+
+    public boolean isMatchTillSentenceEnd() {
+        return matchTillSentenceEnd;
     }
 
-    public void setAutoCompleteTaskLabel(boolean autoCompleteTaskLabel) {
-        this.autoCompleteTaskLabel = autoCompleteTaskLabel;
+    public void setMatchTillSentenceEnd(boolean matchTillSentenceEnd) {
+        this.matchTillSentenceEnd = matchTillSentenceEnd;
     }
 }

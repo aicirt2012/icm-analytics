@@ -2,6 +2,7 @@ package de.tum.in.icm.services;
 
 import de.tum.in.icm.dtos.AnnotationDTO;
 import de.tum.in.icm.dtos.NERType;
+import de.tum.in.icm.dtos.PatternDTO;
 import de.tum.in.icm.dtos.TaskAnnotationDTO;
 
 import java.lang.reflect.Array;
@@ -15,22 +16,22 @@ public class TaskService {
 
     static final int MAX_WORDS_COUNT = 20;
 
-    public ArrayList<AnnotationDTO> Search(String text, List<String> regexPatterns, Boolean matchTillSentenceEnd, List<AnnotationDTO> nerAnnotations) {
+    public ArrayList<AnnotationDTO> Search(String text, List<PatternDTO> regexPatterns, List<AnnotationDTO> nerAnnotations) {
 
         ArrayList<AnnotationDTO> result = new ArrayList<AnnotationDTO>();
-        for (String pattern : regexPatterns) {
-            result.addAll(Search(text, pattern, matchTillSentenceEnd, nerAnnotations));
+        for (PatternDTO pattern : regexPatterns) {
+            result.addAll(Search(text, pattern, nerAnnotations));
         }
         return result;
     }
 
-    public ArrayList<AnnotationDTO> Search(String text, String regexPattern, Boolean matchTillSentenceEnd, List<AnnotationDTO> nerAnnotations) {
+    public ArrayList<AnnotationDTO> Search(String text, PatternDTO regexPattern, List<AnnotationDTO> nerAnnotations) {
 
-        text = text.toLowerCase();
-        regexPattern = regexPattern.toLowerCase();
+//        text = text.toLowerCase();
+//        regexPattern = regexPattern.getLabel().toLowerCase();
 
         ArrayList<AnnotationDTO> result = new ArrayList<AnnotationDTO>();
-        Pattern p = Pattern.compile(regexPattern);
+        Pattern p = Pattern.compile(regexPattern.getLabel());
         Matcher m = p.matcher(text);
         Random randomGenerator = new Random();
         while (m.find()) {
@@ -50,7 +51,7 @@ public class TaskService {
             // could we delete this ?
             newMatch.setNerType(NERType.TASK_TITLE);
 
-            if (matchTillSentenceEnd)
+            if (regexPattern.isMatchTillSentenceEnd())
                 newMatch.setValue(getFullSentence(text, m.start()));
             else
                 newMatch.setValue(m.group());
