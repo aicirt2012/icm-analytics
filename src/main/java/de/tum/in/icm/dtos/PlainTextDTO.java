@@ -14,10 +14,8 @@ public class PlainTextDTO  {
     @XmlElement
     private String emailId;
     @XmlElement
-    private List<String> regexPatterns = new ArrayList<String>();
-    //TODO: this should be for every pattern
-    @XmlElement
-    private boolean matchTillSentenceEnd;
+    private List<PatternDTO> regexPatterns = new ArrayList<PatternDTO>();
+
 
 
     public String getPlainText() {
@@ -36,20 +34,14 @@ public class PlainTextDTO  {
         this.emailId = emailId;
     }
 
-    public List<String> getRegexPatterns() {
+    public List<PatternDTO> getRegexPatterns() {
         return regexPatterns;
     }
 
-    public void setRegexPatterns(List<String> regexPatterns) {
+    public void setRegexPatterns(List<PatternDTO> regexPatterns) {
         this.regexPatterns = regexPatterns;
     }
 
 
-    public boolean isMatchTillSentenceEnd() {
-        return matchTillSentenceEnd;
-    }
 
-    public void setMatchTillSentenceEnd(boolean matchTillSentenceEnd) {
-        this.matchTillSentenceEnd = matchTillSentenceEnd;
-    }
 }

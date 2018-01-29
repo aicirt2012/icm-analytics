@@ -31,10 +31,9 @@ public class NERCoreController {
             sourceDTO.setHtmlSource("");
         }
         TextNodeMap textNodeMap = NERPreProcessorService.getTextNodeMap(sourceDTO.getHtmlSource());
-
         ResultDTO resultDto = nerCoreService.doRecognize(textNodeMap.toPlainText());
-        resultDto.addAnnotations(taskService.Search(textNodeMap.toPlainText(),sourceDTO.getRegexPatterns(),resultDto.getAnnotations()));
-
+        if (!sourceDTO.getRegexPatterns().isEmpty())
+            resultDto.addAnnotations(taskService.Search(textNodeMap.toPlainText(), sourceDTO.getRegexPatterns(), resultDto.getAnnotations()));
         resultDto.setEmailId(sourceDTO.getEmailId());
         resultDto = NERPostProcessorService.calculateRanges(resultDto, textNodeMap);
         return Response.status(200).entity(resultDto).build();
@@ -46,8 +45,11 @@ public class NERCoreController {
         if (textDTO.getPlainText() == null) {
             textDTO.setPlainText("");
         }
+
         ResultDTO resultDto = nerCoreService.doRecognize(textDTO.getPlainText());
         resultDto.setEmailId(textDTO.getEmailId());
+        if (!textDTO.getRegexPatterns().isEmpty())
+            resultDto.addAnnotations(taskService.Search(textDTO.getPlainText(), textDTO.getRegexPatterns(), resultDto.getAnnotations()));
         resultDto = NERPostProcessorService.calculateRangesPlainText(resultDto);
         return Response.status(200).entity(resultDto).build();
     }
