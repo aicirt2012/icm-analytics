@@ -1,7 +1,7 @@
 package de.tum.in.icm.services;
 
 import de.tum.in.icm.dtos.AnnotationDTO;
-import de.tum.in.icm.dtos.NERResultDTO;
+import de.tum.in.icm.dtos.ResultDTO;
 import de.tum.in.icm.dtos.RangeDTO;
 import de.tum.in.icm.entities.TextNodeMap;
 
@@ -12,7 +12,7 @@ public class NERPostProcessorService {
     private static Map<Integer, Integer> textToNodeIndexMap;
     private static TextNodeMap textNodeMap;
 
-    public static NERResultDTO calculateRangesPlainText(NERResultDTO resultDto) {
+    public static ResultDTO calculateRangesPlainText(ResultDTO resultDto) {
         for (AnnotationDTO annotation : resultDto.getAnnotations()) {
             for (int textIndex : annotation.getPlainTextIndices()) {
                 RangeDTO rangeDTO = new RangeDTO();
@@ -26,7 +26,7 @@ public class NERPostProcessorService {
         return resultDto;
     }
 
-    public static NERResultDTO calculateRanges(NERResultDTO resultDto, TextNodeMap textNodeMap) {
+    public static ResultDTO calculateRanges(ResultDTO resultDto, TextNodeMap textNodeMap) {
         NERPostProcessorService.textNodeMap = textNodeMap;
         textToNodeIndexMap = textNodeMap.getTextToNodeIndexMap();
         for (AnnotationDTO annotation : resultDto.getAnnotations()) {

@@ -2,14 +2,29 @@ package de.tum.in.icm.dtos;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.ArrayList;
+import java.util.List;
 
 @XmlRootElement
-public class PlainTextDTO {
+public class PlainTextDTO  {
 
+
+    @XmlElement
+    private String plainText;
     @XmlElement
     private String emailId;
     @XmlElement
-    private String plainText;
+    private List<PatternDTO> regexPatterns = new ArrayList<PatternDTO>();
+
+
+
+    public String getPlainText() {
+        return plainText;
+    }
+
+    public void setPlainText(String plainText) {
+        this.plainText = plainText;
+    }
 
     public String getEmailId() {
         return emailId;
@@ -19,12 +34,14 @@ public class PlainTextDTO {
         this.emailId = emailId;
     }
 
-    public String getPlainText() {
-        return plainText;
+    public List<PatternDTO> getRegexPatterns() {
+        return regexPatterns;
     }
 
-    public void setPlainText(String plainText) {
-        this.plainText = plainText;
+    public void setRegexPatterns(List<PatternDTO> regexPatterns) {
+        this.regexPatterns = regexPatterns;
     }
+
+
 
 }

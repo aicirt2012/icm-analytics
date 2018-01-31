@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @XmlRootElement
-public class NERResultDTO {
+public class ResultDTO {
 
     @XmlElement
     private String emailId;
