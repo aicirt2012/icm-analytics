@@ -3,6 +3,7 @@ package de.tum.in.icm.services;
 import de.tum.in.icm.dtos.AnnotationDTO;
 import de.tum.in.icm.dtos.NERType;
 import de.tum.in.icm.dtos.PatternDTO;
+import de.tum.in.icm.dtos.TextOrigin;
 
 import java.util.*;
 import java.util.regex.Matcher;
@@ -12,16 +13,16 @@ public class TaskService {
 
     static final int MAX_WORDS_COUNT = 20;
 
-    public ArrayList<AnnotationDTO> Search(String text, List<PatternDTO> regexPatterns, List<AnnotationDTO> nerAnnotations) {
+    public ArrayList<AnnotationDTO> Search(String text, List<PatternDTO> regexPatterns, List<AnnotationDTO> nerAnnotations, TextOrigin textOrigin) {
 
         ArrayList<AnnotationDTO> result = new ArrayList<AnnotationDTO>();
         for (PatternDTO pattern : regexPatterns) {
-            result.addAll(Search(text, pattern, nerAnnotations));
+            result.addAll(Search(text, pattern, nerAnnotations,textOrigin));
         }
         return result;
     }
 
-    public ArrayList<AnnotationDTO> Search(String text, PatternDTO regexPattern, List<AnnotationDTO> nerAnnotations) {
+    public ArrayList<AnnotationDTO> Search(String text, PatternDTO regexPattern, List<AnnotationDTO> nerAnnotations,TextOrigin textOrigin) {
 
         if(!regexPattern.isCaseSensitive())
         {
@@ -35,6 +36,7 @@ public class TaskService {
         while (m.find()) {
             AnnotationDTO newMatch = new AnnotationDTO();
             newMatch.setNerType(NERType.TASK_TITLE);
+            newMatch.setTextOrigin(textOrigin);
 
             if (regexPattern.isMatchTillSentenceEnd())
                 newMatch.setValue(getFullSentence(text, m.start()));

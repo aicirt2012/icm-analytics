@@ -1,7 +1,7 @@
 package de.tum.in.icm.util;
 
 import de.tum.in.icm.dtos.AnnotationDTO;
-import de.tum.in.icm.dtos.HtmlSourceDTO;
+import de.tum.in.icm.dtos.InputSourceDTO;
 import de.tum.in.icm.dtos.ResultDTO;
 import de.tum.in.icm.dtos.NERType;
 import de.tum.in.icm.entities.TextNodeMap;
@@ -16,31 +16,31 @@ public class NERTestDataFactory {
         MINIMAL, SIMPLE, COMPLEX, ELEMENT_COUNT, OFFSET_TEST
     }
 
-    public static HtmlSourceDTO getHTMLSourceDTO(Type type) {
-        HtmlSourceDTO htmlSourceDTO = new HtmlSourceDTO();
+    public static InputSourceDTO getHTMLSourceDTO(Type type) {
+        InputSourceDTO inputSourceDTO = new InputSourceDTO();
         switch (type) {
             case MINIMAL:
-                htmlSourceDTO.setEmailId("Unit_test_postprocessor_minimal");
-                htmlSourceDTO.setHtmlSource("<div><h1>Test</h1>text Test</div><div>Te<b>st</b></div>");
+                inputSourceDTO.setEmailId("Unit_test_postprocessor_minimal");
+                inputSourceDTO.setBodySource("<div><h1>Test</h1>text Test</div><div>Te<b>st</b></div>");
                 break;
             case SIMPLE:
-                htmlSourceDTO.setEmailId("Unit_test_postprocessor_simple");
-                htmlSourceDTO.setHtmlSource("<html><head></head><body><h1>Lorem ipsum</h1><p>dolor sit amet, consetetur sadipscing elitr, Google sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.</p><div><span>At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd Google gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus Google est Lorem ipsum dolor sit amet.</span></div><a href=\"www.some.url.containing.the.search.word/Google/index.html\">Google</a></body></html>");
+                inputSourceDTO.setEmailId("Unit_test_postprocessor_simple");
+                inputSourceDTO.setBodySource("<html><head></head><body><h1>Lorem ipsum</h1><p>dolor sit amet, consetetur sadipscing elitr, Google sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.</p><div><span>At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd Google gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus Google est Lorem ipsum dolor sit amet.</span></div><a href=\"www.some.url.containing.the.search.word/Google/index.html\">Google</a></body></html>");
                 break;
             case COMPLEX:
-                htmlSourceDTO.setEmailId("Unit_test_postprocessor_complex");
-                htmlSourceDTO.setHtmlSource("<html><head></head><body><div><div><div><div><h1>Lorem ipsum</h1><table><tbody><tr><td><p></p><p>dolor sit amet, consetetur sadipscing elitr, Google sed diam nonumy eirmod tempor invidunt ut laboreetdolore magna aliquyam erat, sed diam voluptua.</p></td></tr><tr><td><div><span>At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd Google gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus Google est Lorem ipsum dolor sit amet.</span></div><a href=\"www.some.url.containing.the.search.word/Google/index.html\">Google</a></td></tr></tbody></table></div><div><span>This is <a>the</a> ugly Goo<i>gle</i>...</span></div></div></div></div><script src=\"annotator/annotator.custom-extensions.js\"></script><script src=\"annotator/annotator.js\" onload=\"annotatorCustomExtensions.initAnnotator();\"></script></body></html>");
+                inputSourceDTO.setEmailId("Unit_test_postprocessor_complex");
+                inputSourceDTO.setBodySource("<html><head></head><body><div><div><div><div><h1>Lorem ipsum</h1><table><tbody><tr><td><p></p><p>dolor sit amet, consetetur sadipscing elitr, Google sed diam nonumy eirmod tempor invidunt ut laboreetdolore magna aliquyam erat, sed diam voluptua.</p></td></tr><tr><td><div><span>At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd Google gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus Google est Lorem ipsum dolor sit amet.</span></div><a href=\"www.some.url.containing.the.search.word/Google/index.html\">Google</a></td></tr></tbody></table></div><div><span>This is <a>the</a> ugly Goo<i>gle</i>...</span></div></div></div></div><script src=\"annotator/annotator.custom-extensions.js\"></script><script src=\"annotator/annotator.js\" onload=\"annotatorCustomExtensions.initAnnotator();\"></script></body></html>");
                 break;
             case OFFSET_TEST:
-                htmlSourceDTO.setEmailId("Unit_test_postprocessor_offset_test");
-                htmlSourceDTO.setHtmlSource("<div><h1>Caption1</h1>Google 1<h1>Caption2</h1>Google 2<p>Lorem ipsum dolor sit amet, consetetur Google sadipscing elitr, sed diam nonumy eirmod tempor.</p><h1>Caption3</h1>Google 4<span>Invidunt ut labore et dolore magna aliquyam erat, sed Google diam voluptua.</span><h1>Caption4</h1>Google 6<span>At vero eos et accusam <b>et justo Google</b> est.</span></div><script src=\"annotator/annotator.custom-extensions.js\"></script><script src=\"annotator/annotator.js\" onload=\"annotatorCustomExtensions.initAnnotator();\"></script>");
+                inputSourceDTO.setEmailId("Unit_test_postprocessor_offset_test");
+                inputSourceDTO.setBodySource("<div><h1>Caption1</h1>Google 1<h1>Caption2</h1>Google 2<p>Lorem ipsum dolor sit amet, consetetur Google sadipscing elitr, sed diam nonumy eirmod tempor.</p><h1>Caption3</h1>Google 4<span>Invidunt ut labore et dolore magna aliquyam erat, sed Google diam voluptua.</span><h1>Caption4</h1>Google 6<span>At vero eos et accusam <b>et justo Google</b> est.</span></div><script src=\"annotator/annotator.custom-extensions.js\"></script><script src=\"annotator/annotator.js\" onload=\"annotatorCustomExtensions.initAnnotator();\"></script>");
                 break;
             case ELEMENT_COUNT:
-                htmlSourceDTO.setEmailId("Unit_test_postprocessor_element_count_test");
-                htmlSourceDTO.setHtmlSource("<div><p>Test</p><div>Test2</div><p>Test3</p></div>");
+                inputSourceDTO.setEmailId("Unit_test_postprocessor_element_count_test");
+                inputSourceDTO.setBodySource("<div><p>Test</p><div>Test2</div><p>Test3</p></div>");
                 break;
         }
-        return htmlSourceDTO;
+        return inputSourceDTO;
     }
 
     public static ResultDTO getNERResultDTO(Type type) {

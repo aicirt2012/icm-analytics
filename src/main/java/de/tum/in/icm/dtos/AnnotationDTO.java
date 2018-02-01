@@ -3,6 +3,7 @@ package de.tum.in.icm.dtos;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.soap.Text;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -16,6 +17,8 @@ public class AnnotationDTO {
     private NERType nerType;
     @XmlElement
     private String posType;
+    @XmlElement
+    private TextOrigin textOrigin;
     @XmlElement
     private List<RangeDTO> ranges = new ArrayList<>();
 
@@ -107,5 +110,13 @@ public class AnnotationDTO {
     public int hashCode() {
 
         return Objects.hash(value, nerType, posType, ranges, plainTextIndices, htmlTextNodeIndices, htmlAnnotationOffsets);
+    }
+
+    public TextOrigin getTextOrigin() {
+        return textOrigin;
+    }
+
+    public void setTextOrigin(TextOrigin textOrigin) {
+        this.textOrigin = textOrigin;
     }
 }

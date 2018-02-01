@@ -3,6 +3,7 @@ package de.tum.in.icm.services;
 import de.tum.in.icm.dtos.AnnotationDTO;
 import de.tum.in.icm.dtos.ResultDTO;
 import de.tum.in.icm.dtos.NERType;
+import de.tum.in.icm.dtos.TextOrigin;
 import edu.stanford.nlp.ling.CoreAnnotations;
 import edu.stanford.nlp.ling.CoreLabel;
 import edu.stanford.nlp.pipeline.Annotation;
@@ -32,7 +33,7 @@ public class NERCoreService implements ServletContextListener {
         // do nothing
     }
 
-    public ResultDTO doRecognize(String input) {
+    public ResultDTO doRecognize(String input, TextOrigin textOrigin) {
         // create an empty Annotation just with the given text
         Annotation document = new Annotation(input);
 
@@ -64,6 +65,7 @@ public class NERCoreService implements ServletContextListener {
                 newWord.setPosType(pos);
                 newWord.addPlainTextIndex(startIndex);
                 if (!newWord.getNerType().equals(NERType.O)) {
+                    newWord.setTextOrigin(textOrigin);
                     words.add(newWord);
                 }
             }
