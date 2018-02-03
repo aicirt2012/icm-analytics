@@ -13,35 +13,40 @@ public class TaskService {
 
     static final int MAX_WORDS_COUNT = 20;
 
-    public ArrayList<AnnotationDTO> Search(String text, List<PatternDTO> regexPatterns, List<AnnotationDTO> nerAnnotations, TextOrigin textOrigin) {
+    public ArrayList<AnnotationDTO> Search(String text, List<PatternDTO> patterns, List<AnnotationDTO> nerAnnotations, TextOrigin textOrigin) {
 
         ArrayList<AnnotationDTO> result = new ArrayList<AnnotationDTO>();
-        for (PatternDTO pattern : regexPatterns) {
-            result.addAll(Search(text, pattern, nerAnnotations,textOrigin));
+        for (PatternDTO pattern : patterns) {
+            result.addAll(Search(text, pattern, nerAnnotations, textOrigin));
         }
         return result;
     }
 
-    public ArrayList<AnnotationDTO> Search(String text, PatternDTO regexPattern, List<AnnotationDTO> nerAnnotations,TextOrigin textOrigin) {
+    public ArrayList<AnnotationDTO> Search(String text, PatternDTO pattern, List<AnnotationDTO> nerAnnotations, TextOrigin textOrigin) {
 
-        if(!regexPattern.isCaseSensitive())
-        {
-            regexPattern.setLabel(regexPattern.getLabel().toLowerCase());
-            text = text.toLowerCase();
-        }
+        Matcher m;
+        Pattern patternLabel = Pattern.compile(pattern.getLabel());
         ArrayList<AnnotationDTO> result = new ArrayList<AnnotationDTO>();
-        Pattern p = Pattern.compile(regexPattern.getLabel());
-        Matcher m = p.matcher(text);
-        Random randomGenerator = new Random();
+
+        if (pattern.isRegex())
+            m = patternLabel.matcher(text);
+        else {
+            pattern.setLabel(pattern.getLabel().toLowerCase());
+            String textInLowerCase = text.toLowerCase();
+            m = patternLabel.matcher(textInLowerCase);
+        }
+
         while (m.find()) {
             AnnotationDTO newMatch = new AnnotationDTO();
             newMatch.setNerType(NERType.TASK_TITLE);
             newMatch.setTextOrigin(textOrigin);
 
-            if (regexPattern.isMatchTillSentenceEnd())
-                newMatch.setValue(getFullSentence(text, m.start()));
-            else
+            if (pattern.isRegex())
                 newMatch.setValue(m.group());
+            // pass original text to get words with original cases
+            else
+                newMatch.setValue(getFullSentence(text, m.start()));
+
             newMatch.addPlainTextIndex(m.start());
             result.add(newMatch);
 

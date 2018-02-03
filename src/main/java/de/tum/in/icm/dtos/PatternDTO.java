@@ -4,14 +4,11 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-public class PatternDTO
-{
+public class PatternDTO {
     @XmlElement
     private String label;
     @XmlElement
-    private boolean matchTillSentenceEnd;
-    @XmlElement
-    private boolean caseSensitive;
+    private boolean isRegex;
 
     public String getLabel() {
         return label;
@@ -21,19 +18,12 @@ public class PatternDTO
         this.label = label;
     }
 
-    public boolean isMatchTillSentenceEnd() {
-        return matchTillSentenceEnd;
+    public boolean isRegex() {
+        return isRegex;
     }
 
-    public void setMatchTillSentenceEnd(boolean matchTillSentenceEnd) {
-        this.matchTillSentenceEnd = matchTillSentenceEnd;
-    }
-
-    public boolean isCaseSensitive() {
-        return caseSensitive;
-    }
-
-    public void setCaseSensitive(boolean caseSensitive) {
-        this.caseSensitive = caseSensitive;
+    public void setRegex(boolean regex) {
+        isRegex = regex;
     }
 }
+
