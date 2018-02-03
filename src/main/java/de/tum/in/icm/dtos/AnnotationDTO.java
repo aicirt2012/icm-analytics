@@ -20,6 +20,8 @@ public class AnnotationDTO {
     @XmlElement
     private TextOrigin textOrigin;
     @XmlElement
+    private String formattedValue;
+    @XmlElement
     private List<RangeDTO> ranges = new ArrayList<>();
 
     // FIXME transient values are being output by REST API anyways
@@ -36,6 +38,8 @@ public class AnnotationDTO {
 
     public void setValue(String value) {
         this.value = value;
+        if(this.formattedValue ==null)
+            this.formattedValue = value;
     }
 
     public NERType getNerType() {
@@ -118,5 +122,13 @@ public class AnnotationDTO {
 
     public void setTextOrigin(TextOrigin textOrigin) {
         this.textOrigin = textOrigin;
+    }
+
+    public String getFormattedValue() {
+        return formattedValue ;
+    }
+
+    public void setFormattedValue(String formattedValue) {
+        this.formattedValue = formattedValue;
     }
 }

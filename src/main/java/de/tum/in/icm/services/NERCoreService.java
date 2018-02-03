@@ -1,19 +1,24 @@
 package de.tum.in.icm.services;
 
+import com.joestelmach.natty.DateGroup;
+import com.joestelmach.natty.Parser;
 import de.tum.in.icm.dtos.AnnotationDTO;
-import de.tum.in.icm.dtos.ResultDTO;
 import de.tum.in.icm.dtos.NERType;
+import de.tum.in.icm.dtos.ResultDTO;
 import de.tum.in.icm.dtos.TextOrigin;
 import edu.stanford.nlp.ling.CoreAnnotations;
 import edu.stanford.nlp.ling.CoreLabel;
 import edu.stanford.nlp.pipeline.Annotation;
 import edu.stanford.nlp.pipeline.StanfordCoreNLP;
 import edu.stanford.nlp.util.CoreMap;
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.time.DateFormatUtils;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
@@ -65,12 +70,12 @@ public class NERCoreService implements ServletContextListener {
                 newWord.setNerType(NERType.fromString(ne));
                 //TODO: do we still need this ?
                 newWord.setPosType(pos);
-                newWord.addPlainTextIndex(newWordStartIndex );
+                newWord.addPlainTextIndex(newWordStartIndex);
                 newWord.setTextOrigin(textOrigin);
 
                 if (!newWord.getNerType().equals(NERType.O)) {
                     if (previousWord != null && previousWord.getNerType().equals(newWord.getNerType())) {
-                        if (tryJoinEntities(previousWord, previousWordStartIndex, newWord, newWordStartIndex )) {
+                        if (tryJoinEntities(previousWord, previousWordStartIndex, newWord, newWordStartIndex)) {
                             // replace last added entity annotation with the joined one (previousWord gets edited by reference in tryJoinEntities)
                             words.remove(words.size() - 1);
                             words.add(previousWord);
@@ -78,13 +83,14 @@ public class NERCoreService implements ServletContextListener {
                     } else {
                         previousWord = newWord;
                         words.add(newWord);
-                        previousWordStartIndex = newWordStartIndex ;
+                        previousWordStartIndex = newWordStartIndex;
 
                     }
                 }
             }
             result.addAnnotations(words);
         }
+        formalizeDates(result);
         return result;
     }
 
@@ -107,4 +113,27 @@ public class NERCoreService implements ServletContextListener {
         return false;
     }
 
+
+    private void formalizeDates(ResultDTO input) {
+        Parser parser = new Parser();
+        for (AnnotationDTO annotation : input.getAnnotations()) {
+
+            if (annotation.getNerType() == NERType.DATE) {
+                List<DateGroup> groups = parser.parse(annotation.getValue());
+                String valWithoutBackslashes;
+                if (groups.size() == 0) {
+                    valWithoutBackslashes = StringUtils.remove(annotation.getValue(),"\\");
+                    groups = parser.parse(valWithoutBackslashes);
+                }
+                if (groups.size() > 0) {
+                    {
+                        Date date = groups.get(0).getDates().get(0);
+                        String formattedDate = DateFormatUtils.format(date, "yyyy-MM-dd HH:mm:SS");
+                        annotation.setFormattedValue(formattedDate);
+                    }
+                }
+            }
+        }
+
+    }
 }
