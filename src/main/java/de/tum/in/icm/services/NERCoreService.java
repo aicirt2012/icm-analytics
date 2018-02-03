@@ -45,7 +45,8 @@ public class NERCoreService implements ServletContextListener {
         List<CoreMap> sentences = document.get(CoreAnnotations.SentencesAnnotation.class);
 
         ResultDTO result = new ResultDTO();
-
+        AnnotationDTO previousWord = null;
+        int previousWordStartIndex = -1;
         for (CoreMap sentence : sentences) {
             List<AnnotationDTO> words = new ArrayList<>();
 
@@ -58,20 +59,52 @@ public class NERCoreService implements ServletContextListener {
                 String pos = token.get(CoreAnnotations.PartOfSpeechAnnotation.class);
                 // this is the NER label of the token
                 String ne = token.get(CoreAnnotations.NamedEntityTagAnnotation.class);
-                int startIndex = token.get(CoreAnnotations.CharacterOffsetBeginAnnotation.class);
+                int newWordStartIndex = token.get(CoreAnnotations.CharacterOffsetBeginAnnotation.class);
                 AnnotationDTO newWord = new AnnotationDTO();
                 newWord.setValue(word);
                 newWord.setNerType(NERType.fromString(ne));
+                //TODO: do we still need this ?
                 newWord.setPosType(pos);
-                newWord.addPlainTextIndex(startIndex);
+                newWord.addPlainTextIndex(newWordStartIndex );
+                newWord.setTextOrigin(textOrigin);
+
                 if (!newWord.getNerType().equals(NERType.O)) {
-                    newWord.setTextOrigin(textOrigin);
-                    words.add(newWord);
+                    if (previousWord != null && previousWord.getNerType().equals(newWord.getNerType())) {
+                        if (tryJoinEntities(previousWord, previousWordStartIndex, newWord, newWordStartIndex )) {
+                            // replace last added entity annotation with the joined one (previousWord gets edited by reference in tryJoinEntities)
+                            words.remove(words.size() - 1);
+                            words.add(previousWord);
+                        }
+                    } else {
+                        previousWord = newWord;
+                        words.add(newWord);
+                        previousWordStartIndex = newWordStartIndex ;
+
+                    }
                 }
             }
             result.addAnnotations(words);
         }
         return result;
+    }
+
+    // returns true in case of join, false otherwise
+    // edits the first object by reference and concatenates the value of second object to it
+    private boolean tryJoinEntities(AnnotationDTO first, int firstStartIndex, AnnotationDTO second, int secondStartIndex) {
+        // if the two entities were not separated by space like : "Thursday" and "," in  Thursday, February 1, 2018
+        if (firstStartIndex + first.getValue().length() == secondStartIndex) {
+            first.setValue(first.getValue() + second.getValue());
+            return true;
+        }
+        // if the two entities were separated by ONE space
+        if (firstStartIndex + first.getValue().length() == secondStartIndex - 1) {
+
+            first.setValue(first.getValue() + " " + second.getValue());
+            return true;
+        }
+        // if the two entities were separated by more than one space or by another ner entities (including O)
+
+        return false;
     }
 
 }

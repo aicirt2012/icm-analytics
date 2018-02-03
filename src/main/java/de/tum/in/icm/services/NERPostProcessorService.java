@@ -57,19 +57,19 @@ public class NERPostProcessorService {
                 textNode = textNodeMap.getValues().get(listIndex);
                 if (textNode.length() >= remainingAnnotationValue.length()) {
                     // remaining value fully contained, this is the end node
-                    if (!textNode.startsWith(remainingAnnotationValue)) {
-                        throw new RuntimeException("Unexpected character, could not find end of annotation!");
-                        // TODO think about simply stopping and using this as the end instead of aborting with exception
-                    }
+//                    if (!textNode.startsWith(remainingAnnotationValue)) {
+//                        throw new RuntimeException("Unexpected character, could not find end of annotation!");
+//                        // TODO think about simply stopping and using this as the end instead of aborting with exception
+//                    }
                     endXPath = getParentLocator(listIndex);
                     relativeEndOffset = remainingAnnotationValue.length();
                     remainingAnnotationValue = "";
                 } else {
                     // remaining value not fully contained, keep on parsing
-                    if (!remainingAnnotationValue.startsWith(textNode)) {
-                        throw new RuntimeException("Unexpected character, could not find end of annotation!");
-                        // TODO think about simply stopping and using this as the end instead of aborting with exception
-                    }
+//                    if (!remainingAnnotationValue.startsWith(textNode)) {
+//                        throw new RuntimeException("Unexpected character, could not find end of annotation!");
+//                        // TODO think about simply stopping and using this as the end instead of aborting with exception
+//                    }
                     remainingAnnotationValue = remainingAnnotationValue.substring(textNode.length());
                 }
             }
