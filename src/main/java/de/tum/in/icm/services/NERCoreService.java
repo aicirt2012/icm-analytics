@@ -121,28 +121,26 @@ public class NERCoreService implements ServletContextListener {
 
             if (annotation.getNerType() == NERType.DATE) {
 
-                Date date;
-                SimpleDateFormat p = new SimpleDateFormat("dd.MM.yyyy");
+                Date date = null;
                 try {
+                    SimpleDateFormat p = new SimpleDateFormat("dd.MM.yyyy");
                     date = p.parse(annotation.getValue());
-                    String formattedDate = DateFormatUtils.format(date, "yyyy-MM-dd HH:mm:SS");
-                    annotation.setFormattedValue(formattedDate);
                 } catch (ParseException e) {
-
-
-                    String formattedDate = annotation.getValue().replace(".", "/");
-                    List<DateGroup> groups = parser.parse(formattedDate);
+                    List<DateGroup> groups = parser.parse(annotation.getValue());
 
                     if (groups.size() == 0) {
-                        formattedDate = formattedDate.replace("\\", "");
+                        String formattedDate = annotation.getValue().replace("\\", "");
                         groups = parser.parse(formattedDate);
                     }
                     if (groups.size() > 0) {
                         {
                             date = groups.get(0).getDates().get(0);
-                            formattedDate = DateFormatUtils.format(date, "yyyy-MM-dd HH:mm:SS");
-                            annotation.setFormattedValue(formattedDate);
                         }
+                    }
+                } finally {
+                    if (date != null) {
+                        String formattedDate = DateFormatUtils.format(date, "yyyy-MM-dd HH:mm:SS");
+                        annotation.setFormattedValue(formattedDate);
                     }
                 }
             }
