@@ -11,12 +11,13 @@ import edu.stanford.nlp.ling.CoreLabel;
 import edu.stanford.nlp.pipeline.Annotation;
 import edu.stanford.nlp.pipeline.StanfordCoreNLP;
 import edu.stanford.nlp.util.CoreMap;
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateFormatUtils;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -119,17 +120,29 @@ public class NERCoreService implements ServletContextListener {
         for (AnnotationDTO annotation : input.getAnnotations()) {
 
             if (annotation.getNerType() == NERType.DATE) {
-                List<DateGroup> groups = parser.parse(annotation.getValue());
-                String valWithoutBackslashes;
-                if (groups.size() == 0) {
-                    valWithoutBackslashes = StringUtils.remove(annotation.getValue(),"\\");
-                    groups = parser.parse(valWithoutBackslashes);
-                }
-                if (groups.size() > 0) {
-                    {
-                        Date date = groups.get(0).getDates().get(0);
-                        String formattedDate = DateFormatUtils.format(date, "yyyy-MM-dd HH:mm:SS");
-                        annotation.setFormattedValue(formattedDate);
+
+                Date date;
+                SimpleDateFormat p = new SimpleDateFormat("dd.MM.yyyy");
+                try {
+                    date = p.parse(annotation.getValue());
+                    String formattedDate = DateFormatUtils.format(date, "yyyy-MM-dd HH:mm:SS");
+                    annotation.setFormattedValue(formattedDate);
+                } catch (ParseException e) {
+
+
+                    String formattedDate = annotation.getValue().replace(".", "/");
+                    List<DateGroup> groups = parser.parse(formattedDate);
+
+                    if (groups.size() == 0) {
+                        formattedDate = formattedDate.replace("\\", "");
+                        groups = parser.parse(formattedDate);
+                    }
+                    if (groups.size() > 0) {
+                        {
+                            date = groups.get(0).getDates().get(0);
+                            formattedDate = DateFormatUtils.format(date, "yyyy-MM-dd HH:mm:SS");
+                            annotation.setFormattedValue(formattedDate);
+                        }
                     }
                 }
             }
