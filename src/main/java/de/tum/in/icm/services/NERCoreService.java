@@ -122,18 +122,23 @@ public class NERCoreService implements ServletContextListener {
                 List<DateGroup> groups = parser.parse(annotation.getValue());
                 String valWithoutBackslashes;
                 if (groups.size() == 0) {
-                    valWithoutBackslashes = StringUtils.remove(annotation.getValue(),"\\");
+                    valWithoutBackslashes = StringUtils.remove(annotation.getValue(), "\\");
                     groups = parser.parse(valWithoutBackslashes);
                 }
                 if (groups.size() > 0) {
                     {
                         Date date = groups.get(0).getDates().get(0);
-                        String formattedDate = DateFormatUtils.format(date, "yyyy-MM-dd HH:mm:SS");
-                        annotation.setFormattedValue(formattedDate);
+                        annotation.setFormattedValue(toISO8601String(date));
                     }
                 }
             }
         }
 
     }
+
+    private String toISO8601String(Date date) {
+        String formattedDate = DateFormatUtils.format(date, "yyyy-MM-dd'T'HH:mm:ssZ");
+        return formattedDate.substring(0, 22) + ":" + formattedDate.substring(22);
+    }
+
 }
