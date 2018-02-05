@@ -15,6 +15,16 @@
             <url>http://download.java.net/maven/2/</url>
             <layout>default</layout>
         </repository>
+
+        <repository>
+            <id>Chrono date parser library</id>
+            <url>https://raw.github.com/wanasit/chrono-java/mvn-repo/</url>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </snapshots>
+        </repository>
+
     </repositories>
 
     <dependencyManagement>
@@ -56,6 +66,7 @@
             <groupId>org.apache.tomcat</groupId>
             <artifactId>tomcat-servlet-api</artifactId>
             <version>8.5.24</version>
+            <scope>provided</scope>
         </dependency>
 
         <!-- Stanford NLP used for actual named entity recognition -->
@@ -88,6 +99,13 @@
             <version>1.11.2</version>
         </dependency>
 
+        <!-- natural date parsing-->
+        <dependency>
+            <groupId>com.wanasit</groupId>
+            <artifactId>chrono</artifactId>
+            <version>LATEST</version>
+        </dependency>
+
         <!-- Testing-Frameworks -->
         <dependency>
             <groupId>junit</groupId>
@@ -95,13 +113,6 @@
             <version>4.8.2</version>
             <scope>test</scope>
         </dependency>
- <!--For date parsing-->
-        <dependency>
-            <groupId>com.joestelmach</groupId>
-            <artifactId>natty</artifactId>
-            <version>0.11</version>
-        </dependency>
-
     </dependencies>
 
     <build>

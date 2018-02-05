@@ -1,7 +1,6 @@
 package de.tum.in.icm.services;
 
-import com.joestelmach.natty.DateGroup;
-import com.joestelmach.natty.Parser;
+import com.wanasit.chrono.Chrono;
 import de.tum.in.icm.dtos.AnnotationDTO;
 import de.tum.in.icm.dtos.NERType;
 import de.tum.in.icm.dtos.ResultDTO;
@@ -17,10 +16,15 @@ import org.apache.commons.lang.time.DateFormatUtils;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @WebListener
 public class NERCoreService implements ServletContextListener {
@@ -115,25 +119,73 @@ public class NERCoreService implements ServletContextListener {
 
 
     private void formalizeDates(ResultDTO input) {
-        Parser parser = new Parser();
+        //  first priority is for dd.MM.yyyy not MM.dd.yyyy
+        String basicGermanDate = dateRegexBuilder('.');
+
+        Pattern dateRegex = Pattern.compile(basicGermanDate);
+        Matcher m;
+
         for (AnnotationDTO annotation : input.getAnnotations()) {
 
             if (annotation.getNerType() == NERType.DATE) {
-                List<DateGroup> groups = parser.parse(annotation.getValue());
-                String valWithoutBackslashes;
-                if (groups.size() == 0) {
-                    valWithoutBackslashes = StringUtils.remove(annotation.getValue(),"\\");
-                    groups = parser.parse(valWithoutBackslashes);
-                }
-                if (groups.size() > 0) {
-                    {
-                        Date date = groups.get(0).getDates().get(0);
-                        String formattedDate = DateFormatUtils.format(date, "yyyy-MM-dd HH:mm:SS");
-                        annotation.setFormattedValue(formattedDate);
+                Date result;
+                m = dateRegex.matcher(annotation.getValue());
+                if (m.matches()) {
+                    DateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+                    try {
+                        result = format.parse(annotation.getValue());
+                    } catch (ParseException e) {
+                        //TODO Log, exception can only thrown in very strange cases like 30.02.yyyy}
+                        continue;
+                    }
+                } else {
+
+                    result = Chrono.ParseDate(annotation.getValue());
+                    if (result == null) {
+                        // if there is extra backslashes
+                        String valWithoutBackslashes = StringUtils.remove(annotation.getValue(), "\\");
+                        result = Chrono.ParseDate(valWithoutBackslashes);
                     }
                 }
+                if (result != null)
+                    annotation.setFormattedValue(toISO8601String(result));
+
             }
         }
-
     }
+
+
+//    private void formalizeDates(ResultDTO input) {
+//        Parser parser = new Parser();
+//        for (AnnotationDTO annotation : input.getAnnotations()) {
+//
+//            if (annotation.getNerType() == NERType.DATE) {
+//                List<DateGroup> groups = parser.parse(annotation.getValue());
+//                String valWithoutBackslashes;
+//                if (groups.size() == 0) {
+//                    valWithoutBackslashes = StringUtils.remove(annotation.getValue(), "\\");
+//                    groups = parser.parse(valWithoutBackslashes);
+//                }
+//                if (groups.size() > 0) {
+//                    {
+//                        Date date = groups.get(0).getDates().get(0);
+//                        annotation.setFormattedValue(toISO8601String(date));
+//                    }
+//                }
+//            }
+//        }
+//
+//    }
+
+    private String toISO8601String(Date date) {
+        String formattedDate = DateFormatUtils.format(date, "yyyy-MM-dd'T'HH:mm:ssZ");
+        return formattedDate.substring(0, 22) + ":" + formattedDate.substring(22);
+    }
+
+    private String dateRegexBuilder(char separator) {
+        // returns regex pattern for dates of format ddSeparatorMMSeparatoryyyy
+        return  String.format("^\\s*(3[01]|[12][0-9]|0?[1-9])\\%S(1[012]|0?[1-9])\\%S((?:19|20)\\d{2})\\s*$",separator,separator);
+    }
+
+
 }
