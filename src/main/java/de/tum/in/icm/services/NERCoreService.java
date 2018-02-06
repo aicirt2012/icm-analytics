@@ -119,27 +119,13 @@ public class NERCoreService implements ServletContextListener {
 
 
     private void formalizeDates(ResultDTO input) {
-        //  first priority is for dd.MM.yyyy not MM.dd.yyyy
-        String basicGermanDate = dateRegexBuilder('.');
-
-        Pattern dateRegex = Pattern.compile(basicGermanDate);
-        Matcher m;
 
         for (AnnotationDTO annotation : input.getAnnotations()) {
 
             if (annotation.getNerType() == NERType.DATE) {
-                Date result;
-                m = dateRegex.matcher(annotation.getValue());
-                if (m.matches()) {
-                    DateFormat format = new SimpleDateFormat("dd.MM.yyyy");
-                    try {
-                        result = format.parse(annotation.getValue());
-                    } catch (ParseException e) {
-                        //TODO Log, exception can only thrown in very strange cases like 30.02.yyyy}
-                        continue;
-                    }
-                } else {
 
+                Date result = tryParseDate(annotation.getValue());
+                if (result == null) {
                     result = Chrono.ParseDate(annotation.getValue());
                     if (result == null) {
                         // if there is extra backslashes
@@ -154,7 +140,7 @@ public class NERCoreService implements ServletContextListener {
         }
     }
 
-
+// deprecated Natty
 //    private void formalizeDates(ResultDTO input) {
 //        Parser parser = new Parser();
 //        for (AnnotationDTO annotation : input.getAnnotations()) {
@@ -182,10 +168,35 @@ public class NERCoreService implements ServletContextListener {
         return formattedDate.substring(0, 22) + ":" + formattedDate.substring(22);
     }
 
-    private String dateRegexBuilder(char separator) {
+    private String getDateRegexString(char separator) {
         // returns regex pattern for dates of format ddSeparatorMMSeparatoryyyy
-        return  String.format("^\\s*(3[01]|[12][0-9]|0?[1-9])\\%S(1[012]|0?[1-9])\\%S((?:19|20)\\d{2})\\s*$",separator,separator);
+        return String.format("^\\s*(3[01]|[12][0-9]|0?[1-9])\\%S(1[012]|0?[1-9])\\%S((?:19|20)\\d{2})\\s*$", separator, separator);
     }
 
-
+    private Date tryParseDate(String dateString) {
+        dateString = StringUtils.remove(dateString, "\\");
+        ArrayList<Character> allSeparators = new ArrayList<Character>() {{
+            add('.');
+            add('/');
+            add('-');
+        }};
+        for (Character c : allSeparators
+                ) {
+            String regexString = getDateRegexString(c);
+            Pattern p = Pattern.compile(regexString);
+            if (p.matcher(dateString).matches()) {
+                String dateFormatString = String.format("dd%SMM%Syyyy", c, c);
+                DateFormat format = new SimpleDateFormat(dateFormatString);
+                try {
+                    return format.parse(dateString);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return null;
+    }
 }
+
+
+
