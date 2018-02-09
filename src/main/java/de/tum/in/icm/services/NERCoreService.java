@@ -10,8 +10,6 @@ import edu.stanford.nlp.ling.CoreLabel;
 import edu.stanford.nlp.pipeline.Annotation;
 import edu.stanford.nlp.pipeline.StanfordCoreNLP;
 import edu.stanford.nlp.util.CoreMap;
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.time.DateFormatUtils;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -23,7 +21,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @WebListener
@@ -129,7 +126,7 @@ public class NERCoreService implements ServletContextListener {
                     result = Chrono.ParseDate(annotation.getValue());
                     if (result == null) {
                         // if there is extra backslashes
-                        String valWithoutBackslashes = StringUtils.remove(annotation.getValue(), "\\");
+                        String valWithoutBackslashes = annotation.getValue().replace("\\","");
                         result = Chrono.ParseDate(valWithoutBackslashes);
                     }
                 }
@@ -164,7 +161,8 @@ public class NERCoreService implements ServletContextListener {
 //    }
 
     private String toISO8601String(Date date) {
-        String formattedDate = DateFormatUtils.format(date, "yyyy-MM-dd'T'HH:mm:ssZ");
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
+        String formattedDate = formatter.format(date);
         return formattedDate.substring(0, 22) + ":" + formattedDate.substring(22);
     }
 
@@ -174,7 +172,7 @@ public class NERCoreService implements ServletContextListener {
     }
 
     private Date tryParseDate(String dateString) {
-        dateString = StringUtils.remove(dateString, "\\");
+        dateString = dateString.replace("\\","");
         ArrayList<Character> allSeparators = new ArrayList<Character>() {{
             add('.');
             add('/');
