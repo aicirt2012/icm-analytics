@@ -42,16 +42,17 @@ public class TaskService {
 
             String textInLowerCase = text.toLowerCase();
             //first occurrence
-            int index = textInLowerCase.indexOf(pattern.getLabel().toLowerCase());
-            while (index >= 0) {
+            int index = textInLowerCase.indexOf(pattern.getLabel().toLowerCase())+pattern.getLabel().length();
+            while (index >= pattern.getLabel().length()) {
                 AnnotationDTO newMatch = new AnnotationDTO();
                 newMatch.setNerType(NERType.TASK_TITLE);
                 newMatch.setTextOrigin(textOrigin);
-                // pass original text to get words with original cases
+                // pass original text to get words with original letter cases
                 newMatch.setValue(getFullSentence(text, index));
                 newMatch.addPlainTextIndex(index);
                 result.add(newMatch);
                 index = textInLowerCase.indexOf(pattern.getLabel().toLowerCase(), index + 1);
+                index = index>0? index + pattern.getLabel().length() :-1;
             }
         }
         return result;
@@ -66,7 +67,7 @@ public class TaskService {
         int currentPos = index;
         char currentChar = text.charAt(currentPos);
         while (wordsCount < MAX_WORDS_COUNT) {
-            if (currentChar == '.' || currentChar == '?' || currentChar == '!')
+            if (currentChar == '.' || currentChar == '?' || currentChar == '!' || currentChar == '\n')
                 return result;
             if (currentChar == ' ')
                 wordsCount++;
