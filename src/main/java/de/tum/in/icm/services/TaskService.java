@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
 
 public class TaskService {
 
-    static final int MAX_WORDS_COUNT = 20;
+    private static final int MAX_WORDS_COUNT = 20;
 
     public ArrayList<AnnotationDTO> Search(String text, List<PatternDTO> patterns, List<AnnotationDTO> nerAnnotations, TextOrigin textOrigin) {
 
@@ -24,32 +24,35 @@ public class TaskService {
 
     public ArrayList<AnnotationDTO> Search(String text, PatternDTO pattern, List<AnnotationDTO> nerAnnotations, TextOrigin textOrigin) {
 
-        Matcher m;
-        Pattern patternLabel = Pattern.compile(pattern.getLabel());
         ArrayList<AnnotationDTO> result = new ArrayList<AnnotationDTO>();
 
-        if (pattern.isRegex())
-            m = patternLabel.matcher(text);
-        else {
-            pattern.setLabel(pattern.getLabel().toLowerCase());
-            String textInLowerCase = text.toLowerCase();
-            m = patternLabel.matcher(textInLowerCase);
-        }
-
-        while (m.find()) {
-            AnnotationDTO newMatch = new AnnotationDTO();
-            newMatch.setNerType(NERType.TASK_TITLE);
-            newMatch.setTextOrigin(textOrigin);
-
-            if (pattern.isRegex())
+        if (pattern.isRegex()) {
+            Pattern patternLabel = Pattern.compile(pattern.getLabel());
+            Matcher m = patternLabel.matcher(text);
+            while (m.find()) {
+                AnnotationDTO newMatch = new AnnotationDTO();
+                newMatch.setNerType(NERType.TASK_TITLE);
+                newMatch.setTextOrigin(textOrigin);
                 newMatch.setValue(m.group());
-            // pass original text to get words with original cases
-            else
-                newMatch.setValue(getFullSentence(text, m.start()));
+                newMatch.addPlainTextIndex(m.start());
+                result.add(newMatch);
+            }
 
-            newMatch.addPlainTextIndex(m.start());
-            result.add(newMatch);
+        } else {
 
+            String textInLowerCase = text.toLowerCase();
+            //first occurrence
+            int index = textInLowerCase.indexOf(pattern.getLabel().toLowerCase());
+            while (index >= 0) {
+                AnnotationDTO newMatch = new AnnotationDTO();
+                newMatch.setNerType(NERType.TASK_TITLE);
+                newMatch.setTextOrigin(textOrigin);
+                // pass original text to get words with original cases
+                newMatch.setValue(getFullSentence(text, index));
+                newMatch.addPlainTextIndex(index);
+                result.add(newMatch);
+                index = textInLowerCase.indexOf(pattern.getLabel().toLowerCase(), index + 1);
+            }
         }
         return result;
     }
