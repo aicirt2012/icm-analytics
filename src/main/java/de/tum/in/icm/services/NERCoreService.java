@@ -1,5 +1,7 @@
 package de.tum.in.icm.services;
 
+import com.joestelmach.natty.DateGroup;
+import com.joestelmach.natty.Parser;
 import com.wanasit.chrono.Chrono;
 import de.tum.in.icm.dtos.AnnotationDTO;
 import de.tum.in.icm.dtos.NERType;
@@ -120,16 +122,14 @@ public class NERCoreService implements ServletContextListener {
         for (AnnotationDTO annotation : input.getAnnotations()) {
 
             if (annotation.getNerType() == NERType.DATE) {
-
-                Date result = tryParseDate(annotation.getValue());
-                if (result == null) {
+                // regex
+                Date result = tryRegexParse(annotation.getValue());
+                // Chrono
+                if (result == null)
                     result = Chrono.ParseDate(annotation.getValue());
-                    if (result == null) {
-                        // if there is extra backslashes
-                        String valWithoutBackslashes = annotation.getValue().replace("\\","");
-                        result = Chrono.ParseDate(valWithoutBackslashes);
-                    }
-                }
+                //Natty
+                if (result == null)
+                    result = tryNattyParse(annotation.getValue());
                 if (result != null)
                     annotation.setFormattedValue(toISO8601String(result));
 
@@ -137,28 +137,17 @@ public class NERCoreService implements ServletContextListener {
         }
     }
 
-// deprecated Natty
-//    private void formalizeDates(ResultDTO input) {
-//        Parser parser = new Parser();
-//        for (AnnotationDTO annotation : input.getAnnotations()) {
-//
-//            if (annotation.getNerType() == NERType.DATE) {
-//                List<DateGroup> groups = parser.parse(annotation.getValue());
-//                String valWithoutBackslashes;
-//                if (groups.size() == 0) {
-//                    valWithoutBackslashes = StringUtils.remove(annotation.getValue(), "\\");
-//                    groups = parser.parse(valWithoutBackslashes);
-//                }
-//                if (groups.size() > 0) {
-//                    {
-//                        Date date = groups.get(0).getDates().get(0);
-//                        annotation.setFormattedValue(toISO8601String(date));
-//                    }
-//                }
-//            }
-//        }
-//
-//    }
+    private Date tryNattyParse(String input) {
+        Parser parser = new Parser();
+        List<DateGroup> groups = parser.parse(input);
+        groups = parser.parse(input);
+        if (groups.size() > 0) {
+            Date date = groups.get(0).getDates().get(0);
+            return date;
+        }
+        return null;
+    }
+
 
     private String toISO8601String(Date date) {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
@@ -171,8 +160,8 @@ public class NERCoreService implements ServletContextListener {
         return String.format("^\\s*(3[01]|[12][0-9]|0?[1-9])\\%S(1[012]|0?[1-9])\\%S((?:19|20)\\d{2})\\s*$", separator, separator);
     }
 
-    private Date tryParseDate(String dateString) {
-        dateString = dateString.replace("\\","");
+    private Date tryRegexParse(String dateString) {
+        dateString = dateString.replace("\\", "");
         ArrayList<Character> allSeparators = new ArrayList<Character>() {{
             add('.');
             add('/');
