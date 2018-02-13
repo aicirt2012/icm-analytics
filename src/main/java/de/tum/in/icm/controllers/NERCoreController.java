@@ -12,8 +12,6 @@ import de.tum.in.icm.services.TaskService;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.xml.soap.Text;
-import javax.xml.transform.Result;
 
 @Path("/ner")
 @Consumes(MediaType.APPLICATION_JSON)
@@ -40,7 +38,7 @@ public class NERCoreController {
         // recognize subject
         TextNodeMap subjectTextNodeMap = NERPreProcessorService.getTextNodeMap(sourceDTO.getSubjectSource());
         String subject = subjectTextNodeMap.toPlainText();
-        ResultDTO subjectResultDTO = nerCoreService.doRecognize(subject,TextOrigin.SUBJECT);
+        ResultDTO subjectResultDTO = nerCoreService.doRecognize(subject, TextOrigin.SUBJECT);
         subjectResultDTO = NERPostProcessorService.calculateRanges(subjectResultDTO, subjectTextNodeMap);
 
         //final result
@@ -51,6 +49,7 @@ public class NERCoreController {
         // add tasks
         if (!sourceDTO.getPatterns().isEmpty()) {
             resultDTO.addAnnotations(taskService.Search(body, sourceDTO.getPatterns(), bodyResultDto.getAnnotations(), TextOrigin.BODY));
+            resultDTO = NERPostProcessorService.calculateRanges(resultDTO, bodyTextNodeMap);
             resultDTO.addAnnotations(taskService.Search(subject, sourceDTO.getPatterns(), subjectResultDTO.getAnnotations(), TextOrigin.SUBJECT));
         }
         resultDTO.setEmailId(sourceDTO.getEmailId());
@@ -66,10 +65,10 @@ public class NERCoreController {
 
         // recognize body
         String body = textDTO.getBodySource();
-        ResultDTO resultDto = nerCoreService.doRecognize(body,TextOrigin.BODY);
+        ResultDTO resultDto = nerCoreService.doRecognize(body, TextOrigin.BODY);
         //recognize subject
         String subject = textDTO.getSubjectSource();
-        ResultDTO subjectResult = nerCoreService.doRecognize(subject,TextOrigin.SUBJECT);
+        ResultDTO subjectResult = nerCoreService.doRecognize(subject, TextOrigin.SUBJECT);
         resultDto.addAnnotations(subjectResult.getAnnotations());
         resultDto.setEmailId(textDTO.getEmailId());
         if (!textDTO.getPatterns().isEmpty()) {
