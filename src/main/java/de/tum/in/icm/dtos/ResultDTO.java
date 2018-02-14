@@ -33,4 +33,9 @@ public class ResultDTO {
         this.annotations.addAll(annotations);
     }
 
+    public void deleteAnnotation(AnnotationDTO annotaion)
+    {
+        this.annotations.remove(annotaion);
+    }
+
 }

@@ -119,6 +119,7 @@ public class NERCoreService implements ServletContextListener {
 
     private void formalizeDates(ResultDTO input) {
 
+        List<AnnotationDTO> annotationsToBeDeleted = new ArrayList<>();
         for (AnnotationDTO annotation : input.getAnnotations()) {
 
             if (annotation.getNerType() == NERType.DATE) {
@@ -132,9 +133,13 @@ public class NERCoreService implements ServletContextListener {
                     result = tryNattyParse(annotation.getValue());
                 if (result != null)
                     annotation.setFormattedValue(toISO8601String(result));
-
+                else
+                    annotationsToBeDeleted.add(annotation);
             }
+
         }
+        for ( AnnotationDTO a: annotationsToBeDeleted)
+            input.deleteAnnotation(a);
     }
 
     private Date tryNattyParse(String input) {
