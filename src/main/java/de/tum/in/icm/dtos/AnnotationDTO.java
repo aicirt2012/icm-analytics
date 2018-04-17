@@ -3,7 +3,6 @@ package de.tum.in.icm.dtos;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
-import javax.xml.soap.Text;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -15,8 +14,6 @@ public class AnnotationDTO {
     private String value;
     @XmlElement
     private NERType nerType;
-    @XmlElement
-    private String posType;
     @XmlElement
     private TextOrigin textOrigin;
     @XmlElement
@@ -38,7 +35,7 @@ public class AnnotationDTO {
 
     public void setValue(String value) {
         this.value = value;
-        if(this.formattedValue ==null)
+        if (this.formattedValue == null)
             this.formattedValue = value;
     }
 
@@ -48,14 +45,6 @@ public class AnnotationDTO {
 
     public void setNerType(NERType nerType) {
         this.nerType = nerType;
-    }
-
-    public String getPosType() {
-        return posType;
-    }
-
-    public void setPosType(String posType) {
-        this.posType = posType;
     }
 
     public List<RangeDTO> getRanges() {
@@ -96,26 +85,6 @@ public class AnnotationDTO {
         ranges.add(rangeDTO);
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        AnnotationDTO that = (AnnotationDTO) o;
-        return Objects.equals(value, that.value) &&
-                nerType == that.nerType &&
-                Objects.equals(posType, that.posType) &&
-                Objects.equals(ranges, that.ranges) &&
-                Objects.equals(plainTextIndices, that.plainTextIndices) &&
-                Objects.equals(htmlTextNodeIndices, that.htmlTextNodeIndices) &&
-                Objects.equals(htmlAnnotationOffsets, that.htmlAnnotationOffsets);
-    }
-
-    @Override
-    public int hashCode() {
-
-        return Objects.hash(value, nerType, posType, ranges, plainTextIndices, htmlTextNodeIndices, htmlAnnotationOffsets);
-    }
-
     public TextOrigin getTextOrigin() {
         return textOrigin;
     }
@@ -125,10 +94,29 @@ public class AnnotationDTO {
     }
 
     public String getFormattedValue() {
-        return formattedValue ;
+        return formattedValue;
     }
 
     public void setFormattedValue(String formattedValue) {
         this.formattedValue = formattedValue;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AnnotationDTO that = (AnnotationDTO) o;
+        return Objects.equals(value, that.value) &&
+                nerType == that.nerType &&
+                Objects.equals(ranges, that.ranges) &&
+                Objects.equals(plainTextIndices, that.plainTextIndices) &&
+                Objects.equals(htmlTextNodeIndices, that.htmlTextNodeIndices) &&
+                Objects.equals(htmlAnnotationOffsets, that.htmlAnnotationOffsets);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(value, nerType, ranges, plainTextIndices, htmlTextNodeIndices, htmlAnnotationOffsets);
+    }
+
 }

@@ -63,16 +63,12 @@ public class NERCoreService implements ServletContextListener {
             for (CoreLabel token : sentence.get(CoreAnnotations.TokensAnnotation.class)) {
                 // this is the text of the token
                 String word = token.get(CoreAnnotations.TextAnnotation.class);
-                // this is the POS tag of the token
-                String pos = token.get(CoreAnnotations.PartOfSpeechAnnotation.class);
                 // this is the NER label of the token
                 String ne = token.get(CoreAnnotations.NamedEntityTagAnnotation.class);
                 int newWordStartIndex = token.get(CoreAnnotations.CharacterOffsetBeginAnnotation.class);
                 AnnotationDTO newWord = new AnnotationDTO();
                 newWord.setValue(word);
                 newWord.setNerType(NERType.fromString(ne));
-                //TODO: do we still need this ?
-                newWord.setPosType(pos);
                 newWord.addPlainTextIndex(newWordStartIndex);
                 newWord.setTextOrigin(textOrigin);
 
@@ -138,17 +134,15 @@ public class NERCoreService implements ServletContextListener {
             }
 
         }
-        for ( AnnotationDTO a: annotationsToBeDeleted)
+        for (AnnotationDTO a : annotationsToBeDeleted)
             input.deleteAnnotation(a);
     }
 
     private Date tryNattyParse(String input) {
         Parser parser = new Parser();
         List<DateGroup> groups = parser.parse(input);
-        groups = parser.parse(input);
         if (groups.size() > 0) {
-            Date date = groups.get(0).getDates().get(0);
-            return date;
+            return groups.get(0).getDates().get(0);
         }
         return null;
     }
