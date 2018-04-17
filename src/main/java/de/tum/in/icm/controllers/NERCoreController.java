@@ -9,19 +9,23 @@ import de.tum.in.icm.services.NERPostProcessorService;
 import de.tum.in.icm.services.NERPreProcessorService;
 import de.tum.in.icm.services.TaskService;
 
-import javax.ws.rs.*;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.logging.Logger;
 
 @Path("/ner")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class NERCoreController {
 
+    private static final Logger logger = Logger.getLogger(NERCoreController.class.getName());
+
     private NERCoreService nerCoreService = new NERCoreService();
     private TaskService taskService = new TaskService();
-
-    // TODO add logging
 
     @POST
     @Path("/recognize/html")
@@ -30,12 +34,14 @@ public class NERCoreController {
             sourceDTO.setBodySource("");
         }
         // recognize body
+        logger.info("Analyzing body text.");
         TextNodeMap bodyTextNodeMap = NERPreProcessorService.getTextNodeMap(sourceDTO.getBodySource());
         String body = bodyTextNodeMap.toPlainText();
         ResultDTO bodyResultDto = nerCoreService.doRecognize(body, TextOrigin.BODY);
         bodyResultDto = NERPostProcessorService.calculateRanges(bodyResultDto, bodyTextNodeMap);
 
         // recognize subject
+        logger.info("Analyzing subject line.");
         TextNodeMap subjectTextNodeMap = NERPreProcessorService.getTextNodeMap(sourceDTO.getSubjectSource());
         String subject = subjectTextNodeMap.toPlainText();
         ResultDTO subjectResultDTO = nerCoreService.doRecognize(subject, TextOrigin.SUBJECT);
@@ -43,16 +49,17 @@ public class NERCoreController {
 
         //final result
         ResultDTO resultDTO = new ResultDTO();
-
         resultDTO.addAnnotations(bodyResultDto.getAnnotations());
         resultDTO.addAnnotations(subjectResultDTO.getAnnotations());
         // add tasks
         if (!sourceDTO.getPatterns().isEmpty()) {
+            logger.info("Detecting user patterns.");
             resultDTO.addAnnotations(taskService.Search(body, sourceDTO.getPatterns(), bodyResultDto.getAnnotations(), TextOrigin.BODY));
             resultDTO = NERPostProcessorService.calculateRanges(resultDTO, bodyTextNodeMap);
             resultDTO.addAnnotations(taskService.Search(subject, sourceDTO.getPatterns(), subjectResultDTO.getAnnotations(), TextOrigin.SUBJECT));
         }
         resultDTO.setEmailId(sourceDTO.getEmailId());
+        logger.info("Detected " + resultDTO.getAnnotations().size() + " entities in email '" + resultDTO.getEmailId() + "'.");
         return Response.status(200).entity(resultDTO).build();
     }
 
@@ -78,12 +85,6 @@ public class NERCoreController {
         }
         resultDto = NERPostProcessorService.calculateRangesPlainText(resultDto);
         return Response.status(200).entity(resultDto).build();
-    }
-
-    @GET
-    @Path("/test")
-    public Response test() {
-        return Response.status(200).entity("Connection works!").build();
     }
 
 }
