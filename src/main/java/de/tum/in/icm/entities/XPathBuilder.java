@@ -5,8 +5,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 public class XPathBuilder {
+
+    private static final Logger logger = Logger.getLogger(XPathBuilder.class.getName());
 
     private XPath currentXPath = new XPath();
     private Map<Integer, ArrayList<String>> lastClosedTags = new HashMap<>();
@@ -35,8 +38,7 @@ public class XPathBuilder {
             return;
         }
         if (!closingTag.equals(currentXPath.getLastTag())) {
-            //TODO can maybe be removed as jsoup only outputs valid html...
-            throw new UnsupportedOperationException("Malformed HTML. Cannot close a tag that is not the last open tag.");
+            logger.warning("Malformed HTML. Cannot close a tag that is not the last open tag. Ignoring for stability purposes.");
         }
         resetLastClosedTags(currentXPath.getDepth() + 1);
         addLastClosedTag(currentXPath.getDepth());
