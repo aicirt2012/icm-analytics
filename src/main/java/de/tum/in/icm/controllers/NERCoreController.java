@@ -54,9 +54,9 @@ public class NERCoreController {
         // add tasks
         if (!sourceDTO.getPatterns().isEmpty()) {
             logger.info("Detecting user patterns.");
-            resultDTO.addAnnotations(taskService.Search(body, sourceDTO.getPatterns(), bodyResultDto.getAnnotations(), TextOrigin.BODY));
+            resultDTO.addAnnotations(taskService.findByUserPatterns(body, sourceDTO.getPatterns(), TextOrigin.BODY));
             resultDTO = NERPostProcessorService.calculateRanges(resultDTO, bodyTextNodeMap);
-            resultDTO.addAnnotations(taskService.Search(subject, sourceDTO.getPatterns(), subjectResultDTO.getAnnotations(), TextOrigin.SUBJECT));
+            resultDTO.addAnnotations(taskService.findByUserPatterns(subject, sourceDTO.getPatterns(), TextOrigin.SUBJECT));
         }
         resultDTO.setEmailId(sourceDTO.getEmailId());
         logger.info("Detected " + resultDTO.getAnnotations().size() + " entities in email '" + resultDTO.getEmailId() + "'.");
@@ -79,9 +79,8 @@ public class NERCoreController {
         resultDto.addAnnotations(subjectResult.getAnnotations());
         resultDto.setEmailId(textDTO.getEmailId());
         if (!textDTO.getPatterns().isEmpty()) {
-
-            resultDto.addAnnotations(taskService.Search(body, textDTO.getPatterns(), resultDto.getAnnotations(), TextOrigin.BODY));
-            resultDto.addAnnotations(taskService.Search(subject, textDTO.getPatterns(), subjectResult.getAnnotations(), TextOrigin.SUBJECT));
+            resultDto.addAnnotations(taskService.findByUserPatterns(body, textDTO.getPatterns(), TextOrigin.BODY));
+            resultDto.addAnnotations(taskService.findByUserPatterns(subject, textDTO.getPatterns(), TextOrigin.SUBJECT));
         }
         resultDto = NERPostProcessorService.calculateRangesPlainText(resultDto);
         return Response.status(200).entity(resultDto).build();
