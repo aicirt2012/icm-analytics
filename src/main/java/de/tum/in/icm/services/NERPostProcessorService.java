@@ -6,8 +6,11 @@ import de.tum.in.icm.dtos.ResultDTO;
 import de.tum.in.icm.entities.TextNodeMap;
 
 import java.util.Map;
+import java.util.logging.Logger;
 
 public class NERPostProcessorService {
+
+    private static final Logger logger = Logger.getLogger(NERPostProcessorService.class.getName());
 
     private static Map<Integer, Integer> textToNodeIndexMap;
     private static TextNodeMap textNodeMap;
@@ -59,19 +62,17 @@ public class NERPostProcessorService {
                 textNode = textNodeMap.getValues().get(listIndex);
                 if (textNode.length() >= remainingAnnotationValue.length()) {
                     // remaining value fully contained, this is the end node
-//                    if (!textNode.startsWith(remainingAnnotationValue)) {
-//                        throw new RuntimeException("Unexpected character, could not find end of annotation!");
-//                        // TODO think about simply stopping and using this as the end instead of aborting with exception
-//                    }
+                    if (!textNode.startsWith(remainingAnnotationValue)) {
+                        logger.warning("Unexpected character, using current index as end of annotation!");
+                    }
                     endXPath = getParentLocator(listIndex);
                     relativeEndOffset = remainingAnnotationValue.length();
                     remainingAnnotationValue = "";
                 } else {
                     // remaining value not fully contained, keep on parsing
-//                    if (!remainingAnnotationValue.startsWith(textNode)) {
-//                        throw new RuntimeException("Unexpected character, could not find end of annotation!");
-//                        // TODO think about simply stopping and using this as the end instead of aborting with exception
-//                    }
+                    if (!remainingAnnotationValue.startsWith(textNode)) {
+                        logger.warning("Unexpected character, using current index as end of annotation!");
+                    }
                     remainingAnnotationValue = remainingAnnotationValue.substring(textNode.length());
                 }
             }
