@@ -33,6 +33,10 @@ public class NERCoreController {
         if (sourceDTO.getBodySource() == null) {
             sourceDTO.setBodySource("");
         }
+        if (sourceDTO.getSubjectSource() == null) {
+            sourceDTO.setSubjectSource("");
+        }
+
         // recognize body
         logger.info("Analyzing body text.");
         TextNodeMap bodyTextNodeMap = NERPreProcessorService.getTextNodeMap(sourceDTO.getBodySource());
@@ -69,21 +73,28 @@ public class NERCoreController {
         if (textDTO.getBodySource() == null) {
             textDTO.setBodySource("");
         }
+        if (textDTO.getSubjectSource() == null) {
+            textDTO.setSubjectSource("");
+        }
 
         // recognize body
         String body = textDTO.getBodySource();
-        ResultDTO resultDto = nerCoreService.doRecognize(body, TextOrigin.BODY);
+        ResultDTO resultDTO = nerCoreService.doRecognize(body, TextOrigin.BODY);
+
         //recognize subject
         String subject = textDTO.getSubjectSource();
         ResultDTO subjectResult = nerCoreService.doRecognize(subject, TextOrigin.SUBJECT);
-        resultDto.addAnnotations(subjectResult.getAnnotations());
-        resultDto.setEmailId(textDTO.getEmailId());
+
+        resultDTO.addAnnotations(subjectResult.getAnnotations());
+        resultDTO.setEmailId(textDTO.getEmailId());
         if (!textDTO.getPatterns().isEmpty()) {
-            resultDto.addAnnotations(taskService.findByUserPatterns(body, textDTO.getPatterns(), TextOrigin.BODY));
-            resultDto.addAnnotations(taskService.findByUserPatterns(subject, textDTO.getPatterns(), TextOrigin.SUBJECT));
+            logger.info("Detecting user patterns.");
+            resultDTO.addAnnotations(taskService.findByUserPatterns(body, textDTO.getPatterns(), TextOrigin.BODY));
+            resultDTO.addAnnotations(taskService.findByUserPatterns(subject, textDTO.getPatterns(), TextOrigin.SUBJECT));
         }
-        resultDto = NERPostProcessorService.calculateRangesPlainText(resultDto);
-        return Response.status(200).entity(resultDto).build();
+        resultDTO = NERPostProcessorService.calculateRangesPlainText(resultDTO);
+        logger.info("Detected " + resultDTO.getAnnotations().size() + " entities in email '" + resultDTO.getEmailId() + "'.");
+        return Response.status(200).entity(resultDTO).build();
     }
 
 }
