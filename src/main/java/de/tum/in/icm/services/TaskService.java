@@ -8,16 +8,12 @@ import de.tum.in.icm.dtos.TextOrigin;
 import java.text.BreakIterator;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class TaskService {
 
-    private static final Logger logger = Logger.getLogger(TaskService.class.getName());
-
     private static final int MAXIMUM_SENTENCE_LENGTH_WORDS = 20;
-    private static final char[] SENTENCE_STOP_CHARACTERS = {'.', '!', '?'};
 
     public ArrayList<AnnotationDTO> findByUserPatterns(String text, List<PatternDTO> patterns, TextOrigin textOrigin) {
 
@@ -43,7 +39,6 @@ public class TaskService {
                 result.add(newMatch);
             }
         } else {
-
             String textInLowerCase = text.toLowerCase();
             //first occurrence
             int index = textInLowerCase.indexOf(pattern.getLabel().toLowerCase()) + pattern.getLabel().length();
@@ -52,7 +47,7 @@ public class TaskService {
                 newMatch.setNerType(NERType.TASK_TITLE);
                 newMatch.setTextOrigin(textOrigin);
                 // pass original text to get words with original letter cases
-                newMatch.setValue(getFullSentenceLegacy(text, index));
+                newMatch.setValue(getFullSentence(text, index));
                 newMatch.addPlainTextIndex(index);
                 result.add(newMatch);
                 index = textInLowerCase.indexOf(pattern.getLabel().toLowerCase(), index + 1);
@@ -69,47 +64,28 @@ public class TaskService {
     }
 
     private int getIndexOfFirstStopChar(String text) {
-        int smallestIndex = Integer.MAX_VALUE;
-        int currentIndex;
-        for (char stopCharacter : SENTENCE_STOP_CHARACTERS) {
-            currentIndex = text.indexOf(stopCharacter);
-            if (currentIndex < smallestIndex)
-                smallestIndex = currentIndex;
-        }
-        return smallestIndex == Integer.MAX_VALUE ? -1 : smallestIndex;
+        BreakIterator sentenceIterator = BreakIterator.getSentenceInstance();
+        sentenceIterator.setText(text);
+        if (sentenceIterator.next() == BreakIterator.DONE)
+            return -1;
+        return sentenceIterator.current();
     }
 
     private String ensureMaximumSentenceLength(String text) {
         BreakIterator wordIterator = BreakIterator.getWordInstance();
         wordIterator.setText(text);
         for (int i = 0; i < MAXIMUM_SENTENCE_LENGTH_WORDS; i++) {
-            if (wordIterator.next() == BreakIterator.DONE)
+            if (wordIterator.next() == BreakIterator.DONE) {
                 break;
+            }
+            while (wordIterator.isBoundary(wordIterator.current())) {
+                // don't increase loop if iterator stopped on whitespace, but abort if end of string reached
+                if (wordIterator.next() == BreakIterator.DONE) {
+                    break;
+                }
+            }
         }
-        return text.substring(0, wordIterator.current());
+        return text.substring(0, wordIterator.current()).trim();
     }
 
-    //returns a whole sentence until we hit the MAX_WORD_COUNT or the sentence ende with '.', '!' or '?'
-    @Deprecated
-    private String getFullSentenceLegacy(String text, Integer index) {
-        // TODO simplify by replacing char based processing with usage of indexOf or similar methods
-        String result = "";
-        int wordsCount = 0;
-        if (index < 0 || index > text.length() - 1)
-            return result;
-        int currentPos = index;
-        char currentChar = text.charAt(currentPos);
-        while (wordsCount < MAXIMUM_SENTENCE_LENGTH_WORDS) {
-            if (currentChar == '.' || currentChar == '?' || currentChar == '!' || currentChar == '\n')
-                return result;
-            if (currentChar == ' ')
-                wordsCount++;
-            result = result + currentChar;
-            currentPos++;
-            if (currentPos >= text.length())
-                break;
-            currentChar = text.charAt(currentPos);
-        }
-        return result;
-    }
 }
