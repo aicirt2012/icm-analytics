@@ -13,7 +13,6 @@ public class NERPostProcessorServiceTest {
 
     @Test
     public void calculateRangeObjectsMinimal() {
-        // FIXME fails for second occurrence
         doCalculateRangeObjects(NERTestDataFactory.Type.MINIMAL);
     }
 

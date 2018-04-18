@@ -2,8 +2,8 @@ package de.tum.in.icm.util;
 
 import de.tum.in.icm.dtos.AnnotationDTO;
 import de.tum.in.icm.dtos.InputSourceDTO;
-import de.tum.in.icm.dtos.ResultDTO;
 import de.tum.in.icm.dtos.NERType;
+import de.tum.in.icm.dtos.ResultDTO;
 import de.tum.in.icm.entities.TextNodeMap;
 import de.tum.in.icm.entities.XPath;
 
@@ -108,7 +108,7 @@ public class NERTestDataFactory {
                 annotations.get(1).addXPathRange("/div[1]/div[1]/div[1]/div[1]/table[1]/tbody[1]/tr[2]/td[1]/div[1]/span[1]", 73, "/div[1]/div[1]/div[1]/div[1]/table[1]/tbody[1]/tr[2]/td[1]/div[1]/span[1]", 79);
                 annotations.get(2).addXPathRange("/div[1]/div[1]/div[1]/div[1]/table[1]/tbody[1]/tr[2]/td[1]/div[1]/span[1]", 411, "/div[1]/div[1]/div[1]/div[1]/table[1]/tbody[1]/tr[2]/td[1]/div[1]/span[1]", 417);
                 annotations.get(3).addXPathRange("/div[1]/div[1]/div[1]/div[1]/table[1]/tbody[1]/tr[2]/td[1]/a[1]", 0, "/div[1]/div[1]/div[1]/div[1]/table[1]/tbody[1]/tr[2]/td[1]/a[1]", 6);
-                annotations.get(4).addXPathRange("/div[1]/div[1]/div[1]/div[2]/span[1]", 17, "/div[1]/div[1]/div[1]/div[2]/span[1]/i[1]", 3);  //TODO check this in annotator framework!
+                annotations.get(4).addXPathRange("/div[1]/div[1]/div[1]/div[2]/span[1]", 17, "/div[1]/div[1]/div[1]/div[2]/span[1]/i[1]", 3);
                 break;
         }
         nerResultDTO.addAnnotations(annotations);
