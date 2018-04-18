@@ -1,13 +1,12 @@
 package de.tum.in.icm.dtos;
 
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 @XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class AnnotationDTO {
 
     @XmlElement
@@ -21,7 +20,6 @@ public class AnnotationDTO {
     @XmlElement
     private List<RangeDTO> ranges = new ArrayList<>();
 
-    // FIXME transient values are being output by REST API anyways
     @XmlTransient
     private List<Integer> plainTextIndices = new ArrayList<>();
     @XmlTransient
