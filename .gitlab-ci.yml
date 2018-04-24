@@ -1,0 +1,26 @@
+stages:
+  - maven_build
+  - docker_build
+
+maven_build:
+  stage: maven_build
+  script:
+    - 'mvn clean install -T 1C -Dmaven.repo.local=.m2/repository -DskipTests=true --batch-mode --errors --fail-at-end --show-version'
+  artifacts:
+    paths:
+      - target/icm-analytics.war
+  cache:
+    paths:
+      - .m2/repository
+  image: maven:3.5.2-jdk-8-alpine
+
+# greift auf Dockerfile zu
+docker_build:
+  stage: docker_build
+  services:
+    - docker:dind
+  script:
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN registry.gitlab.com
+    - docker build --pull -t registry.gitlab.com/tum.icm/icm-analytics:latest .
+    - docker push registry.gitlab.com/tum.icm/icm-analytics:latest
+  image: docker:latest

@@ -1,11 +1,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>webLab</groupId>
-    <artifactId>NLPService</artifactId>
+    <groupId>de.tum.in.icm</groupId>
+    <artifactId>icm-analytics</artifactId>
     <packaging>war</packaging>
     <version>1.0-SNAPSHOT</version>
-    <name>NLPService Maven Webapp</name>
+    <name>ICM Analytics</name>
     <url>http://maven.apache.org</url>
 
     <repositories>
@@ -15,6 +15,16 @@
             <url>http://download.java.net/maven/2/</url>
             <layout>default</layout>
         </repository>
+
+        <repository>
+            <id>Chrono date parser library</id>
+            <url>https://raw.github.com/wanasit/chrono-java/mvn-repo/</url>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </snapshots>
+        </repository>
+
     </repositories>
 
     <dependencyManagement>
@@ -52,6 +62,12 @@
             <groupId>org.glassfish.jersey.media</groupId>
             <artifactId>jersey-media-json-jackson</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.apache.tomcat</groupId>
+            <artifactId>tomcat-servlet-api</artifactId>
+            <version>8.5.24</version>
+            <scope>provided</scope>
+        </dependency>
 
         <!-- Stanford NLP used for actual named entity recognition -->
         <dependency>
@@ -83,6 +99,19 @@
             <version>1.11.2</version>
         </dependency>
 
+        <!-- natural date parsing-->
+        <dependency>
+            <groupId>com.wanasit</groupId>
+            <artifactId>chrono</artifactId>
+            <version>LATEST</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.joestelmach</groupId>
+            <artifactId>natty</artifactId>
+            <version>0.11</version>
+        </dependency>
+
         <!-- Testing-Frameworks -->
         <dependency>
             <groupId>junit</groupId>
@@ -93,7 +122,7 @@
     </dependencies>
 
     <build>
-        <finalName>NLPService</finalName>
+        <finalName>icm-analytics</finalName>
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>

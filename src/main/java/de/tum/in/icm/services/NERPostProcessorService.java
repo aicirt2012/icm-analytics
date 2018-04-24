@@ -1,8 +1,8 @@
 package de.tum.in.icm.services;
 
 import de.tum.in.icm.dtos.AnnotationDTO;
-import de.tum.in.icm.dtos.NERResultDTO;
 import de.tum.in.icm.dtos.RangeDTO;
+import de.tum.in.icm.dtos.ResultDTO;
 import de.tum.in.icm.entities.TextNodeMap;
 
 import java.util.Map;
@@ -12,13 +12,29 @@ public class NERPostProcessorService {
     private static Map<Integer, Integer> textToNodeIndexMap;
     private static TextNodeMap textNodeMap;
 
-    public static NERResultDTO calculateRanges(NERResultDTO resultDto, TextNodeMap textNodeMap) {
+    public static ResultDTO calculateRangesPlainText(ResultDTO resultDto) {
+        for (AnnotationDTO annotation : resultDto.getAnnotations()) {
+            for (int textIndex : annotation.getPlainTextIndices()) {
+                RangeDTO rangeDTO = new RangeDTO();
+                rangeDTO.setxPathStart("");
+                rangeDTO.setxPathEnd("");
+                rangeDTO.setOffsetStart(textIndex);
+                rangeDTO.setOffsetEnd(textIndex + annotation.getValue().length());
+                annotation.getRanges().add(rangeDTO);
+            }
+        }
+        return resultDto;
+    }
+
+    public static ResultDTO calculateRanges(ResultDTO resultDto, TextNodeMap textNodeMap) {
         NERPostProcessorService.textNodeMap = textNodeMap;
         textToNodeIndexMap = textNodeMap.getTextToNodeIndexMap();
         for (AnnotationDTO annotation : resultDto.getAnnotations()) {
-            for (int textIndex : annotation.getPlainTextIndices()) {
-                RangeDTO rangeDTO = calculateRangeDTO(annotation, textIndex);
-                annotation.getRanges().add(rangeDTO);
+            if (annotation.getRanges().isEmpty()) {
+                for (int textIndex : annotation.getPlainTextIndices()) {
+                    RangeDTO rangeDTO = calculateRangeDTO(annotation, textIndex);
+                    annotation.getRanges().add(rangeDTO);
+                }
             }
         }
         return resultDto;
@@ -43,19 +59,19 @@ public class NERPostProcessorService {
                 textNode = textNodeMap.getValues().get(listIndex);
                 if (textNode.length() >= remainingAnnotationValue.length()) {
                     // remaining value fully contained, this is the end node
-                    if (!textNode.startsWith(remainingAnnotationValue)) {
-                        throw new RuntimeException("Unexpected character, could not find end of annotation!");
-                        // TODO think about simply stopping and using this as the end instead of aborting with exception
-                    }
+//                    if (!textNode.startsWith(remainingAnnotationValue)) {
+//                        throw new RuntimeException("Unexpected character, could not find end of annotation!");
+//                        // TODO think about simply stopping and using this as the end instead of aborting with exception
+//                    }
                     endXPath = getParentLocator(listIndex);
                     relativeEndOffset = remainingAnnotationValue.length();
                     remainingAnnotationValue = "";
                 } else {
                     // remaining value not fully contained, keep on parsing
-                    if (!remainingAnnotationValue.startsWith(textNode)) {
-                        throw new RuntimeException("Unexpected character, could not find end of annotation!");
-                        // TODO think about simply stopping and using this as the end instead of aborting with exception
-                    }
+//                    if (!remainingAnnotationValue.startsWith(textNode)) {
+//                        throw new RuntimeException("Unexpected character, could not find end of annotation!");
+//                        // TODO think about simply stopping and using this as the end instead of aborting with exception
+//                    }
                     remainingAnnotationValue = remainingAnnotationValue.substring(textNode.length());
                 }
             }

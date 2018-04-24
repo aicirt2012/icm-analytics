@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @XmlRootElement
-public class NERResultDTO {
+public class ResultDTO {
 
     @XmlElement
     private String emailId;
@@ -31,6 +31,11 @@ public class NERResultDTO {
 
     public void addAnnotations(List<AnnotationDTO> annotations) {
         this.annotations.addAll(annotations);
+    }
+
+    public void deleteAnnotation(AnnotationDTO annotaion)
+    {
+        this.annotations.remove(annotaion);
     }
 
 }
