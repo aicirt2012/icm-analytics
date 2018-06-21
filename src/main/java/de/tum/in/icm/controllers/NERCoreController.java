@@ -39,7 +39,7 @@ public class NERCoreController {
 
         // recognize body
         logger.info("Analyzing body text.");
-        TextNodeMap bodyTextNodeMap = NERPreProcessorService.getTextNodeMap(sourceDTO.getBodySource());
+        TextNodeMap bodyTextNodeMap = NERPreProcessorService.getTextNodeMap(sourceDTO.getBodySource()); //FIXME sometimes produces uncaught NPE which results in status 500
         String body = bodyTextNodeMap.toPlainText();
         ResultDTO bodyResultDto = nerCoreService.doRecognize(body, TextOrigin.BODY);
         bodyResultDto = NERPostProcessorService.calculateRanges(bodyResultDto, bodyTextNodeMap);
