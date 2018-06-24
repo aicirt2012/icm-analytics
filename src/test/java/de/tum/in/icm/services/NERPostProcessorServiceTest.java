@@ -42,7 +42,7 @@ public class NERPostProcessorServiceTest {
         for (AnnotationDTO annotationDTO : nerResultDTO.getAnnotations()) {
             annotationDTO.getRanges().clear();
         }
-        ResultDTO actualResult = NERPostProcessorService.calculateRanges(nerResultDTO, textNodeMap);
+        ResultDTO actualResult = new NERPostProcessorService().calculateRanges(nerResultDTO, textNodeMap);
         ResultDTO expectedResult = NERTestDataFactory.getNERResultDTO(type);
         ListIterator<AnnotationDTO> actualAnnotationsIterator = actualResult.getAnnotations().listIterator();
         ListIterator<AnnotationDTO> expectedAnnotationsIterator = expectedResult.getAnnotations().listIterator();

@@ -37,20 +37,21 @@ public class NERCoreController {
             sourceDTO.setSubjectSource("");
         }
         NERPreProcessorService preProcessorService = new NERPreProcessorService();
+        NERPostProcessorService postProcessorService = new NERPostProcessorService();
 
         // recognize body
         logger.info("Analyzing body text.");
         TextNodeMap bodyTextNodeMap = preProcessorService.getTextNodeMap(sourceDTO.getBodySource());
         String body = bodyTextNodeMap.toPlainText();
         ResultDTO bodyResultDto = nerCoreService.doRecognize(body, TextOrigin.BODY);
-        bodyResultDto = NERPostProcessorService.calculateRanges(bodyResultDto, bodyTextNodeMap);
+        bodyResultDto = postProcessorService.calculateRanges(bodyResultDto, bodyTextNodeMap);
 
         // recognize subject
         logger.info("Analyzing subject line.");
         TextNodeMap subjectTextNodeMap = preProcessorService.getTextNodeMap(sourceDTO.getSubjectSource());
         String subject = subjectTextNodeMap.toPlainText();
         ResultDTO subjectResultDTO = nerCoreService.doRecognize(subject, TextOrigin.SUBJECT);
-        subjectResultDTO = NERPostProcessorService.calculateRanges(subjectResultDTO, subjectTextNodeMap);
+        subjectResultDTO = postProcessorService.calculateRanges(subjectResultDTO, subjectTextNodeMap);
 
         //final result
         ResultDTO resultDTO = new ResultDTO();
@@ -60,7 +61,7 @@ public class NERCoreController {
         if (!sourceDTO.getPatterns().isEmpty()) {
             logger.info("Detecting user patterns.");
             resultDTO.addAnnotations(taskService.findByUserPatterns(body, sourceDTO.getPatterns(), TextOrigin.BODY));
-            resultDTO = NERPostProcessorService.calculateRanges(resultDTO, bodyTextNodeMap);
+            resultDTO = postProcessorService.calculateRanges(resultDTO, bodyTextNodeMap);
             resultDTO.addAnnotations(taskService.findByUserPatterns(subject, sourceDTO.getPatterns(), TextOrigin.SUBJECT));
         }
         resultDTO.setEmailId(sourceDTO.getEmailId());

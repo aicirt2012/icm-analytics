@@ -12,8 +12,8 @@ public class NERPostProcessorService {
 
     private static final Logger logger = Logger.getLogger(NERPostProcessorService.class.getName());
 
-    private static Map<Integer, Integer> textToNodeIndexMap;
-    private static TextNodeMap textNodeMap;
+    private Map<Integer, Integer> textToNodeIndexMap;
+    private TextNodeMap textNodeMap;
 
     public static ResultDTO calculateRangesPlainText(ResultDTO resultDto) {
         for (AnnotationDTO annotation : resultDto.getAnnotations()) {
@@ -29,8 +29,8 @@ public class NERPostProcessorService {
         return resultDto;
     }
 
-    public static ResultDTO calculateRanges(ResultDTO resultDto, TextNodeMap textNodeMap) {
-        NERPostProcessorService.textNodeMap = textNodeMap;
+    public ResultDTO calculateRanges(ResultDTO resultDto, TextNodeMap textNodeMap) {
+        this.textNodeMap = textNodeMap;
         textToNodeIndexMap = textNodeMap.getTextToNodeIndexMap();
         for (AnnotationDTO annotation : resultDto.getAnnotations()) {
             if (annotation.getRanges().isEmpty()) {
@@ -43,7 +43,7 @@ public class NERPostProcessorService {
         return resultDto;
     }
 
-    private static RangeDTO calculateRangeDTO(AnnotationDTO annotation, int textIndex) {
+    private RangeDTO calculateRangeDTO(AnnotationDTO annotation, int textIndex) {
         Integer listIndex = getListIndex(textIndex);
         int textNodeIndex = getTextNodeIndex(textIndex);
         int startOffset = textIndex - textNodeIndex;
@@ -86,15 +86,15 @@ public class NERPostProcessorService {
         return rangeDTO;
     }
 
-    private static String getParentLocator(Integer listIndex) {
+    private String getParentLocator(Integer listIndex) {
         return textNodeMap.getParentLocators().get(listIndex).toString();
     }
 
-    private static int getRelativeStartOffset(Integer listIndex, int startOffset) {
+    private int getRelativeStartOffset(Integer listIndex, int startOffset) {
         return textNodeMap.getParentOffsets().get(listIndex) + startOffset;
     }
 
-    private static int getListIndex(int textIndex) {
+    private int getListIndex(int textIndex) {
         Integer listIndex = textToNodeIndexMap.get(textIndex);
         while (listIndex == null) {
             listIndex = textToNodeIndexMap.get(--textIndex);
@@ -102,7 +102,7 @@ public class NERPostProcessorService {
         return listIndex;
     }
 
-    private static int getTextNodeIndex(int textIndex) {
+    private int getTextNodeIndex(int textIndex) {
         Integer listIndex = textToNodeIndexMap.get(textIndex);
         while (listIndex == null) {
             listIndex = textToNodeIndexMap.get(--textIndex);
