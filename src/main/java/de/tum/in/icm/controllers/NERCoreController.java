@@ -36,17 +36,18 @@ public class NERCoreController {
         if (sourceDTO.getSubjectSource() == null) {
             sourceDTO.setSubjectSource("");
         }
+        NERPreProcessorService preProcessorService = new NERPreProcessorService();
 
         // recognize body
         logger.info("Analyzing body text.");
-        TextNodeMap bodyTextNodeMap = NERPreProcessorService.getTextNodeMap(sourceDTO.getBodySource()); //FIXME sometimes produces uncaught NPE which results in status 500
+        TextNodeMap bodyTextNodeMap = preProcessorService.getTextNodeMap(sourceDTO.getBodySource());
         String body = bodyTextNodeMap.toPlainText();
         ResultDTO bodyResultDto = nerCoreService.doRecognize(body, TextOrigin.BODY);
         bodyResultDto = NERPostProcessorService.calculateRanges(bodyResultDto, bodyTextNodeMap);
 
         // recognize subject
         logger.info("Analyzing subject line.");
-        TextNodeMap subjectTextNodeMap = NERPreProcessorService.getTextNodeMap(sourceDTO.getSubjectSource());
+        TextNodeMap subjectTextNodeMap = preProcessorService.getTextNodeMap(sourceDTO.getSubjectSource());
         String subject = subjectTextNodeMap.toPlainText();
         ResultDTO subjectResultDTO = nerCoreService.doRecognize(subject, TextOrigin.SUBJECT);
         subjectResultDTO = NERPostProcessorService.calculateRanges(subjectResultDTO, subjectTextNodeMap);

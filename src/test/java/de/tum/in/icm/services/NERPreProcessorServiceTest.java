@@ -15,7 +15,7 @@ public class NERPreProcessorServiceTest {
     @Test
     public void parseHtmlMinimal() {
         InputSourceDTO inputDTO = NERTestDataFactory.getHTMLSourceDTO(NERTestDataFactory.Type.MINIMAL);
-        TextNodeMap actualResult = NERPreProcessorService.getTextNodeMap(inputDTO.getBodySource());
+        TextNodeMap actualResult = new NERPreProcessorService().getTextNodeMap(inputDTO.getBodySource());
         TextNodeMap expectedResult = NERTestDataFactory.getTextNodeMap(NERTestDataFactory.Type.MINIMAL);
         this.checkForEquality(expectedResult, actualResult);
     }
@@ -23,7 +23,7 @@ public class NERPreProcessorServiceTest {
     @Test
     public void parseHtmlSimple() {
         InputSourceDTO inputDTO = NERTestDataFactory.getHTMLSourceDTO(NERTestDataFactory.Type.SIMPLE);
-        TextNodeMap actualResult = NERPreProcessorService.getTextNodeMap(inputDTO.getBodySource());
+        TextNodeMap actualResult = new NERPreProcessorService().getTextNodeMap(inputDTO.getBodySource());
         TextNodeMap expectedResult = NERTestDataFactory.getTextNodeMap(NERTestDataFactory.Type.SIMPLE);
         this.checkForEquality(expectedResult, actualResult);
     }
@@ -31,7 +31,7 @@ public class NERPreProcessorServiceTest {
     @Test
     public void parseHtmlComplex() {
         InputSourceDTO inputDTO = NERTestDataFactory.getHTMLSourceDTO(NERTestDataFactory.Type.COMPLEX);
-        TextNodeMap actualResult = NERPreProcessorService.getTextNodeMap(inputDTO.getBodySource());
+        TextNodeMap actualResult = new NERPreProcessorService().getTextNodeMap(inputDTO.getBodySource());
         TextNodeMap expectedResult = NERTestDataFactory.getTextNodeMap(NERTestDataFactory.Type.COMPLEX);
         this.checkForEquality(expectedResult, actualResult);
     }
@@ -39,7 +39,7 @@ public class NERPreProcessorServiceTest {
     @Test
     public void parseHtmlOffset() {
         InputSourceDTO inputDTO = NERTestDataFactory.getHTMLSourceDTO(NERTestDataFactory.Type.OFFSET_TEST);
-        TextNodeMap actualResult = NERPreProcessorService.getTextNodeMap(inputDTO.getBodySource());
+        TextNodeMap actualResult = new NERPreProcessorService().getTextNodeMap(inputDTO.getBodySource());
         TextNodeMap expectedResult = NERTestDataFactory.getTextNodeMap(NERTestDataFactory.Type.OFFSET_TEST);
         this.checkForEquality(expectedResult, actualResult);
     }
@@ -47,7 +47,7 @@ public class NERPreProcessorServiceTest {
     @Test
     public void parseHtmlElementCount() {
         InputSourceDTO inputDTO = NERTestDataFactory.getHTMLSourceDTO(NERTestDataFactory.Type.ELEMENT_COUNT);
-        TextNodeMap actualResult = NERPreProcessorService.getTextNodeMap(inputDTO.getBodySource());
+        TextNodeMap actualResult = new NERPreProcessorService().getTextNodeMap(inputDTO.getBodySource());
         TextNodeMap expectedResult = NERTestDataFactory.getTextNodeMap(NERTestDataFactory.Type.ELEMENT_COUNT);
         this.checkForEquality(expectedResult, actualResult);
     }

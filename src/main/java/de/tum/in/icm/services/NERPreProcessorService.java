@@ -17,19 +17,18 @@ public class NERPreProcessorService {
 
     private static final List<String> BREAKING_HTML_TAGS = Arrays.asList("br", "dd", "div", "dt", "h1", "h2", "h3", "h4", "h5", "p", "tr");
 
-    private static final TextNodeMapFactory textNodeMapFactory = new TextNodeMapFactory();
-    private static TextNodeMap textNodeMap;
-    private static XPathBuilder xPathBuilder;
+    private TextNodeMap textNodeMap;
+    private XPathBuilder xPathBuilder;
 
-    public static TextNodeMap getTextNodeMap(String html) {
+    public TextNodeMap getTextNodeMap(String html) {
         textNodeMap = new TextNodeMap();
         xPathBuilder = new XPathBuilder();
         Document document = Jsoup.parse(html);
-        document.body().childNodes().forEach(node -> node.traverse(textNodeMapFactory));  // parse all children of body
+        document.body().childNodes().forEach(node -> node.traverse(new TextNodeMapFactory()));  // parse all children of body
         return textNodeMap;
     }
 
-    private static class TextNodeMapFactory implements NodeVisitor {
+    private class TextNodeMapFactory implements NodeVisitor {
 
         @Override
         public void head(Node node, int depth) {
